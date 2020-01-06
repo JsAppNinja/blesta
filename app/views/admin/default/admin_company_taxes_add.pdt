@@ -1,0 +1,73 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyTaxes.add.boxtitle_add", true));
+				?>
+				<div class="inner">
+					<div class="pad">
+						<?php $this->Form->create();?>					
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.add.field_taxtype", true), "type");?>
+								<?php $this->Form->fieldSelect("type", $this->Html->ifSet($tax_types), $this->Html->ifSet($vars->type), array("id"=>"type"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyTaxes.!tooltip.note_taxtype");?></div></span>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyTaxes.add.field_taxlevel", true), "level1");
+								$this->Form->fieldRadio("level", "1", ($this->Html->ifSet($vars->level, "1") == "1"), array('id'=>"level1"));
+								$this->Form->label($this->_("AdminCompanyTaxes.add.field_level1", true), "level1", array('class'=>"inline"));
+								$this->Form->fieldRadio("level", "2", ($this->Html->ifSet($vars->level) == "2"), array('id'=>"level2"));
+								$this->Form->label($this->_("AdminCompanyTaxes.add.field_level2", true), "level2", array('class'=>"inline"));
+								?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.add.field_name", true), "name");?>
+								<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array("id"=>"name"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.add.field_amount", true), "amount");?>
+								<?php $this->Form->fieldText("amount", $this->Html->ifSet($vars->amount), array("id"=>"amount"));?>%
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.add.field_country", true), "country");?>
+								<?php $this->Form->fieldSelect("country", $this->Html->ifSet($countries), $this->Html->ifSet($vars->country), array("id"=>"country"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.add.field_state", true), "state");?>
+								<?php $this->Form->fieldSelect("state", $this->Html->ifSet($states), $this->Html->ifSet($vars->state), array("id"=>"state"));?>
+							</li>
+						</ul>
+						<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyTaxes.add.field_addsubmit");?></a></div>
+						
+						<?php $this->Form->end();?>
+					</div>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+		
+	<?php
+	$this->Javascript->setInline('
+		$(document).ready(function() {
+			$("#country").change(function() {
+				$(this).blestaRequest("get", "' . $this->Html->safe($this->base_uri . "settings/company/taxes/getstates/") . '" + $(this).val(), null, function(data) {
+						// Remove all existing items
+						$("option", "#state").remove();
+						
+						// Append all new items
+                        $.each($(this).blestaSortObject(data), function(index, item) {
+                            $("#state").append( new Option(item.value, item.key));
+                        });
+					},
+					null,
+					{dataType: "json"}
+				);
+			});
+		});
+	');
+	?>

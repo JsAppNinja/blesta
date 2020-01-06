@@ -1,0 +1,139 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemStaff.edit.boxtitle_editstaff", true));				
+				?>
+				<div class="inner">
+					<?php $this->Form->create(null, array('id'=>"staff"));?>
+					<div class="title_row first">
+						<h3><?php $this->_("AdminSystemStaff.edit.heading_contact");?></h3>
+					</div>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemStaff.edit.field_firstname", true), "first_name");?>
+								<?php $this->Form->fieldText("first_name", $this->Html->ifSet($vars->first_name), array("id"=>"first_name"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemStaff.edit.field_lastname", true), "last_name");?>
+								<?php $this->Form->fieldText("last_name", $this->Html->ifSet($vars->last_name), array("id"=>"last_name"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemStaff.edit.field_email", true), "email");?>
+								<?php $this->Form->fieldText("email", $this->Html->ifSet($vars->email), array("id"=>"email"));?>
+							</li>
+						</ul>
+					</div>
+					<div class="title_row">
+						<h3><?php $this->_("AdminSystemStaff.edit.heading_authentication");?></h3>
+					</div>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemStaff.edit.field_username", true), "username");?>
+								<?php $this->Form->fieldText("username", $this->Html->ifSet($vars->username), array("id"=>"username"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemStaff.edit.field_password", true), "new_password");?>
+								<?php $this->Form->fieldPassword("new_password", array("id"=>"new_password"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemStaff.edit.field_confirmpass", true), "confirm_password");?>
+								<?php $this->Form->fieldPassword("confirm_password", array("id"=>"confirm_password"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemStaff.edit.field_twofactormode", true), "two_factor_mode");?>
+								<?php $this->Form->fieldSelect("two_factor_mode", $this->Html->ifSet($two_factor_modes), $this->Html->ifSet($vars->two_factor_mode), array("id"=>"two_factor_mode"));?>
+							</li>
+							<li id="factor_key">
+								<img id="two_factor_qr" src="//chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?php echo $this->Html->safe("otpauth://totp/" . urlencode($this->Html->ifSet($vars->username)) . "?secret=" . $this->Html->ifSet($vars->two_factor_key_base32) . "&issuer=Blesta");?>" alt="" />
+								<?php $this->Form->label($this->_("AdminSystemStaff.edit.field_twofactorkey", true), "two_factor_key");?>
+								<?php $this->Form->fieldText("two_factor_key", $this->Html->ifSet($vars->two_factor_key), array("id"=>"two_factor_key"));?>
+							</li>
+							<li id="factor_pin">
+								<?php $this->Form->label($this->_("AdminSystemStaff.edit.field_twofactorpin", true), "two_factor_pin");?>
+								<?php $this->Form->fieldText("two_factor_pin", $this->Html->ifSet($vars->two_factor_pin), array("id"=>"two_factor_pin"));?>
+							</li>
+						</ul>
+					</div>
+					<div class="title_row">
+						<h3><?php $this->_("AdminSystemStaff.edit.heading_groups");?></h3>
+					</div>
+					<div class="pad">
+						<table>
+							<tr>
+								<td><?php $this->_("AdminSystemStaff.edit.text_membergroups");?></td>
+								<td></td>
+								<td><?php $this->_("AdminSystemStaff.edit.text_availablegroups");?></td>
+							</tr>
+							<tr>
+								<td>
+									<?php $this->Form->fieldMultiSelect("groups[]", $this->Html->ifSet($vars->groups), array(), array('id'=>"assigned", 'class'=>"groups"));?>
+								</td>
+								<td><a href="#" class="move_left">&nbsp;</a> &nbsp; <a href="#" class="move_right">&nbsp;</a></td>
+								<td>
+									<?php $this->Form->fieldMultiSelect("available[]", $this->Html->ifSet($groups), array(), array('id'=>"available", 'class'=>"groups"));?>
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminSystemStaff.edit.field_editsubmit");?></a></div>
+					<?php $this->Form->end();?>	
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	// Select all assigned groups on submit
+	$('#staff').submit(function() {
+		$('#assigned option').attr('selected', 'selected');
+	});
+	
+	// Move staff from right to left
+	$('.move_left').click(function() {
+		$('#available option:selected').appendTo($('#assigned'));
+		return false;
+	});
+	// Move staff from left to right
+	$('.move_right').click(function() {
+		$('#assigned option:selected').appendTo($('#available'));
+		return false;
+	});
+	
+	$(document).ready(function() {
+		hideTwoFactorModes();
+		$('#two_factor_mode').change(function() {
+			hideTwoFactorModes();
+		});
+	});
+	
+	function hideTwoFactorModes() {
+		switch($('#two_factor_mode').val()) {
+			case 'motp':
+				$('#two_factor_qr').hide();
+				$('#factor_pin').show();
+				$('#factor_key').show();
+				break;
+			case 'totp':
+				$('#two_factor_qr').show();
+				$('#factor_key').show();
+				$('#factor_pin').hide();
+				break;
+			case 'none':
+			default:
+				$('#two_factor_qr').hide();
+				$('#factor_key').hide();
+				$('#factor_pin').hide();
+				break;
+		}
+	}
+});
+");
+?>

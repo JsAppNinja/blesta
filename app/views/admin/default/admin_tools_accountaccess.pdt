@@ -1,0 +1,26 @@
+
+					<?php
+					if ($this->Html->ifSet($access_logs, false)) {
+					?>
+					<table class="table">
+						<tr class="heading_row">
+							<td class="border_left"><?php $this->_("AdminTools.accountaccess.name");?></td>
+							<td><?php $this->_("AdminTools.accountaccess.type");?></td>
+							<td class="last"><?php $this->_("AdminTools.accountaccess.last4");?></td>
+						</tr>
+						<tr>
+							<td><a href="<?php echo $this->base_uri . "clients/" . ($access_logs->type == "ach" ? "editachaccount" : "editccaccount") . "/" . $this->Html->_($access_logs->client_id, true) . "/" . $this->Html->_($access_logs->account_id, true);?>/"><?php $this->Html->_($access_logs->first_name);?> <?php $this->Html->_($access_logs->last_name);?></a></td>
+							<td><?php $this->_("AdminTools.accountaccess.type_" . $access_logs->type, false, $account_types[$access_logs->type], $this->Html->ifSet($ach_types[$access_logs->account_type], $this->Html->ifSet($cc_types[$access_logs->account_type])));?></td>
+							<td><?php $this->Html->_($access_logs->last4);?></td>
+						</tr>
+					</table>
+					<?php
+					}
+					else {
+					?>
+					<div class="empty_section">
+						<div class="empty_box"><?php $this->_("AdminTools.accountaccess.no_results");?></div>
+					</div>
+					<?php
+					}
+					?>

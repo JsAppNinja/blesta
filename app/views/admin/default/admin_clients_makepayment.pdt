@@ -1,0 +1,108 @@
+		<?php
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminClients.makepayment.boxtitle_makepayment", true), array('id'=>"admin_clients_makepayment"), $this->Html->ifSet($render_section, null));
+		
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="title_row first">
+				<h3><?php $this->_("AdminClients.makepayment.heading_paymentaccount");?></h3>
+			</div>
+			<div class="pad clear">
+				<ul>
+					<li>
+						<?php
+						$attr = array('id'=>"pay_with_account");
+						if (!$this->Html->ifSet($payment_accounts) || $this->Html->ifSet($require_passphrase)) {
+							$attr['disabled']="disabled";
+							$vars->pay_with = "details";
+						}
+							
+						$this->Form->fieldRadio("pay_with", "account", $this->Html->ifSet($vars->pay_with, "account") == "account", $attr);
+						unset($attr);
+						$this->Form->label($this->_("AdminClients.makepayment.field_useaccount", true), "pay_with_account", array('class'=>"inline"));
+						
+						if ($this->Html->ifSet($payment_accounts))
+							$this->Form->fieldSelect("payment_account", $payment_accounts, $this->Html->ifSet($vars->payment_account));
+						?>
+					</li>
+					<?php
+					if (!empty($payment_types)) {
+					?>
+					<li>
+						<?php
+						$this->Form->fieldRadio("pay_with", "details", $this->Html->ifSet($vars->pay_with) == "details", array('id'=>"pay_with_details"));
+						$this->Form->label($this->_("AdminClients.makepayment.field_newdetails", true), "pay_with_details", array('class'=>"inline"));
+						$this->Form->fieldSelect("payment_type", $payment_types, $this->Html->ifSet($vars->payment_type, "cc"));
+						?>
+					</li>
+					<?php
+					}
+					?>
+					<?php
+					if ($this->Html->ifSet($invoice)) {
+					?>
+					<li>
+						<h4 class="no_pad">
+							<a href="<?php echo $this->Html->safe($this->base_uri . "clients/recordpayment/" . $this->Html->ifSet($invoice->client_id) . "/" . $this->Html->ifSet($invoice->id) . "/");?>"><?php $this->_("AdminClients.makepayment.record_invoice", false, $this->Html->ifSet($invoice->id_code));?></a>
+						</h4>
+					</li>
+					<?php
+					}
+					?>
+				</ul>
+			</div>
+			
+			<div id="payment_details">
+				<?php echo $this->Html->ifSet($contact_info);?>
+				<div id="payment_details_cc">
+					<?php echo $this->Html->ifSet($cc_info);?>
+				</div>
+				<div id="payment_details_ach">
+					<?php echo $this->Html->ifSet($ach_info);?>
+				</div>
+			</div>
+			
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminClients.makepayment.field_submit");?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#payment_details").hide();
+		$("#payment_details_cc").hide();
+		$("#payment_details_ach").hide();
+		
+		togglePay($("#right_container input[name='pay_with']:checked").val());
+		
+		$("#right_container input[name='pay_with']").change(function() {
+			togglePay($(this).val());
+		});
+		
+		$("#right_container select[name='payment_type']").change(function() {
+			togglePayDetails($(this).val());
+		});
+	});
+	
+	function togglePayDetails(val) {
+		if (val == "cc") {
+			$("#payment_details_ach").hide();
+			$("#payment_details_cc").show();
+		}
+		else {
+			$("#payment_details_cc").hide();
+			$("#payment_details_ach").show();
+		}
+	}
+	
+	function togglePay(val) {
+		if (val == "details") {
+			$("#payment_details").show();
+			togglePayDetails($("#right_container select[name='payment_type']").val());
+		}
+		else
+			$("#payment_details").hide();
+	}
+</script>

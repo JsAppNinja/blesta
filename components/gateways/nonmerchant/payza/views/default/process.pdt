@@ -1,0 +1,21 @@
+
+	<?php
+	// Disable CSRF for this form
+	$this->Form->setCsrfOptions(array('set_on_create' => false));
+	$this->Form->create($post_to);
+	if ($this->Html->ifSet($fields)) {
+		foreach ($fields as $key => $value) {
+			$this->Form->fieldHidden($key, $value);
+		}
+	}
+	else {
+		$this->Form->fieldHidden("encRequest", $encRequest);
+		$this->Form->fieldHidden("Merchant_Id", $Merchant_Id);
+    	}
+	$this->Form->fieldImage("submit", $this->_("Payza.buildprocess.submit", true),
+		array('src'=>$this->view_dir."images/pay.png", 'alt'=>$this->_("Payza.buildprocess.submit", true), 'title'=>$this->_("Payza.buildprocess.submit", true))
+	);
+	
+	$this->Form->end();
+	?>
+

@@ -1,0 +1,67 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				
+				$this->Widget->create($this->_("AdminCompanyCurrencies.setup.boxtitle_setup", true));
+				$this->Form->create();
+				?>
+				<div class="inner">					
+					<div class="title_row first"><h3><?php $this->_("AdminCompanyCurrencies.setup.heading_general");?></h3></div>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.setup.field_default_currency", true), "default_currency");?>
+								<?php $this->Form->fieldSelect("default_currency", $this->Html->ifSet($currencies), $this->Html->_($vars['default_currency'], true), array("id"=>"default_currency"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("show_currency_code", "true", ($this->Html->ifSet($vars['show_currency_code']) == "true"), array("id"=>"show_currency_code"));?>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.setup.field_show_currency_code", true), "show_currency_code", array('class'=>"inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("client_set_currency", "true", ($this->Html->ifSet($vars['client_set_currency']) == "true"), array("id"=>"client_set_currency"));?>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.setup.field_client_set_currency", true), "client_set_currency", array('class'=>"inline"));?>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="title_row"><h3><?php $this->_("AdminCompanyCurrencies.setup.heading_multicurrency");?></h3></div>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php
+								$this->Form->fieldCheckbox("multi_currency_pricing", "package", ($this->Html->ifSet($vars['multi_currency_pricing'], "package") == "package"), array('id'=>"package"));
+								$this->Form->label($this->_("AdminCompanyCurrencies.setup.field_multi_currency_package", true), "package", array('class'=>"inline"));
+								?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php echo nl2br($this->_("AdminCompanyCurrencies.setup.tooltip_currency_pricing", true));?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("exchange_rates_auto_update", "true", ($this->Html->ifSet($vars['exchange_rates_auto_update']) == "true"), array("id"=>"exchange_rates_auto_update"));?>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.setup.field_exchange_rates_auto_update", true), "exchange_rates_auto_update", array('class'=>"inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.setup.field_exchange_rates_processor", true), "exchange_rates_processor");?>
+								<?php $this->Form->fieldSelect("exchange_rates_processor", $this->Html->ifSet($exchange_rate_processors), $this->Html->ifSet($vars['exchange_rates_processor']), array("id"=>"exchange_rates_processor"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.setup.field_last_updated", true), "last_updated");?>
+								<?php $this->Html->_($exchange_rate_last_updated);?> <?php $this->_("AdminCompanyCurrencies.setup.open_parenthesis");?><a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/currencies/updaterates/");?>">Update Now?</a><?php $this->_("AdminCompanyCurrencies.setup.closed_parenthesis");?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.setup.field_exchange_rates_padding", true), "exchange_rates_padding");?>
+								<?php $this->Form->fieldText("exchange_rates_padding", $this->Html->_($vars['exchange_rates_padding'], true), array("id"=>"exchange_rates_padding", "class"=>"small"));?>%
+							</li>
+						</ul>
+					</div>
+					
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyCurrencies.setup.field_setupsubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

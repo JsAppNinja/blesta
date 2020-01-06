@@ -1,0 +1,25 @@
+########################################################
+# package:    minPHP
+# filename:   .htaccess
+########################################################
+
+<Files ~ "\.(pdt)$">
+   order deny,allow
+   deny from all
+</Files>
+
+# Protect against Clickjacking
+#Header append X-Frame-Options "SAMEORIGIN"
+
+RewriteEngine on
+
+# Force HTTPS
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=307,NE,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php
+
+RewriteCond %{REQUEST_URI} ^(.*)/install.php$
+RewriteRule install.php %1/install/ [R=301,L]

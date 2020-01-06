@@ -1,0 +1,383 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminPackageOptions.edit.boxtitle_editoption", true));		
+		
+		$this->Form->create(null, array('id'=>"edit_package_option"));
+		?>
+		<div class="inner">
+			<div class="title_row first"><h3><?php $this->_("AdminPackageOptions.edit.heading_basic");?></h3></div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminPackageOptions.edit.field_label", true), "label");
+						$this->Form->fieldText("label", $this->Html->ifSet($vars->label), array("id"=>"label"));
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.label");?></div></span>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminPackageOptions.edit.field_name", true), "name");
+						$this->Form->fieldText("name", $this->Html->ifSet($vars->name), array("id"=>"name"));		
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.name");?></div></span>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminPackageOptions.edit.field_type", true), "type");
+						$this->Form->fieldSelect("type", $this->Html->ifSet($types), $this->Html->ifSet($vars->type), array('id'=>"type"));
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.type");?></div></span>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("addable", "1", $this->Html->ifSet($vars->addable) == "1", array('id'=>"addable"));
+						$this->Form->label($this->_("AdminPackageOptions.edit.field_addable", true), "addable", array('class' => "inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("editable", "1", $this->Html->ifSet($vars->editable) == "1", array('id'=>"editable"));
+						$this->Form->label($this->_("AdminPackageOptions.edit.field_editable", true), "editable", array('class' => "inline"));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="title_row"><h3><?php $this->_("AdminPackageOptions.edit.heading_options");?></h3></div>
+			<div class="pad">
+				<div class="links_row">
+					<a class="btn_right option_row_add" href="#"><span><?php $this->_("AdminPackageOptions.edit.categorylink_editoption");?></span></a>
+				</div>
+				<table class="table option_table">
+					<thead>
+						<tr class="heading_row">
+							<td></td>
+							<td><?php $this->_("AdminPackageOptions.edit.text_name");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.option_name");?></div></span></td>
+							<td class="value"><?php $this->_("AdminPackageOptions.edit.text_value");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.option_value");?></div></span></td>
+							<td class="min" style="display:none;"><?php $this->_("AdminPackageOptions.edit.text_min");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.option_min");?></div></span></td>
+							<td class="max" style="display:none;"><?php $this->_("AdminPackageOptions.edit.text_max");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.option_max");?></div></span></td>
+							<td class="step" style="display:none;"><?php $this->_("AdminPackageOptions.edit.text_step");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.option_step");?></div></span></td>
+							<td class="last"><?php $this->_("AdminPackageOptions.edit.text_options");?></td>
+						</tr>
+					</thead>
+					<tbody>
+					<?php
+					$rows = 1;
+					if ($this->Html->ifSet($vars->values['name'], false))
+						$rows = count($vars->values['name']);
+					for ($i=0; $i<$rows; $i++) {
+					?>
+						<tr class="option_row expand<?php echo ($i%2 == 1 ) ? " odd_row" : "";?>">
+							<td style="width:17px;"><div class="handle" style="display:none;"></div></td>
+							<td>
+								<?php
+								$this->Form->fieldHidden("values[id][]", $this->Html->ifSet($vars->values['id'][$i]), array('class' => "option_value_id"));
+								$this->Form->fieldText("values[name][]", $this->Html->ifSet($vars->values['name'][$i]));
+								?>
+							</td>
+							<td class="value"><?php $this->Form->fieldText("values[value][]", $this->Html->ifSet($vars->values['value'][$i]));?></td>
+							<td class="min small" style="display:none;"><?php $this->Form->fieldText("values[min][]", $this->Html->ifSet($vars->values['min'][$i]), array('class' => "stretch"));?></td>
+							<td class="max small" style="display:none;"><?php $this->Form->fieldText("values[max][]", $this->Html->ifSet($vars->values['max'][$i]), array('class' => "stretch"));?></td>
+							<td class="step small" style="display:none;"><?php $this->Form->fieldText("values[step][]", $this->Html->ifSet($vars->values['step'][$i]), array('class' => "stretch"));?></td>
+							<td class="last"><a href="#" class="manage option_row_remove"><?php $this->_("AdminPackageOptions.edit.text_delete");?></a></td>
+						</tr>
+						<tr class="expand_details">
+							<td colspan="7" class="subtable">
+								<div class="group_title_row">
+									<div class="title_row first">
+										<h3><?php $this->_("AdminPackageOptions.edit.heading_prices");?></h3>
+									</div>
+									<table class="table price_table">
+										<tr class="heading_row">
+											<td><?php $this->_("AdminPackageOptions.edit.price_term");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.option_pricing_term");?></div></span></td>
+											<td><?php $this->_("AdminPackageOptions.edit.price_period");?></td>
+											<td><?php $this->_("AdminPackageOptions.edit.price_currency");?></td>	
+											<td><?php $this->_("AdminPackageOptions.edit.price_price");?></td>
+											<td><?php $this->_("AdminPackageOptions.edit.price_setup");?></td>
+											<td class="last"><?php $this->_("AdminPackageOptions.edit.price_options");?></td>
+										</tr>
+										<?php
+										$price_rows = 1;
+										if ($this->Html->ifSet($vars->values['pricing'][$i]['term'], false))
+											$price_rows = count($vars->values['pricing'][$i]['term']);
+										for ($j=0; $j<$price_rows; $j++) {
+											$price = (isset($vars->values['pricing'][$i]) ? $vars->values['pricing'][$i] : array());
+										?>
+										<tr class="price_row<?php echo (($j%2 == 1) ? " odd_row" : "");?>">
+											<td class="medium">
+												<?php
+												// Set the term, but not if onetime
+												$disabled = array();
+												if ($this->Html->ifSet($price['period'][$j]) == "onetime") {
+													$disabled = array('disabled' => "disabled");
+												}
+												$this->Form->fieldHidden("values[pricing][][id][]", $this->Html->ifSet($price['id'][$j]), array('class' => "value_price_id"));
+												$this->Form->fieldText("values[pricing][][term][]", $this->Html->ifSet($price['term'][$j]), array_merge(array('class' => "term stretch"), $disabled));
+												?>
+											</td>
+											<td class="medium"><?php $this->Form->fieldSelect("values[pricing][][period][]", $this->Html->ifSet($periods), $this->Html->ifSet($price['period'][$j], "month"), array('class' => "period"));?></td>
+											<td class="medium"><?php (!empty($currencies) ? $this->Form->fieldSelect("values[pricing][][currency][]", $this->Html->ifSet($currencies), $this->Html->ifSet($price['currency'][$j]), array("class"=>"stretch")) : $this->Html->_($default_currency));?></td>
+											<td class="medium"><?php $this->Form->fieldText("values[pricing][][price][]", $this->CurrencyFormat->format($this->Html->ifSet($price['price'][$j]), $this->Html->ifSet($price['currency'][$j]), array('prefix'=>false,'suffix'=>false,'with_separator'=>false,'code'=>false,'decimals'=>4)), array('class'=>"stretch"));?></td>
+											<td class="medium"><?php $this->Form->fieldText("values[pricing][][setup_fee][]", $this->CurrencyFormat->format($this->Html->ifSet($price['setup_fee'][$j]), $this->Html->ifSet($price['currency'][$j]), array('prefix'=>false,'suffix'=>false,'with_separator'=>false,'code'=>false,'decimals'=>4)), array('class'=>"stretch"));?></td>
+											<td>
+												<a href="#" class="price_row_add"><?php $this->_("AdminPackageOptions.edit.price_add");?></a>,
+												<a href="#" class="manage price_row_remove"><?php $this->_("AdminPackageOptions.edit.price_delete");?></a>
+											</td>
+										</tr>
+										<?php
+										}
+										?>
+									</table>
+								</div>
+							</td>
+						</tr>
+					<?php
+					}
+					?>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="title_row"><h3><?php $this->_("AdminPackageOptions.edit.heading_groups");?></h3></div>
+			<div class="pad">
+				<table id="assign_package_option_groups">
+					<tr>
+						<td><?php $this->Form->label($this->_("AdminPackageOptions.edit.text_membergroups", true), "assigned");?></td>
+						<td></td>
+						<td><?php $this->Form->label($this->_("AdminPackageOptions.edit.text_availablegroups", true), "available");?></td>
+					</tr>
+					<tr>
+						<td>
+							<?php $this->Form->fieldMultiSelect("groups[]", $this->Html->ifSet($vars->groups), array(), array("id"=>"assigned"));?>
+						</td>
+						<td><a href="#" class="move_left">&nbsp;</a> &nbsp; <a href="#" class="move_right">&nbsp;</a></td>
+						<td>
+							<?php $this->Form->fieldMultiSelect("available[]", $this->Html->ifSet($package_option_groups), array(), array("id"=>"available"));?>
+						</td>
+					</tr>
+				</table>
+				
+			</div>
+		</div>
+		
+		<div class="inner">
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminPackageOptions.edit.field_submit");?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		
+		$this->Widget->end();
+		?>
+		
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	
+	$('#edit_package_option').submit(function() {
+		// Associate the order of prices with options
+		updateOptionPricingOrder();
+		
+		$('#assigned option').attr('selected', 'selected');
+		$('input.term').removeAttr('disabled');
+	});
+	
+	$('.option_table tr.expand_details').show();
+	
+	showQuantityFields();
+	showAdditionalOptions();
+	$('#type').change(function() {
+		// Show min/max fields
+		showQuantityFields();
+		// Show button to add additional options
+		showAdditionalOptions();
+	});
+
+	$('.price_row select.period').change(function() {
+		if ($(this).val() == 'onetime') {
+			var term = $(this).closest('.price_row').find('input.term');
+			$(term).attr('disabled', 'disabled');
+			$(term).val('');
+		}
+		else
+			$(this).closest('.price_row').find('input.term').removeAttr('disabled');
+	});
+	
+	$('.option_row_remove').click(function() {
+		var option_table = $(this).parents('table.option_table');
+		if ($(option_table).find('tr.option_row').length > 1) {
+			$(this).closest('tr').next('tr.expand_details').remove();
+			
+			// Move the value ID before removing the row, so it may be deleted on submit
+			$(option_table).find('tbody').children('tr:last').after($(this).closest('tr').find('input.option_value_id'));
+			
+			$(this).closest('tr').remove();
+		}
+		
+		updateZebraStriping($(option_table).find('tr.option_row'));
+		return false;
+	});
+	
+	$('.price_row_remove').click(function() {
+		var price_table = $(this).parents('table.price_table');
+		if ($(price_table).find('tr.price_row').length > 1) {
+			// Move the pricing ID before removing the row, so it may be deleted on submit
+			$(price_table).find('tr.price_row:last').after($(this).closest('tr').find('input.value_price_id'));
+			
+			$(this).closest('tr').remove();
+		}
+		
+		updateZebraStriping($(price_table).find('tr.price_row'));
+		return false;
+	});
+	
+	// Move packages from right to left
+	$('.move_left').click(function() {
+		$('#available option:selected').appendTo($('#assigned'));
+		return false;
+	});
+	// Move packages from left to right
+	$('.move_right').click(function() {
+		$('#assigned option:selected').appendTo($('#available'));
+		return false;
+	});
+	
+	$('.option_row_add').click(function() {
+		// Clone the first option and pricing rows
+		var option_row = $('table.option_table tr.option_row:first').clone(true);
+		var expand_row = $('table.option_table tr.option_row:first').next('tr.expand_details').clone(true);
+		
+		// Remove all pricing rows except the first
+		expand_row.find('tr.price_row:gt(0)').remove();
+		
+		// Remove input data
+		option_row.find('input:text').val('');
+		expand_row.find('input:text').val('');
+		expand_row.find('input:text').removeAttr('disabled');
+		
+		// Remove value and pricing IDs
+		option_row.find('input.option_value_id').remove();
+		expand_row.find('input.value_price_id').remove();
+		
+		// Disable the pricing term if it's one time
+		if (expand_row.find('select.period option:selected').val() == 'onetime')
+			expand_row.find('input.term').attr('disabled', 'disabled');
+		
+		$('table.option_table > tbody').children('tr:last').after(option_row);
+		$('table.option_table > tbody').children('tr:last').after(expand_row);
+		
+		updateZebraStriping($('table.option_table tr.option_row'));
+		return false;
+	});
+	
+	$('.price_row_add').click(function() {
+		var orig_row = $(this).parents('tr.price_row');
+		var fields = $(orig_row).clone(true);
+		// Remove input text/hidden and textarea data
+		fields.find('input:text,input:hidden,textarea').val('');
+		fields.find('input:text').removeAttr('disabled');
+		// Remove checkbox/radio data
+		fields.find('input:checkbox,input:radio').removeAttr('checked');
+		// Remove price ID
+		fields.find('input.value_price_id').remove();
+		
+		// Set the first row's currency/period
+		var currency = $(orig_row).find('select[name=\"values[pricing][][currency][]\"] option:selected').val();
+		var period = $(orig_row).find('select[name=\"values[pricing][][period][]\"] option:selected').val();
+		fields.find('option[value=\"' + period + '\"]').attr('selected', 'selected');
+		fields.find('option[value=\"' + currency + '\"]').attr('selected', 'selected');
+		
+		// Disable the term if it's one time
+		if (period == 'onetime')
+			fields.find('input.term').attr('disabled', 'disabled');
+		
+		$(this).parents('tr.price_row').after(fields);
+		
+		updateZebraStriping($(this).parents('table.price_table').find('tr.price_row'));
+		return false;
+	});
+	
+	// Allow sort of options
+	var child;
+	$('table.table.option_table tbody').blestaSortable(false, {
+		cancel: 'tr.expand_details,input,textarea,button,select,option',
+		start: function(event, ui) {
+			child = ui.item.next().next('.expand_details');
+		},
+		stop: function(event, ui) {
+			// If insert happened between expandable details, reposition
+			if (ui.item.next().hasClass('expand_details')) {
+				ui.item.next().insertBefore(ui.item);
+			}
+			child.insertAfter(ui.item);
+		}
+	});
+	$('table.table.option_table tbody tr').hover(
+		function() {
+			$('.handle', this).show();
+		},
+		function() {
+			$('.handle', this).hide();
+		}
+	);
+});
+
+// Zebra-stripe rows
+function updateZebraStriping(row) {
+	var i = 0;
+	$(row).each(function() {
+		if (i++%2 == 1)
+			$(this).addClass('odd_row');
+		else
+			$(this).removeClass('odd_row');
+	});
+}
+
+function showQuantityFields() {
+	var qty_fields = $('.option_table td.min, .option_table td.max, .option_table td.step');
+	var value_field = $('.option_table td.value');
+	
+	if ($('#type').val() == 'quantity') {
+		$(qty_fields).show();
+		$(value_field).hide();
+	}
+	else {
+		$(qty_fields).hide();
+		$(value_field).show();
+	}
+}
+
+function showAdditionalOptions() {
+	var btn = $('.links_row');
+	
+	// Hide button
+	if ($('#type').val() == 'checkbox' || $('#type').val() == 'quantity')
+		$(btn).hide();
+	else
+		$(btn).show();
+}
+
+// Associate pricings with the correct option value
+function updateOptionPricingOrder() {
+	// Set proper indices
+	var row = 0;
+	$('table.option_table tr.option_row').each(function() {
+		var input = $(this).find('input');
+		var pricing_input = $(this).next('tr.expand_details').find('input,select');
+		
+		$(input).each(function() {
+			$(this).attr('name', $(this).attr('name').replace('[]', '[' + row + ']'));
+		});
+		
+		$(pricing_input).each(function() {
+			$(this).attr('name', $(this).attr('name').replace('values[pricing][]', 'values[pricing][' + row + ']'));
+		});
+		
+		row++;
+	});
+}
+");
+?>

@@ -1,0 +1,33 @@
+			<!-- Steps -->
+			<div class="col-md-12 hidden-xs hidden-sm">
+				<div class="panel panel-blesta panel-steps">
+					<div class="panel-body">
+						<div class="col-md-3">
+							<i class="fa fa-chevron-right fa-lg pull-right"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/main/index/" . $this->Html->ifSet($order_form->label));?>" class="active"><strong><?php $this->_("Main.steps.step_1_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_1_description");?></em></p>
+						</div>
+						<div class="col-md-3">
+							<i class="fa fa-chevron-right fa-lg pull-right"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/config/index/" . $this->Html->ifSet($order_form->label));?>"><strong><?php $this->_("Main.steps.step_2_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_2_description");?></em></p>
+						</div>
+						<div class="col-md-3">
+							<i class="fa fa-chevron-right fa-lg pull-right"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/cart/index/" . $this->Html->ifSet($order_form->label));?>"><strong><?php $this->_("Main.steps.step_3_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_3_description");?></em></p>
+						</div>
+						<div class="col-md-3">
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/checkout/index/" . $this->Html->ifSet($order_form->label));?>"><strong><?php $this->_("Main.steps.step_4_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_4_description");?></em></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<?php
+				echo $this->Html->ifSet($message);
+				
+				echo $content;
+				?>
+			</div>

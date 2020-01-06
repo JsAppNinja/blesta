@@ -1,0 +1,126 @@
+				<?php
+				if ($this->Html->ifSet($order->fraud_report) != "") {
+					$fraud_report = unserialize($order->fraud_report);
+				?>
+				<div class="group_title_row first">
+					<div class="title_row first">
+						<h3><?php $this->_("AdminMain.orderinfo.fraudreport_heading");?></h3>
+					</div>
+					<table class="table">
+						<tr class="heading_row">
+							<td><?php $this->_("AdminMain.orderinfo.fraudreport_heading_key");?></td>
+							<td><?php $this->_("AdminMain.orderinfo.fraudreport_heading_value");?></td>
+						</tr>
+						<?php
+						$i=0;
+						foreach ($fraud_report as $key => $value) {
+						?>
+						<tr<?php echo ($i++%2 == 1) ? " class=\"odd_row\"" : "";?>>
+							<td><?php $this->Html->_($key);?></td>
+							<td><?php $this->Html->_($value);?></td>
+						</tr>
+						<?php
+						}
+						?>
+					</table>
+				</div>
+				<?php
+				}
+				?>
+				
+				<div class="group_title_row">
+					<div class="title_row<?php echo ($this->Html->ifSet($order->fraud_report) == "" ? " first" : "");?>">
+						<h3><?php $this->_("AdminMain.orderinfo.applied_heading");?></h3>
+					</div>
+					<?php
+					if ($this->Html->ifSet($applied, false) && ($num_applied = count($applied)) > 0) {
+					?>
+					<table class="table">
+						<tr class="heading_row">
+							<td class="border_left"><?php $this->_("AdminMain.orderinfo.applied_heading_paymenttype");?></td>
+							<td><?php $this->_("AdminMain.orderinfo.applied_heading_amount");?></td>
+							<td><?php $this->_("AdminMain.orderinfo.applied_heading_applied");?></td>
+							<td><?php $this->_("AdminMain.orderinfo.applied_heading_appliedon");?></td>
+							<td class="last"><?php $this->_("AdminMain.orderinfo.applied_heading_options");?></td>
+						</tr>
+						<?php
+						for ($i=0; $i<$num_applied; $i++) {
+							if ($this->Html->ifSet($applied[$i]->type) == "other" && $this->Html->ifSet($applied[$i]->gateway_type) == "nonmerchant")
+								$trans_type = $applied[$i]->gateway_name;
+							else
+								$trans_type = $this->Html->ifSet($transaction_types[($applied[$i]->type_name != "" ? $applied[$i]->type_name : $applied[$i]->type)]);
+						?>
+						<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : "";?>>
+							<td><?php $this->Html->_($trans_type);?></td>
+							<td><?php echo $this->CurrencyFormat->format($applied[$i]->amount, $applied[$i]->currency, array('html_code'=>true));?></td>
+							<td><?php echo $this->CurrencyFormat->format($applied[$i]->applied_amount, $applied[$i]->currency, array('html_code'=>true));?></td>
+							<td><?php echo $this->Date->cast($this->Html->_($applied[$i]->applied_date, true), "date_time");?></td>
+							<td><a href="<?php echo $this->Html->safe($this->base_uri . "clients/edittransaction/" . $this->Html->ifSet($order->client_id) . "/" . $this->Html->ifSet($applied[$i]->transaction_id) . "/");?>"><?php $this->_("AdminMain.orderinfo.applied_option_edit");?></a></td>
+						</tr>
+						<?php
+						}
+						?>
+					</table>
+					<?php
+					}
+					else {
+					?>
+					<div class="empty_section">
+						<div class="empty_box"><?php $this->_("AdminMain.orderinfo.applied_no_results");?></div>
+					</div>
+					<?php
+					}
+					?>
+				</div>
+				<div class="group_title_row">
+					<div class="title_row">
+						<h3><?php $this->_("AdminMain.orderinfo.services_heading");?></h3>
+					</div>
+					<?php
+					if ($this->Html->ifSet($services) && ($num_services = count($services)) > 0) {
+					?>
+					<table class="table">
+						<tr class="heading_row">
+							<td><span><?php $this->_("AdminMain.orderinfo.services_heading_package");?></span></td>
+							<td><span><?php $this->_("AdminMain.orderinfo.services_heading_label");?></span></td>
+							<td><span><?php $this->_("AdminMain.orderinfo.services_heading_term");?></span></td>
+							<td><span><?php $this->_("AdminMain.orderinfo.services_heading_dateadded");?></span></td>
+							<td><span><?php $this->_("AdminMain.orderinfo.services_heading_daterenews");?></span></td>
+							<td><span><?php $this->_("AdminMain.orderinfo.services_heading_options");?></span></td>
+						</tr>
+						<?php
+						// Display all services			
+						for ($i=0; $i<$num_services; $i++) {
+						?>
+						<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : "";?>>
+							<td><?php $this->Html->_($services[$i]->package->name);?></td>
+							<td><?php $this->Html->_($services[$i]->name);?></td>
+							<td>
+								<?php
+								if ($this->Html->ifSet($services[$i]->package_pricing->period) == "onetime")
+									echo $this->Html->ifSet($periods[$services[$i]->package_pricing->period]);
+								else {
+									$term = $this->Html->_($services[$i]->package_pricing->term, true);
+									echo $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$services[$i]->package_pricing->period]) : $this->Html->ifSet($periods[$services[$i]->package_pricing->period . "_plural"])));
+								}
+								?>
+							</td>
+							<td><?php echo $this->Date->cast($services[$i]->date_added);?></td>
+							<td><?php echo (empty($services[$i]->date_renews) ? $this->_("AdminMain.orderinfo.services_text_never", true) : $this->Date->cast($services[$i]->date_renews));?></td>
+							<td><a class="manage" href="<?php echo $this->Html->safe($this->base_uri . "clients/editservice/" . $this->Html->ifSet($services[$i]->client_id) . "/" . $this->Html->ifSet($services[$i]->id));?>"><?php $this->_("AdminMain.orderinfo.services_option_manage");?></a></td>
+						</tr>
+						<?php
+						}
+						?>
+					</table>
+					<?php
+					}
+					else {
+					?>
+					<div class="empty_section">
+						<div class="empty_box"><?php $this->_("AdminMain.orderinfo.services_no_results");?></div>
+					</div>
+					<?php
+					}
+					?>
+				</div>

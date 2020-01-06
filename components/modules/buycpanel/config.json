@@ -1,0 +1,27 @@
+{
+    "version": "1.1.1",
+    "name": "BuycPanel.name",
+    "description": "Sell licenses through your BuycPanel.com account.",
+	"authors": [
+		{
+			"name": "Phillips Data, Inc.",
+			"url": "http://www.blesta.com"
+		},
+		{
+			"name": "Sponsored By BuycPanel",
+			"url": "http://www.buycpanel.com"
+		}
+	],
+    "service": {
+        "name_key": "buycpanel_domain"
+    },
+    "module": {
+        "row": "BuycPanel.module_row.name",
+        "rows": "BuycPanel.module_rows.name",
+        "group": "BuycPanel.module_group.name",
+        "row_key": "email"
+    },
+    "package": {
+        "name_key": "license_type"
+    }
+}

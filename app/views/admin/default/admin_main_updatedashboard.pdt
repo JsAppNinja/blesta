@@ -1,0 +1,39 @@
+<?php
+echo $this->Html->ifSet($message);
+?>
+<div class="common_box">
+	<div class="inner">
+		<div class="dashboard_layouts">
+			<p><?php $this->_("AdminMain.updatedashboard.text_layout");?></p>
+			<?php
+			$current_layout = "";
+			foreach ($this->Html->ifSet($layouts) as $layout) {
+				if ($this->Html->_($layout->selected, true) == true)
+					$current_layout = $this->Html->_($layout->name, true);
+			?>
+			<a href="<?php echo $this->base_uri . "main/updatedashboard/" . $this->Html->_($layout->name, true) . "/";?>">
+				<div class="dashboard <?php echo $this->Html->_($layout->name, true) . ($this->Html->_($layout->selected, true) ? " on" : "");?>"> </div>	
+			</a>
+			<?php
+			}
+			?>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var current_layout = "<?php echo $current_layout;?>";
+		
+		$('div.common_box .dashboard_layouts a').hover(
+			function() {
+				if (!$(this).find('.dashboard').hasClass('on'))
+					$(this).find('.dashboard').addClass('on');
+			},
+			function() {
+				if (!$(this).find('.dashboard').hasClass(current_layout))
+					$(this).find('.dashboard').removeClass('on');
+			}
+		);
+	});
+</script>

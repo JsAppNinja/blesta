@@ -1,0 +1,23 @@
+		<?php
+		echo $this->Html->ifSet($message);
+		?>
+		<?php
+		$this->Widget->clear();
+		
+		$this->Widget->create($this->_("AdminSearch.index.boxtitle_search", true, $this->Html->ifSet($vars->search)), array('id'=>"search_results"), $this->Html->ifSet($render_section, null));
+		?>
+
+		<?php
+		$i=0;
+		foreach ($this->Html->ifSet($results, array()) as $result) {
+		?>
+		<div class="inner<?php echo ($i++ == 0 ? " offset" : "");?>">
+			<?php echo $result;?>
+		</div>
+		<?php
+		}
+		?>
+
+		<?php
+		$this->Widget->end();
+		?>		

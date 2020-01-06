@@ -1,0 +1,30 @@
+
+	<ul>
+		<li>
+			<?php
+			$this->Form->label($this->_("Eway.customer_id", true), "customer_id");
+			$this->Form->fieldText("customer_id", $this->Html->ifSet($meta['customer_id']), array('id'=>"customer_id"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Eway.refund_password", true), "refund_password");
+			$this->Form->fieldText("refund_password", $this->Html->ifSet($meta['refund_password']), array('id'=>"refund_password"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Eway.tooltip_refund_password");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("test_mode", "true", ($this->Html->ifSet($meta['test_mode'], "false") == "true"), array('id'=>"test_mode"));
+			$this->Form->label($this->_("Eway.test_mode", true), "test_mode", array('class'=>"inline"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Eway.tooltip_test_mode");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("developer_mode", "true", ($this->Html->ifSet($meta['developer_mode'], "false") == "true"), array('id'=>"developer_mode"));
+			$this->Form->label($this->_("Eway.developer_mode", true), "developer_mode", array('class'=>"inline"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Eway.tooltip_developer_mode");?></div></span>
+		</li>
+	</ul>

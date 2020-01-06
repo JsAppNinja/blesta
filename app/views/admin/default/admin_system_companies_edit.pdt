@@ -1,0 +1,42 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemCompanies.edit.boxtitle_editcompany", true));				
+				?>
+				<div class="inner">
+					<?php $this->Form->create();?>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemCompanies.edit.field_name", true), "name");?>
+								<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array("id"=>"name"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemCompanies.edit.field_hostname", true), "hostname");?>
+								<?php $this->Form->fieldText("hostname", $this->Html->ifSet($vars->hostname), array("id"=>"hostname"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminSystemCompanies.!tooltip.hostname");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemCompanies.edit.field_address", true), "address");?>
+								<?php $this->Form->fieldTextarea("address", $this->Html->ifSet($vars->address), array("id"=>"address"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemCompanies.edit.field_phone", true), "phone");?>
+								<?php $this->Form->fieldText("phone", $this->Html->ifSet($vars->phone), array("id"=>"phone"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemCompanies.edit.field_fax", true), "fax");?>
+								<?php $this->Form->fieldText("fax", $this->Html->ifSet($vars->fax), array("id"=>"fax"));?>
+							</li>
+						</ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AddSystemCompanies.edit.field_companysubmit");?></a></div>
+					<?php $this->Form->end();?>	
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>

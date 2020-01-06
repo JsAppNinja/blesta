@@ -1,0 +1,138 @@
+	<div class="wrapper">
+		<h3>Blesta Web Installer</h3>
+		<div class="contents">
+			
+			<?php
+			echo $this->Html->ifSet($message);
+			?>
+			
+			<?php
+			$this->Form->create();
+			?>
+			
+			<div>
+				<label>
+					<?php
+					$this->Form->fieldCheckbox("agree", "yes", $this->Html->ifSet($vars->agree) == "yes");
+					?>
+					
+					I agree to the terms and conditions as explained at <a href="http://www.blesta.com/license/" target="_blank">http://www.blesta.com/license/</a>
+				</label>
+			</div>
+			
+			<div class="requirements">
+				<?php
+				if ($pass_min !== true) {
+				?>
+				<div class="error">
+					<p>
+						Installation can not continue. You must correct the failed minimum system requirements.
+					</p>
+				</div>
+				<?php
+				}
+				elseif ($pass_rec !== true) {
+				?>
+				<div class="warning">
+					<p>
+						Your system passes the minimum requirements but does not meet the recommend requirements. It's recommended that you meet these requirements before continuing.
+					</p>
+				</div>			
+				<?php
+				}
+				?>
+				
+				<h4>Minimum Requirements: <span style="color: <?php echo ($pass_min === true ? "#009d00" : "#f00");?>"><?php echo ($pass_min === true ? "PASS" : "FAIL");?></a></h4>
+				<?php
+				foreach ($min_requirements as $key => $value) {
+				?>
+				<p>
+					<?php $this->Html->_($value['message']);?>
+					<strong><span style="color: <?php echo (!isset($pass_min[$key]) ? "#009d00" : "#f00");?>"><?php echo (!isset($pass_min[$key]) ? "PASS" : "FAIL");?></span></strong>
+				</p>
+				<?php
+				}
+				?>
+
+				<h4>Recommended Requirements: <span style="color: <?php echo ($pass_rec === true ? "#009d00" : "#edbc12");?>"><?php echo ($pass_rec === true ? "PASS" : "NOT PASSING");?></span></h4>
+				<?php
+				foreach ($rec_requirements as $key => $value) {
+				?>
+				<p>
+					<?php $this->Html->_($value['message']);?>
+					<strong><span style="color: <?php echo (!isset($pass_rec[$key]) ? "#009d00" : "#edbc12");?>"><?php echo (!isset($pass_rec[$key]) ? "PASS" : "NOT PASSING");?></span></strong>
+				</p>
+				<?php
+				}
+				?>
+			</div>
+			
+			<?php
+			if ($pass_min === true) {
+			?>
+			<div class="db_info">
+				<h4>Database Information</h4>
+				<p>Haven't created a database yet? <a href="http://docs.blesta.com/display/user/Installing+Blesta">Learn how</a>.</p>
+				<div class="input">
+					<label>Database host</label>
+					<?php $this->Form->fieldText("host", $this->Html->ifSet($vars->host, "localhost"));?>
+				</div>
+				<div class="input">
+					<label>Database name</label>
+					<?php $this->Form->fieldText("database", $this->Html->ifSet($vars->database));?>
+				</div>
+				<div class="input">
+					<label>Database user</label>
+					<?php $this->Form->fieldText("user", $this->Html->ifSet($vars->user));?>
+				</div>
+				<div class="input">
+					<label>Database password</label>
+					<?php $this->Form->fieldPassword("password");?>
+				</div>
+				<div class="input">
+					<?php $this->Form->fieldSubmit("install", "Install");?> <span class="progress"></span>
+				</div>
+			</div>
+			<?php
+			}
+			?>
+			
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+	</div>
+	
+	<script src="<?php echo $this->Html->safe($this->view_dir . "javascript/jquery-1.8.3.min.js");?>"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			displayParts();
+			$("input[name='agree']").change(displayParts);
+			
+			function displayParts() {
+				if ($("input[name='agree']").is(':checked')) {
+					$(".requirements").show();
+					$(".db_info").show();
+				}
+				else {
+					$(".requirements").hide();
+					$(".db_info").hide();					
+				}
+			}
+			
+			$("form").submit(function(e) {
+				$("input[type='submit']").attr("disabled", "disabled");
+				
+				setInterval(animateProgress, 500);
+			});
+			
+			var progress_step = 0;
+			function animateProgress() {
+				progress_step = ++progress_step%4;
+				var extra = "";
+				for (var i=0; i<progress_step; i++)
+					extra += ".";
+				$("span.progress").text("Please wait" + extra);
+			}
+		});
+	</script>

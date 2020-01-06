@@ -1,0 +1,118 @@
+
+			<div class="col-md-12">
+				<?php
+				echo $this->Html->ifSet($message);
+				?>
+				<?php
+				$this->WidgetClient->create($this->_((!$this->Html->ifSet($gateway_buttons) ? "Checkout.complete.header_complete" : "Checkout.complete.header_almost_complete"), true));
+				?>
+				<div class="panel-body">
+					<p><?php $this->_("Checkout.complete.order_number", false, $this->Html->safe($order->order_number));?></p>
+					<p><?php $this->_((!$this->Html->ifSet($gateway_buttons) ? "Checkout.complete.complete_description" : "Checkout.complete.almost_complete_description"));?></p>
+					
+					<?php
+					// If gateway button set, display pay button for the nonmerchant gateway
+					if ($this->Html->ifSet($gateway_buttons)) {
+					?>
+						<div>
+						<?php
+						foreach ($this->Html->ifSet($gateway_buttons, array()) as $buttons) {
+							foreach ($buttons as $gateway_button) {
+							?>
+							<div class="clearfix">
+								<?php echo $gateway_button;?>
+							</div>
+							<?php
+							}
+						}
+						?>
+						</div>
+					<?php
+					}
+					?>
+					
+					<div class="table-responsive">
+						<table class="table table-curved">
+							<thead>
+								<tr>
+									<th><?php $this->_("Checkout.complete.table_description");?></th>
+									<th><?php $this->_("Checkout.complete.table_qty");?></th>
+									<th><?php $this->_("Checkout.complete.table_price");?></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								$num_lines = count($invoice->line_items);
+								$j=0;
+								foreach ($invoice->line_items as $line) {
+								?>
+								<tr>
+									<td>
+										<?php $this->Html->_($line->description);?>
+									</td>
+									<td>
+										<?php $this->_("Checkout.complete.quantity", false, $this->CurrencyFormat->truncateDecimal($line->qty, 0));?>
+									</td>
+									<td class="col-price">
+										<strong><?php echo $this->Html->safe($this->CurrencyFormat->format($line->amount, $invoice->currency));?></strong>
+									</td>
+								</tr>
+								<?php
+								}
+								?>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-4 pull-right totals-box">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td><span class="pull-right"><?php $this->_("Checkout.complete.totals.subtotal");?></span></td>
+										<td><strong><?php echo $this->Html->safe($this->CurrencyFormat->format($invoice->subtotal, $invoice->currency));?></strong></td>
+									</tr>
+									<?php
+									if ($this->Html->ifSet($invoice->taxes)) {
+										foreach ($invoice->taxes as $tax) {
+									?>
+										<tr>
+											<td><span class="pull-right"><?php $this->_("Checkout.complete.totals.tax", false, $tax->name, $tax->amount);?></span></td>
+											<td><strong><?php echo $this->Html->safe($this->CurrencyFormat->format($tax->tax_total, $invoice->currency));?></strong></td>
+										</tr>
+									<?php
+										}
+									}
+                                        if (!empty($invoice->paid) && empty($invoice->date_closed)) {
+                                    ?>
+                                        <tr>
+                                            <td><span class="pull-right"><?php $this->_("Checkout.complete.totals.total_paid");?></span></td>
+                                            <td><strong><?php echo $this->Html->safe($this->CurrencyFormat->format(-$invoice->paid, $invoice->currency));?></strong></td>
+                                        </tr>
+                                    <?php
+                                    }
+									?>
+									<tr>
+										<td><span class="pull-right"><?php $this->_($invoice->date_closed != null ? "Checkout.complete.totals.total_paid" : "Checkout.complete.totals.total");?></span></td>
+										<td><strong><?php echo $this->Html->safe($this->CurrencyFormat->format(($invoice->date_closed != null ? $invoice->total : $invoice->due), $invoice->currency));?></strong></td>
+									</td>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php
+					if (!$this->Html->ifSet($gateway_buttons)) {
+					?>
+					<div class="row">
+						<div class="col-md-12">							
+							<div class="btn-group pull-right">
+								<a href="<?php echo $this->Html->safe($this->base_uri . "order/main/index/" . $this->Html->ifSet($order_form->label));?>" class="btn btn-default"><?php $this->_("Checkout.complete.order_more_btn");?></a>
+							</div>
+						</div>
+					</div>
+					<?php
+					}
+					$this->WidgetClient->end();
+					?>
+				</div>
+			</div>

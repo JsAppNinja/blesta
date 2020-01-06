@@ -1,0 +1,72 @@
+	
+	<div class="panel-pad">
+		<div class="row">
+			<div class="col-md-12">
+				<?php $this->Form->label($this->_("Solusvm.tab_client_ips.primary_ip", true));?>
+				<h4><?php $this->Html->_($ips->main);?></h4>
+			</div>
+		</div>
+	</div>
+	
+	<?php
+	if (!empty($ips->extra)) {
+		$this->Form->create($this->base_uri . "services/manage/" . $this->Html->ifSet($service_id) . "/tabClientIps/");
+		$this->Form->fieldHidden("ip_address", "", array('id' => "ip_address"));
+	?>
+		<hr />
+		<h4><?php $this->_("Solusvm.tab_client_ips.heading_extra");?></h4>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<tbody>
+					<?php
+					foreach ($this->Html->ifSet($ips->extra) as $i=>$ip) {
+					?>
+					<tr>
+						<td><strong><?php $this->Html->_($ip);?></strong></td>
+						<td>
+							<?php
+							if ($this->Html->ifSet($ips->editable)) {
+							?>
+							<a class="btn btn-xs btn-danger remove-ip" href="#" data-ip="<?php $this->Html->_($ip);?>" data-toggle="modal" data-target="#remove-ip<?php echo $i;?>">
+								<i class="fa fa-ban fa-fw"></i>
+								<?php $this->_("Solusvm.tab_client_ips.remove_ip");?>
+							</a>
+							<div id="remove-ip<?php echo $i;?>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="global_modal_title"><?php $this->_("Solusvm.tab_client_ips.heading_remove_ip", false, $this->Html->ifSet($ip));?></h4>
+										</div>
+										<div class="modal-body"><?php $this->_("Solusvm.tab_client_ips.confirm_remove_ip");?></div>
+										<div class="modal-footer">
+											<?php
+											$this->Form->fieldButton("cancel", $this->_("Solusvm.tab_client_ips.cancel", true), array('class' => "btn btn-default", 'data-dismiss' => "modal"));
+											$this->Form->fieldButton("submit", $this->_("Solusvm.tab_client_ips.remove_ip", true), array('class' => "btn btn-primary", 'type' => "submit"));
+											?>	
+										</div>
+									</div>
+								</div>
+							</div>
+							<?php
+							}
+							?>
+						</td>
+					</tr>
+					<?php
+					}
+					?>
+				</tbody>
+			</table>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('a.remove-ip').on('click', function() {
+					$('#ip_address').val($(this).attr('data-ip'));
+				});
+			});
+		</script>
+		<?php
+		$this->Form->end();
+	}
+	?>

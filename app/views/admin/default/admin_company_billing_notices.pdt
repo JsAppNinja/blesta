@@ -1,0 +1,26 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				
+				$this->Widget->create($this->_("AdminCompanyBilling.notices.boxtitle_notices", true));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">						
+						<?php
+						// Display notices partial
+						echo $this->Html->ifSet($notice_form);
+						?>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyBilling.notices.field_noticessubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

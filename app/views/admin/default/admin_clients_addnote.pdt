@@ -1,0 +1,51 @@
+
+		<?php
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminClients.addnote.boxtitle_createnote", true));
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminClients.addnote.field_title", true), "title");
+						$this->Form->fieldText("title", $this->Html->ifSet($vars->title), array("id"=>"title"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("stickied", "1", ($this->Html->ifSet($vars->stickied) == "1"), array("id"=>"stickied"));
+						$this->Form->label($this->_("AdminClients.editnote.field_stickied", true), "stickied", array('class'=>"inline"));
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminClients.!notes.stickied");?></div></span>
+					</li>
+				</ul>
+			</div>
+			
+			<h4><a id="note_details" class="show_content" href="#"><?php $this->_("AdminClients.addnote.field_description");?></a></h4>
+			<div class="pad reverse note_details"<?php echo (empty($vars->description) ? " style=\"display:none;\"" : "");?>>
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldTextarea("description", $this->Html->ifSet($vars->description), array("id"=>"description"));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="pad reverse">
+				<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminClients.addnote.field_notesubmit");?></a></div>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	$(this).blestaBindToggleEvent('#note_details', '.note_details');
+});
+");
+?>

@@ -1,0 +1,88 @@
+			<?php
+			if ($this->Html->ifSet($fields) && !empty($fields)) {
+			?>
+			<div class="pad">
+				<ul>
+					<?php
+					foreach ($fields as $field) {
+					?>
+					<li>
+						<?php
+						// Draw the primary label/field
+						call_user_func_array(array($this->Form, $field->type), $field->params);
+						
+						// Draw each form field associated with this label
+						$tooltips = array();
+						foreach ($field->fields as $input) {
+							
+							// Collect all tooltips to be displayed at the end
+							if ($input->type == "tooltip") {
+								$tooltips[] = $input;
+								continue;
+							}
+							
+							call_user_func_array(array($this->Form, $input->type), $input->params);
+							
+							// Draw the form field's secondary label if set
+							if (isset($input->label)) {
+								if (isset($input->label->params['attributes']['class'])) {
+									if (is_array($input->label->params['attributes']['class']))
+										$input->label->params['attributes']['class'][] = "inline";
+									else
+										$input->label->params['attributes']['class'] .= " inline";
+								}
+								else
+									$input->label->params['attributes']['class'] = "inline";
+									
+								call_user_func_array(array($this->Form, "label"), $input->label->params);
+							}
+						}
+						
+						foreach ($tooltips as $tooltip) {
+						?>
+						<span class="tooltip">
+							<?php $this->_("AppController.tooltip.text");?>
+							<div><?php $this->Html->_($tooltip->params['message']);?></div>
+						</span>
+						<?php
+						}
+						?>
+					</li>
+					<?php
+					}
+					?>
+				</ul>
+			</div>
+			<?php
+			}
+			?>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$("input[data-type='quantity']").each(function() {
+			var input = $(this);
+			if (input.attr("data-min") != "" && input.attr("data-max") != "") {
+				var count = $("<div class=\"ui-slide-amount\"></div>").insertAfter(input);
+				var elem = $("<div class=\"slider-container\"><div class=\"slider-amount\"></div><div class=\"ui-slider\"></div></div>").insertAfter(input);
+				var slider = $(".ui-slider", elem);
+				input.hide();
+				
+				var min = parseInt(input.attr("data-min"));
+				var max = parseInt(input.attr("data-max"));
+				var step = parseInt(input.attr("data-step") == "" ? 1 : input.attr("data-step"));
+				
+				$(slider).slider({
+					value: input.val(),
+					min: min,
+					max: max,
+					step: step,
+					slide: function(event, ui) {
+						input.val(ui.value);
+						$(".slider-amount", elem).html(ui.value);
+					}
+				});
+				$(".slider-amount", elem).html(input.val());
+			}
+		});
+	});
+</script>

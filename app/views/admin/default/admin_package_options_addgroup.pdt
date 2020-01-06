@@ -1,0 +1,76 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminPackageOptions.addgroup.boxtitle_addgroup", true));
+		?>
+		
+		<div class="inner">
+			<?php $this->Form->create(null, array('id'=>"add_package_option_group")); ?>
+			
+			<div class="title_row first"><h3><?php $this->_("AdminPackageOptions.addgroup.heading_basic");?></h3></div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->label($this->_("AdminPackageOptions.addgroup.field_name", true), "name"); ?>
+						<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array("id"=>"name")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminPackageOptions.addgroup.field_description", true), "description"); ?>
+						<?php $this->Form->fieldTextarea("description", $this->Html->ifSet($vars->description), array("id"=>"description")); ?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="title_row">
+				<h3>
+					<?php $this->_("AdminPackageOptions.addgroup.heading_packages");?>
+					<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminPackageOptions.!tooltip.package_membership");?></div></span>
+				</h3>
+			</div>
+			<div class="pad">
+				<table>
+					<tr>
+						<td><?php $this->Form->label($this->_("AdminPackageOptions.addgroup.text_memberpackages", true), "assigned");?></td>
+						<td></td>
+						<td><?php $this->Form->label($this->_("AdminPackageOptions.addgroup.text_availablepackages", true), "available");?></td>
+					</tr>
+					<tr>
+						<td>
+							<?php $this->Form->fieldMultiSelect("packages[]", $this->Html->ifSet($vars->packages), array(), array("id"=>"assigned"));?>
+						</td>
+						<td><a href="#" class="move_left">&nbsp;</a> &nbsp; <a href="#" class="move_right">&nbsp;</a></td>
+						<td>
+							<?php $this->Form->fieldMultiSelect("available[]", $this->Html->ifSet($packages), array(), array("id"=>"available"));?>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminPackageOptions.addgroup.field_addgroupsubmit"); ?></a></div>
+			<?php $this->Form->end(); ?>
+		</div>
+		
+		<?php
+		$this->Widget->end();
+
+$this->Javascript->setInline("
+$(document).ready(function() {
+	$('#add_package_option_group').submit(function() {
+		$('#assigned option').attr('selected', 'selected');
+	});
+
+	// Move packages from right to left
+	$('.move_left').click(function() {
+		$('#available option:selected').appendTo($('#assigned'));
+		return false;
+	});
+	// Move packages from left to right
+	$('.move_right').click(function() {
+		$('#assigned option:selected').appendTo($('#available'));
+		return false;
+	});
+});
+");
+?>

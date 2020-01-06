@@ -1,0 +1,129 @@
+<?php
+echo $this->Html->ifSet($message);
+
+$links = array(
+	array('name'=>$this->_("AdminReportsCustomize.index.reports", true), 'current' => false, 'attributes'=> array('href' => $this->base_uri . "reports/")),
+	array('name'=>$this->_("AdminReportsCustomize.index.customize", true), 'current' => true, 'attributes'=> array('href' => $this->base_uri . "reports_customize"))
+);
+
+$this->Widget->clear();
+$this->Widget->setTabs($links);
+$this->Widget->create($this->_("AdminReportsCustomize.index.box_title", true), array('id' => "admin_reports_add"), $this->Html->ifSet($render_section, null));
+?>
+	<div class="inner">
+		<?php
+		$this->Form->create();
+		?>
+		<div class="pad">
+			<ul>
+				<li>
+					<?php
+					$this->Form->label($this->_("AdminReportsCustomize.add.field_name", true), "name");
+					$this->Form->fieldText("name", $this->Html->ifSet($vars->name), array('id' => "name"));
+					?>
+				</li>
+				<li>
+					<?php
+					$this->Form->label($this->_("AdminReportsCustomize.add.field_query", true), "query");
+					$this->Form->fieldTextarea("query", $this->Html->ifSet($vars->query), array('id' => "query"));
+					?>
+				</li>
+			</ul>
+
+			<div class="title_row">
+				<h3><?php $this->_("AdminReportsCustomize.add.heading_fields");?></h3>
+			</div>
+			<div class="links_row">
+				<a class="btn_right select_row_add" href="#"><span><?php $this->_("AdminReportsCustomize.add.field_add_field");?></span></a>
+			</div>
+			<table class="table clear">
+				<thead>
+					<tr class="heading_row">
+						<td class="medium"><?php $this->_("AdminReportsCustomize.add.table_label");?></td>
+						<td class="medium"><?php $this->_("AdminReportsCustomize.add.table_name");?></td>
+						<td class="stretch"><?php $this->_("AdminReportsCustomize.add.table_type");?></td>
+						<td class="medium"><?php $this->_("AdminReportsCustomize.add.table_required");?></td>
+						<td class="last"><?php $this->_("AdminReportsCustomize.add.table_options");?></td>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+				// Display each select option
+				$num_fields = max(1, count($this->Html->ifSet($vars->fields['name'], array())));
+				for ($i=0; $i<$num_fields; $i++) {
+				?>
+					<tr class="select_row">
+						<td>
+							<?php $this->Form->fieldHidden("fields[id][]", $this->Html->ifSet($vars->fields['id'][$i]), array('class' => "input-id"));?>
+							<?php $this->Form->fieldText("fields[label][]", $this->Html->ifSet($vars->fields['label'][$i]));?>
+						</td>
+						<td><?php $this->Form->fieldText("fields[name][]", $this->Html->ifSet($vars->fields['name'][$i]));?></td>
+						<td>
+							<?php $this->Form->fieldSelect("fields[type][]", $this->Html->ifSet($field_types), $this->Html->ifSet($vars->fields['type'][$i]), array('class' => "collapse-trigger"));?>
+							<div class="collapse">
+								<?php $this->Form->label($this->_("AdminReportsCustomize.add.field_values", true));?>
+								<?php $this->Form->fieldTextarea("fields[values][]", $this->Html->ifSet($vars->fields['values'][$i]));?>
+							</div>
+						</td>
+						<td>
+							<?php $this->Form->fieldSelect("fields[required][]", $this->Html->ifSet($required_types), $this->Html->ifSet($vars->fields['required'][$i]), array('class' => "collapse-trigger"));?>
+							<div class="collapse">
+								<?php $this->Form->label($this->_("AdminReportsCustomize.add.field_regex", true));?>
+								<?php $this->Form->fieldText("fields[regex][]", $this->Html->ifSet($vars->fields['regex'][$i]));?>
+							</div>
+						</td>
+						<td><a href="#" class="manage remove_field"><?php $this->_("AdminReportsCustomize.add.text_remove");?></a></td>
+					</tr>
+				<?php
+				}
+				?>
+				</tbody>
+			</table>
+		</div>
+		<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminReportsCustomize.add.field_submit");?></a></div>
+		<?php
+		$this->Form->end();
+		?>
+	</div>
+<?php
+$this->Widget->end();
+?>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var widget_id = "#admin_reports_add";
+		$(widget_id + " .select_row_add").click(function() {
+			var fields = $(widget_id + " .select_row:first").clone();
+			fields.find("input").val("");
+			$(".collapse", fields).hide();
+			$(widget_id + " .select_row").closest("table").append(fields);
+
+			return false;
+		});
+
+		$(widget_id + " .collapse").hide();
+		$(widget_id + " .collapse-trigger").each(function() {
+			toggleSelect(this, ".collapse");
+		});
+		$(widget_id).on("change", ".collapse-trigger", function() {
+			toggleSelect(this, ".collapse");
+		});
+		
+		function toggleSelect(item, collapse) {
+			$(collapse, $(item).parent()).hide();
+			if ($(item).val() === "select" || $(item).val() === "custom") {
+				$(item).next(collapse).show();
+			}
+		}
+
+		$(widget_id).on("click", ".remove_field", function() {
+			var row = $(this).closest(".select_row");
+			if ($(widget_id + " .select_row").length > 1) {
+				$(this).closest("form").append($(".input-id", row));
+				row.remove();
+			}
+			
+			return false;
+		});
+	});
+</script>

@@ -1,0 +1,8 @@
+<?php
+	$this->Form->create($this->Html->ifSet($response));
+	$this->Form->fieldImage("submit", $this->_("Bitpay.buildprocess.submit", true), 
+		array('src'=>$this->view_dir."images/bitpay.jpg", 'alt'=>$this->_("Bitpay.buildprocess.submit", true), 'title'=>$this->_("Bitpay.buildprocess.submit", true)
+		)
+	);		
+	$this->Form->end();
+?>

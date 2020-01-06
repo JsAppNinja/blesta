@@ -1,0 +1,22 @@
+
+	<ul>
+		<li>
+			<?php
+			$this->Form->label($this->_("Quantum_gateway.gateway_login", true), "gateway_login");
+			$this->Form->fieldText("gateway_login", $this->Html->ifSet($meta['gateway_login']), array('id'=>"gateway_login"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Quantum_gateway.restrict_key", true), "restrict_key");
+			$this->Form->fieldText("restrict_key", $this->Html->ifSet($meta['restrict_key']), array('id'=>"restrict_key"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("maxmind", "true", ($this->Html->ifSet($meta['maxmind'], "false") == "true"), array('id'=>"maxmind"));
+			$this->Form->label($this->_("Quantum_gateway.maxmind", true), "maxmind", array('class'=>"inline"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Quantum_gateway.tooltip_maxmind");?></div></span>
+		</li>
+	</ul>

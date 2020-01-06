@@ -1,0 +1,4 @@
+/* FeedReader plugin */
+.rss_feed_area .bottom_row > div { padding:0 14px 0 11px; font-size:10px; line-height:20px;}
+	.rss_feed_area .bottom_row > div .link { padding:0 0 0 12px; vertical-align:top;}
+	.rss_feed_area .bottom_row > div .switch_link { padding:0;}

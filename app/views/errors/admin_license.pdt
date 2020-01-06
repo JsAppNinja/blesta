@@ -1,0 +1,36 @@
+	<div class="program_error">
+		<h3>License Invalid</h3>
+		<div class="contents">
+			
+			<?php
+			if ($this->Html->ifSet($errors)) {
+			?>
+			<p>The license failed to validate for the following reasons:</p>
+			<ul>
+				<?php
+				foreach ($errors as $field => $errors) {
+					foreach ($errors as $key => $message_text) {
+					?>
+					<li><?php $this->Html->_($message_text, false, true);?></li>
+					<?php
+					}
+				}
+				?>
+			</ul>
+			<?php
+			}
+			?>
+			
+			<?php
+			$this->Form->create();
+			?>
+				<?php
+				$this->Form->label("License Key: ", "key");
+				$this->Form->fieldText("key", $this->Html->ifSet($vars->key), array('id' => "key"));
+				$this->Form->fieldSubmit("update", "Update Key");
+				?>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+	</div>

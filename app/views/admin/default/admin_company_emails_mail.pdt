@@ -1,0 +1,74 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				
+				$this->Widget->create($this->_("AdminCompanyEmails.mail.boxtitle_mail", true));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">
+						<p><?php $this->_("AdminCompanyEmails.mail.text_section");?></p>
+						<ul>
+							<li>
+								<?php $this->Form->fieldCheckbox("html_email", "true", (isset($vars['html_email']) && ($vars['html_email'] == "true") ? true : false), array("id"=>"html_email"));?>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.mail.field_html_email", true), "html_email", array('class'=>"inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.mail.field_mail_delivery", true), "mail_delivery");?>
+								<?php $this->Form->fieldSelect("mail_delivery", $this->Html->ifSet($delivery_methods), $this->Html->ifSet($vars['mail_delivery']), array("id"=>"mail_delivery"));?>
+							</li>
+						</ul>
+						<ul id="smtp_settings">
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.mail.field_smtp_security", true), "smtp_security");?>
+								<?php $this->Form->fieldSelect("smtp_security", $this->Html->ifSet($security_options), $this->Html->ifSet($vars['smtp_security']), array("id"=>"smtp_security"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.mail.field_smtp_host", true), "smtp_host");?>
+								<?php $this->Form->fieldText("smtp_host", $this->Html->ifSet($vars['smtp_host']), array("id"=>"smtp_host"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.mail.field_smtp_port", true), "smtp_port");?>
+								<?php $this->Form->fieldText("smtp_port", $this->Html->ifSet($vars['smtp_port']), array("id"=>"smtp_port"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.mail.field_smtp_user", true), "smtp_user");?>
+								<?php $this->Form->fieldText("smtp_user", $this->Html->ifSet($vars['smtp_user']), array("id"=>"smtp_user"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.mail.field_smtp_password", true), "smtp_password");?>
+								<?php $this->Form->fieldPassword("smtp_password", array("id"=>"smtp_password", 'value'=>$this->Html->ifSet($vars['smtp_password'])));?>
+							</li>
+						</ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyEmails.mail.field_submitmail");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>
+		
+<?php
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		showSmtpSettings();
+		
+		$('#mail_delivery').change(function() {
+			showSmtpSettings();
+		});
+		
+		function showSmtpSettings() {
+			if ($('#mail_delivery').val() == 'smtp')
+				$('#smtp_settings').show();
+			else
+				$('#smtp_settings').hide();
+		}
+	});
+");
+?>

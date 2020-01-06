@@ -1,0 +1,52 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyGeneral.international.boxtitle_international", true));
+				?>
+				<div class="inner">
+					<table class="table" id="languages">
+						<tr class="heading_row">
+							<td class="icon">&nbsp;</td>
+							<td><span><?php $this->_("AdminCompanyGeneral.international.text_language");?></span></td>
+							<td><span><?php $this->_("AdminCompanyGeneral.international.text_iso");?></span></td>
+							<td class="last"><span><?php $this->_("AdminCompanyGeneral.international.text_options");?></span></td>
+						</tr>
+						<?php
+						if ($this->Html->ifSet($languages, false)) {
+							$i = 0;
+							foreach ($languages as $language) {
+						?>
+						<tr<?php echo ($i++%2 == 1) ? " class=\"odd_row\"" : "";?>>
+							<td class="icon"><div class="<?php echo $this->Html->_($language->installed, true) ? "active" : "inactive";?>">&nbsp;</div></td>
+							<td><?php $this->Html->_($language->name);?></td>
+							<td><?php $this->Html->_($language->code);?></td>
+							<td class="last">
+								<?php
+								if (!$language->uninstallable) {
+								?>
+								<a<?php echo ($this->Html->_($language->installed, true) ? " class=\"manage\"" : "");?> rel="<?php echo $this->Html->safe($this->_("AdminCompanyGeneral.international.confirm_" . ($this->Html->_($language->installed, true) ? "un" : "") . "install", true, $this->Html->ifSet($language->name)));?>" href="<?php echo $this->base_uri . "settings/company/general/" . ($this->Html->_($language->installed, true) ? "un" : "") . "installlanguage/" . $this->Html->_($language->code, true) . "/";?>"><?php echo $this->Html->_($language->installed, true) ? $this->_("AdminCompanyGeneral.international.option_uninstall", true) : $this->_("AdminCompanyGeneral.international.option_install", true);?></a>
+								<?php
+								}
+								?>
+							</td>
+						</tr>
+						<?php
+							}
+							unset($i);
+						}
+						?>
+					</table>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				// Handle confirmation
+				$('#languages a[rel]').blestaModalConfirm({base_url: '<?php echo $this->base_uri;?>', close: '<?php $this->_("AppController.modal.text_close");?>'});
+			});
+		</script>

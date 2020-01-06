@@ -1,0 +1,128 @@
+		
+		<?php echo $this->Html->ifSet($form);?>
+		
+		<?php
+		$this->Form->create();
+		$this->Form->fieldHidden("status", $this->Html->ifSet($service->status) == "in_review" ? "in_review" : "active");
+		?>
+		<?php
+		if ($this->Html->ifSet($fields) && !empty($fields)) {
+		?>
+			<div class="title_row first">
+				<h3><?php $this->_("AdminClients.editservice.module_heading", false, $this->Html->ifSet($module_name));?></h3>
+			</div>
+			<div class="pad">
+                <?php
+                // Set any hidden fields
+                foreach ($fields as $index => $field) {
+                    foreach ($field->fields as $input) {
+                        if ($input->type == "fieldHidden") {
+                            call_user_func_array(array($this->Form, $input->type), $input->params);
+                            unset($fields[$index]);
+                            continue 2;
+                        }
+                    }
+                }
+                ?>
+				<ul>
+					<?php
+					foreach ($fields as $field) {
+					?>
+					<li>
+						<?php
+						// Draw the primary label/field
+						call_user_func_array(array($this->Form, $field->type), $field->params);
+						
+						// Draw each form field associated with this label
+						$tooltips = array();
+						foreach ($field->fields as $input) {
+							
+							// Collect all tooltips to be displayed at the end
+							if ($input->type == "tooltip") {
+								$tooltips[] = $input;
+								continue;
+							}
+							
+							call_user_func_array(array($this->Form, $input->type), $input->params);
+							
+							// Draw the form field's secondary label if checkbox or radio item
+							if (($input->type == "fieldCheckbox" || $input->type == "fieldRadio") && isset($input->label)) {
+								if (isset($input->label->params['attributes']['class'])) {
+									if (is_array($input->label->params['attributes']['class']))
+										$input->label->params['attributes']['class'][] = "inline";
+									else
+										$input->label->params['attributes']['class'] .= " inline";
+								}
+								else
+									$input->label->params['attributes']['class'] = "inline";
+									
+								call_user_func_array(array($this->Form, "label"), $input->label->params);
+							}
+						}
+						
+						foreach ($tooltips as $tooltip) {
+						?>
+						<span class="tooltip">
+							<?php $this->_("AppController.tooltip.text");?>
+							<div><?php $this->Html->_($tooltip->params['message']);?></div>
+						</span>
+						<?php
+						}
+						?>
+					</li>
+					<?php
+					}
+					?>
+				</ul>
+				<?php echo $this->Html->ifSet($html);?>
+			</div>
+		<?php
+		}
+		?>
+		<div class="package_options"></div>
+		
+		
+		<div class="pad">
+			<ul>
+				<li>
+					<?php
+					$this->Form->fieldCheckbox("notify_order", "true", $this->Html->ifSet($vars->notify_order, "true") == "true", array('id'=>"notify_order"));
+					$this->Form->label($this->_("AdminClients.editservice.field_notify_order", true), "notify_order", array('class'=>"inline"));
+					?>
+				</li>
+				<li>
+					<?php
+					$this->Form->fieldCheckbox("use_module", "true", ($this->Html->ifSet($vars->use_module, "true") == "true" || $this->Html->ifSet($service->status) == "pending"), array_merge(array('id'=>"use_module_module"), ($this->Html->ifSet($service->status) == "in_review" ? array('disabled'=>"disabled") : array())));
+					$this->Form->label($this->_("AdminClients.editservice.field_use_module", true), "use_module_module", array('class'=>"inline"));
+					?>
+				</li>
+			</ul>
+		</div>
+		<div class="button_row">
+			<a class="btn_right submit" href="#">
+				<?php
+				$this->_("AdminClients.editservice.field_module_" . ($this->Html->ifSet($service->status) == "in_review" ? "save" : "activate"));
+				?>
+			</a>
+		</div>
+		<?php
+		$this->Form->end();
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Fetch package options
+		packageOptions();
+		
+		function packageOptions() {
+			var pricing_id = '<?php echo $this->Html->_($service->pricing_id);?>';
+			if (pricing_id) {
+				var params = 'service_id=<?php echo $this->Html->_($service->id);?>&' + $('[name^="configoptions"]', $('.package_options').closest('form')).serialize();
+				$(this).blestaRequest('GET', '<?php echo $this->Html->safe($this->base_uri . "clients/packageoptions/");?>' + pricing_id, params, function(data) {
+					$('.package_options').html(data);
+				},
+				null,
+				{dataType: 'json'});
+			}
+		}
+	});
+</script>

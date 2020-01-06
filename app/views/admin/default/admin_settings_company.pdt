@@ -1,0 +1,70 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+
+		$tabs = array(
+			array('name'=>$this->_("AdminSettings.company.category_company", true), 'current'=>true, 'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "settings/company/"), 'class'=>"ajax")),
+			array('name'=>$this->_("AdminSettings.company.category_system", true), 'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "settings/system/"), 'class'=>"ajax"))			
+		);
+		
+		$this->Widget->clear();
+		$this->Widget->setTabs($tabs);		
+		$this->Widget->create($this->_("AdminSettings.company.boxtitle_settings", true), array('id'=>"admin_settings_company"), $this->Html->ifSet($render_section, null));
+		?>
+		<div class="settings">
+			<div class="left">
+				<div class="section general">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/general/"><?php $this->_("AdminSettings.company.heading_general");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_general");?></p>
+				</div>
+				<div class="section billing">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/billing/"><?php $this->_("AdminSettings.company.heading_billing");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_billing");?></p>
+				</div>
+				<div class="section email">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/emails/"><?php $this->_("AdminSettings.company.heading_emails");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_emails");?></p>
+				</div>
+				<div class="section currencies">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/currencies/"><?php $this->_("AdminSettings.company.heading_currencies");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_currencies");?></p>
+				</div>
+				<div class="section groups">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/groups/"><?php $this->_("AdminSettings.company.heading_clientgroups");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_clientgroups");?></p>
+				</div>
+				<div class="section plugins">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/plugins/"><?php $this->_("AdminSettings.company.heading_plugins");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_plugins");?></p>
+				</div>
+			</div>
+			<div class="right">
+				<div class="section lookandfeel">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/themes/"><?php $this->_("AdminSettings.company.heading_lookandfeel");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_lookandfeel");?></p>
+				</div>
+				<div class="section automation">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/automation/"><?php $this->_("AdminSettings.company.heading_automation");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_automation");?></p>
+				</div>
+				<div class="section modules">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/modules/"><?php $this->_("AdminSettings.company.heading_modules");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_modules");?></p>
+				</div>
+				<div class="section gateways">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/gateways/"><?php $this->_("AdminSettings.company.heading_gateways");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_gateways");?></p>
+				</div>
+				<div class="section taxes">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/taxes/"><?php $this->_("AdminSettings.company.heading_taxes");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_taxes");?></p>
+				</div>
+				<div class="section custom">
+					<h1><a href="<?php echo $this->base_uri;?>settings/company/customfields/"><?php $this->_("AdminSettings.company.heading_customfields");?></a></h1>
+					<p><?php $this->_("AdminSettings.company.text_customfields");?></p>
+				</div>
+			</div>
+		</div>		
+		<?php
+		$this->Widget->end();
+		?>

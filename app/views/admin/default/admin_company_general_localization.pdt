@@ -1,0 +1,68 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();			
+				$this->Widget->create($this->_("AdminCompanyGeneral.localization.boxtitle_localization", true));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyGeneral.localization.text_language", true), "language");?>
+								<?php $this->Form->fieldSelect("language", $this->Html->ifSet($languages), $this->Html->ifSet($vars['language']), array("id"=>"language"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("client_set_lang", "true", ($this->Html->ifSet($vars['client_set_lang']) == "true"), array("id"=>"client_set_lang"));?>
+								<?php $this->Form->label($this->_("AdminCompanyGeneral.localization.text_setlanguage", true), "client_set_lang", array('class'=>"inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyGeneral.localization.text_calendar", true), "calendar_begins");?>
+								<?php $this->Form->fieldRadio("calendar_begins", "sunday", $this->Html->ifSet($vars['calendar_begins'], "sunday") == "sunday", array('id'=>"calendar_begins_sunday"));?>
+								<?php $this->Form->label($this->_("AdminCompanyGeneral.localization.text_sunday", true), "calendar_begins_sunday", array('class'=>"inline"));?>
+								
+								<?php $this->Form->fieldRadio("calendar_begins", "monday", $this->Html->ifSet($vars['calendar_begins'], "sunday") == "monday", array('id'=>"calendar_begins_monday"));?>
+								<?php $this->Form->label($this->_("AdminCompanyGeneral.localization.text_monday", true), "calendar_begins_monday", array('class'=>"inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyGeneral.localization.text_timezone", true), "timezone");?>
+								<?php
+								if (is_array($this->Html->ifSet($timezones)) && !empty($timezones)) {
+								?>
+									<?php $this->Form->fieldSelect("timezone", $this->Html->ifSet($timezones), $this->Html->ifSet($vars['timezone']), array("id"=>"timezone"));?>
+								<?php
+								}
+								else {
+								?>
+									<?php echo $this->Date->format("e");?>
+								<?php
+								}
+								?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyGeneral.localization.text_dateformat", true), "date_format");?>
+								<?php $this->Form->fieldText("date_format", $this->Html->ifSet($vars['date_format']), array("id"=>"date_format"));?>
+								<?php echo $this->Date->cast(time(), $this->Html->_($vars['date_format'], true));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyGeneral.localization.text_datetimeformat", true), "datetime_format");?>
+								<?php $this->Form->fieldText("datetime_format", $this->Html->_($vars['datetime_format'], true), array("id"=>"datetime_format"));?>
+								<?php echo $this->Date->cast(time(), $this->Html->_($vars['datetime_format'], true));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyGeneral.localization.text_country", true), "country");?>
+								<?php $this->Form->fieldSelect("country", $this->Html->ifSet($countries), $this->Html->ifSet($vars['country']), array("id"=>"country"));?>
+							</li>
+						</ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyGeneral.localization.text_localizationsubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

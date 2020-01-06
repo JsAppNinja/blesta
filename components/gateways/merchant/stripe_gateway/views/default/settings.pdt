@@ -1,0 +1,17 @@
+
+	<ul>
+		<li>
+			<?php
+			$this->Form->label($this->_("Stripe_gateway.api_key", true));
+			$this->Form->fieldText("api_key", $this->Html->ifSet($meta['api_key']));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Stripe_gateway.tooltip_api");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("stored", "true", ($this->Html->ifSet($meta['stored'], "false") == "true"), array('id'=>"stored"));
+			$this->Form->label($this->_("Stripe_gateway.stored", true), "stored", array('class'=>"inline"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Stripe_gateway.tooltip_stored");?></div></span>
+		</li>
+	</ul>

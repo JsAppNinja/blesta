@@ -1,0 +1,51 @@
+	<div class="login-box">
+		<h2><?php $this->_("AdminLogin.index.title_adminarea", false, $this->Html->_($system_company->name, true));?></h2>
+		<div class="box">
+			<div class="t"></div>
+			<div class="c">
+				<?php echo $this->Html->ifSet($message);?>
+				<?php
+				$this->Form->create();
+				if ($this->Html->ifSet($vars->forward_to))
+					$this->Form->fieldHidden("forward_to", $vars->forward_to);
+				?>
+					<fieldset>
+						<div class="row">
+							<?php $this->Form->label($this->_("AdminLogin.index.field_username", true), "lb01");?>
+							<span class="text-item"><?php $this->Form->fieldText("username", $this->Html->ifSet($vars->username), array("id"=>"lb01"));?></span><!-- /lb01 end -->
+						</div><!-- /row end -->
+						<div class="row">
+							<?php $this->Form->label($this->_("AdminLogin.index.field_password", true), "lb02");?>
+							<span class="text-item"><?php $this->Form->fieldPassword("password", array("id"=>"lb02"));?></span><!-- /lb02 end -->
+						</div><!-- /row end -->
+						<div class="check-row">
+							<?php $this->Form->fieldCheckbox("remember_me", "true", $this->Html->ifSet($vars->remember_me) == "true", array("id"=>"lb03"));?>
+							<?php $this->Form->label($this->_("AdminLogin.index.field_rememberme", true), "lb03");?><!-- /box end -->
+						</div><!-- /check-row end -->
+						<div class="btn-holder">
+							<a href="#" class="btn"><span><?php $this->_("AdminLogin.index.field_loginsubmit");?></span></a><!-- /btn end -->
+							<p><strong><em><a href="<?php echo $this->base_uri . "login/reset/";?>" id="reset"><?php $this->_("AdminLogin.index.link_resetpassword");?></a></em></strong></p>
+						</div><!-- /btn-holder end -->
+					</fieldset>
+				<?php
+				// Allow form to be submitted on "enter"
+				$this->Form->fieldSubmit("login", "", array('class'=>"hide_submit", 'hidefocus'=>"true"));
+				$this->Form->end();
+				?>
+			</div>
+			<div class="b"></div>
+		</div><!-- /box end -->
+	</div><!-- /login-box end -->
+<?php
+$this->Javascript->setInline('
+	$(document).ready(function() {
+		$(".login-box").blestaVerticalAlign({container:window, offset:2.3});
+		$(window).resize(function() {
+			$(".login-box").blestaVerticalAlign({container:window, offset:2.3});
+		});
+		$("#lb01").focus();
+		$("a.btn").blestaSubmitOnClick();
+	});
+');
+?>
+	

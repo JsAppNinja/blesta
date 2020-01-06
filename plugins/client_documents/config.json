@@ -1,0 +1,15 @@
+{
+	"version": "2.0.1",
+	"name": "Client Documents",
+	"description": "Upload files for download by specific clients.",
+	"authors": [
+		{
+			"name": "Phillips Data, Inc.",
+			"url": "http://blesta.com"
+		},
+		{
+			"name": "Sponsored By PointPub Media",
+			"url": "http://pointpubmedia.com"
+		}
+	]
+}

@@ -1,0 +1,62 @@
+
+	<ul>
+		<li>
+			<?php
+			$this->Form->label($this->_("PaypalPaymentsStandard.account_id", true), "account_id");
+			$this->Form->fieldText("account_id", $this->Html->ifSet($meta['account_id']), array('id'=>"account_id"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("PaypalPaymentsStandard.pay_type", true));
+
+			$this->Form->fieldRadio("pay_type", "both", ($this->Html->ifSet($meta['pay_type'], "both") == "both"), array('id'=>"pay_type_both"));
+			$this->Form->label($this->_("PaypalPaymentsStandard.pay_type_both", true), "pay_type_both", array('class'=>"inline"));
+			
+			$this->Form->fieldRadio("pay_type", "onetime", ($this->Html->ifSet($meta['pay_type'], "both") == "onetime"), array('id'=>"pay_type_onetime"));
+			$this->Form->label($this->_("PaypalPaymentsStandard.pay_type_onetime", true), "pay_type_onetime", array('class'=>"inline"));
+			
+			$this->Form->fieldRadio("pay_type", "subscribe", ($this->Html->ifSet($meta['pay_type'], "both") == "subscribe"), array('id'=>"pay_type_subscribe"));
+			$this->Form->label($this->_("PaypalPaymentsStandard.pay_type_subscribe", true), "pay_type_subscribe", array('class'=>"inline"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("modify", "true", ($this->Html->ifSet($meta['modify'], "false") == "true"), array('id'=>"modify"));
+			$this->Form->label($this->_("PaypalPaymentsStandard.modify", true), "modify", array('class'=>"inline"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("PaypalPaymentsStandard.page_style", true), "page_style");
+			$this->Form->fieldText("page_style", $this->Html->ifSet($meta['page_style']), array('id'=>"page_style"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("PaypalPaymentsStandard.page_style_note");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("PaypalPaymentsStandard.api_username", true), "api_username");
+			$this->Form->fieldText("api_username", $this->Html->ifSet($meta['api_username']), array('id'=>"api_username"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("PaypalPaymentsStandard.api_username_note");?></div></span>			
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("PaypalPaymentsStandard.api_password", true), "api_password");
+			$this->Form->fieldText("api_password", $this->Html->ifSet($meta['api_password']), array('id'=>"api_password"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("PaypalPaymentsStandard.api_signature", true), "api_signature");
+			$this->Form->fieldText("api_signature", $this->Html->ifSet($meta['api_signature']), array('id'=>"api_signature"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("dev_mode", "true", ($this->Html->ifSet($meta['dev_mode'], "false") == "true"), array('id'=>"dev_mode"));
+			$this->Form->label($this->_("PaypalPaymentsStandard.dev_mode", true), "dev_mode", array('class'=>"inline"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("PaypalPaymentsStandard.dev_mode_note");?></div></span>
+		</li>
+	</ul>

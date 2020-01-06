@@ -1,0 +1,125 @@
+
+			<?php
+			$this->Form->create();
+				$this->Form->fieldHidden("order_info", $this->Html->ifSet($order_info));
+				$this->Form->fieldHidden("package_group_id", $this->Html->ifSet($vars->package_group_id));
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("AdminClients.addservice_addon.basic_heading");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.addservice_addon.field_term", true));?>
+						<?php $this->Form->fieldSelect("pricing_id", array('' => $this->_("AppController.select.please", true)) + (array)$this->Html->ifSet($terms), $this->Html->ifSet($vars->pricing_id), array('id' => "pricing_id"));?>
+					</li>
+				</ul>
+			</div>
+			<div class="title_row">
+				<h3><?php $this->_("AdminClients.addservice_addon.module_heading", false, $this->Html->ifSet($module_name));?></h3>
+			</div>
+			<div class="pad">
+                <?php
+                // Set any hidden fields
+                foreach ($fields as $index => $field) {
+                    foreach ($field->fields as $input) {
+                        if ($input->type == "fieldHidden") {
+                            call_user_func_array(array($this->Form, $input->type), $input->params);
+                            unset($fields[$index]);
+                            continue 2;
+                        }
+                    }
+                }
+                ?>
+				<ul>
+					<?php
+					foreach ($fields as $field) {
+					?>
+					<li>
+						<?php
+						// Draw the primary label/field
+						call_user_func_array(array($this->Form, $field->type), $field->params);
+						
+						// Draw each form field associated with this label
+						$tooltips = array();
+						foreach ($field->fields as $input) {
+							
+							// Collect all tooltips to be displayed at the end
+							if ($input->type == "tooltip") {
+								$tooltips[] = $input;
+								continue;
+							}
+							
+							call_user_func_array(array($this->Form, $input->type), $input->params);
+							
+							// Draw the form field's secondary label if checkbox or radio item
+							if (($input->type == "fieldCheckbox" || $input->type == "fieldRadio") && isset($input->label)) {
+								if (isset($input->label->params['attributes']['class'])) {
+									if (is_array($input->label->params['attributes']['class']))
+										$input->label->params['attributes']['class'][] = "inline";
+									else
+										$input->label->params['attributes']['class'] .= " inline";
+								}
+								else
+									$input->label->params['attributes']['class'] = "inline";
+									
+								call_user_func_array(array($this->Form, "label"), $input->label->params);
+							}
+						}
+						
+						foreach ($tooltips as $tooltip) {
+						?>
+						<span class="tooltip">
+							<?php $this->_("AppController.tooltip.text");?>
+							<div><?php $this->Html->_($tooltip->params['message']);?></div>
+						</span>
+						<?php
+						}
+						?>
+					</li>
+					<?php
+					}
+					?>
+				</ul>
+				<?php echo $this->Html->ifSet($html);?>
+			</div>
+
+            <div class="package_options">
+                <?php
+				if (isset($vars->configoptions)) {
+					foreach ($vars->configoptions as $key => $value) {
+						$this->Form->fieldHidden("configoptions[" . $key . "]", $value);
+					}
+				}
+				?>
+			</div>
+            
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("AdminClients.addservice_basic.field_continue");?></a>
+			</div>
+			<?php
+			$this->Form->end();
+			?>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+		// Fetch package options
+		packageOptions();
+		$('#pricing_id').change(function() {
+			packageOptions();
+		});
+
+		function packageOptions() {
+			var pricing_id = $('#pricing_id').val();
+
+			if (pricing_id) {
+				var params = $('[name^="configoptions"]', $('.package_options').closest('form')).serialize();
+				$(this).blestaRequest('GET', '<?php echo $this->Html->safe($this->base_uri . "clients/packageoptions/");?>' + pricing_id, params, function(data) {
+					$('.package_options').html(data);
+				},
+				null,
+				{dataType: 'json'});
+			}
+		}
+	});
+</script>

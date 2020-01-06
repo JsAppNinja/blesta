@@ -1,0 +1,140 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$links = array(
+			array('name'=>$this->_("AdminBilling.invoices.category_open", true) . " <span>(" . $this->Html->_($status_count['open'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "open" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "billing/invoices/open/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminBilling.invoices.category_drafts", true) . " <span>(" . $this->Html->_($status_count['draft'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "draft" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "billing/invoices/draft/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminBilling.invoices.category_closed", true) . " <span>(" . $this->Html->_($status_count['closed'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "closed" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "billing/invoices/closed/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminBilling.invoices.category_voided", true) . " <span>(" . $this->Html->_($status_count['void'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "void" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "billing/invoices/void/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminBilling.invoices.category_pastdue", true) . " <span>(" . $this->Html->_($status_count['past_due'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "past_due" ? true : false), 'highlight'=>true, 'attributes'=>array('href'=>$this->base_uri . "billing/invoices/past_due/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminBilling.invoices.category_pending", true) . " <span>(" . $this->Html->_($status_count['pending'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "pending" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "billing/invoices/pending/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminBilling.invoices.category_recurring", true) . " <span>(" . $this->Html->_($status_count['recurring'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "recurring" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "billing/invoices/recurring/", 'class'=>"ajax"))
+		);
+		
+		$this->Widget->clear();
+		
+		$this->Widget->setLinks($links);
+		$this->Widget->create($this->_("AdminBilling.invoices.boxtitle_invoices", true), array('id'=>"admin_billing_invoices"), $this->Html->ifSet($render_section, null));
+		
+		if ($this->Html->ifSet($invoices, false) && (($num_invoices = count($invoices)) > 0)) {
+			if ($status == "recurring") {
+			?>
+			<table class="table">
+				<tr class="heading_row">
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=id&order=" . ($sort == "id" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "id" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_recurinvoice");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=client_id_code&order=" . ($sort == "client_id_code" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "client_id_code" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_client");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=subtotal&order=" . ($sort == "subtotal" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "subtotal" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_amount");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=term&order=" . ($sort == "term" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "term" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_term");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=duration&order=" . ($sort == "duration" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "duration" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_duration");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=count&order=" . ($sort == "count" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "count" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_count");?></a></span></td>
+					<td class="last"><span><?php $this->_("AdminBilling.invoices.heading_options");?></span></td>
+				</tr>
+				<?php
+				// Display all invoices
+				for ($i=0; $i<$num_invoices; $i++) {
+				?>
+				<tr class="<?php echo $this->Html->concat(" ", ($i%2 == 1) ? "odd_row" : "");?>">
+					<td><?php echo $this->Html->_($invoices[$i]->id, true);?></td>
+					<td><span class="tooltip quiet"><a href="<?php echo $this->base_uri . "clients/view/" . $this->Html->_($invoices[$i]->client_id, true);?>"><?php $this->Html->_($invoices[$i]->client_id_code);?></a><div><?php echo $this->Html->_($invoices[$i]->client_first_name, true) . " " . $this->Html->_($invoices[$i]->client_last_name, true);?><br /><?php $this->Html->_($invoices[$i]->client_company);?></div></span></td>
+					<td>
+						<?php
+						if ($this->Html->ifSet($invoices[$i]->taxable))
+							$this->_("AdminBilling.invoices.subtotal_w_tax", false, $this->CurrencyFormat->format($this->Html->_($invoices[$i]->subtotal, true), $this->Html->_($invoices[$i]->currency, true), array('html_code'=>true)));
+						else
+							echo $this->CurrencyFormat->format($this->Html->_($invoices[$i]->subtotal, true), $this->Html->_($invoices[$i]->currency, true), array('html_code'=>true));
+						?>
+					</td>
+					<td><?php $this->_($this->Html->ifSet($invoices[$i]->term) > 1 ? "AdminBilling.invoices.term_" . $this->Html->ifSet($invoices[$i]->period) . "_plural" : "AdminBilling.invoices.term_" . $this->Html->ifSet($invoices[$i]->period), false, $invoices[$i]->term);?></td>
+					<td><?php $this->_($this->Html->ifSet($invoices[$i]->duration) != null ? "AdminBilling.invoices.duration_finite" : "AdminBilling.invoices.duration_infinite", false, $this->Html->_($invoices[$i]->duration, true));?></td>
+					<td><?php $this->Html->_($invoices[$i]->count);?></td>
+					<td><a href="<?php echo $this->base_uri . "clients/editrecurinvoice/" . $this->Html->_($invoices[$i]->client_id, true) . "/" . $this->Html->_($invoices[$i]->id, true) . "/";?>"><?php $this->_("AdminBilling.invoices.option_edit");?></a></td>
+				</tr>
+				<?php
+				}
+				?>
+			</table>			
+			<?php
+			}
+			else {
+			?>
+			<table class="table">
+				<tr class="heading_row">
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=id_code&order=" . ($sort == "id_code" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "id_code" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_invoice");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=client_id_code&order=" . ($sort == "client_id_code" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "client_id_code" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_client");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=total&order=" . ($sort == "total" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "total" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_amount");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=paid&order=" . ($sort == "paid" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "paid" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_paid");?></a></span></td>
+					<?php
+					if ($status == "closed") {
+					?>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=date_closed&order=" . ($sort == "date_closed" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_closed" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_dateclosed");?></a></span></td>
+					<?php
+					}
+					else {
+					?>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=due&order=" . ($sort == "due" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "due" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_due");?></a></span></td>
+					<?php
+					}
+					?>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=date_billed&order=" . ($sort == "date_billed" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_billed" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_datebilled");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "billing/invoices/" . $this->Html->ifSet($status) . "/?sort=date_due&order=" . ($sort == "date_due" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_due" ? " " . $order : "");?>"><?php $this->_("AdminBilling.invoices.heading_datedue");?></a></span></td>
+					<td class="last"><span><?php $this->_("AdminBilling.invoices.heading_options");?></span></td>
+				</tr>
+				<?php
+				// Display all invoices
+				for ($i=0; $i<$num_invoices; $i++) {
+				?>
+				<tr class="<?php echo $this->Html->concat(" ", ($i%2 == 1) ? "odd_row" : "", "expand", "invoice_applied");?>">
+					<td><?php echo $this->Html->_($invoices[$i]->id_code, true);?></td>
+					<td><span class="tooltip quiet"><a href="<?php echo $this->base_uri . "clients/view/" . $this->Html->_($invoices[$i]->client_id, true);?>"><?php $this->Html->_($invoices[$i]->client_id_code);?></a><div><?php echo $this->Html->_($invoices[$i]->client_first_name, true) . " " . $this->Html->_($invoices[$i]->client_last_name, true);?><br /><?php $this->Html->_($invoices[$i]->client_company);?></div></span></td>
+					<td><?php echo $this->CurrencyFormat->format($invoices[$i]->total, $invoices[$i]->currency, array('html_code'=>true));?></td>
+					<td><?php echo $this->CurrencyFormat->format($invoices[$i]->paid, $invoices[$i]->currency, array('html_code'=>true));?></td>
+					<?php
+					if ($status == "closed") {
+					?>
+					<td><?php echo $this->Date->cast($invoices[$i]->date_closed);?></td>
+					<?php
+					}
+					else {
+					?>
+					<td><?php echo $this->CurrencyFormat->format($invoices[$i]->due, $invoices[$i]->currency, array('html_code'=>true));?></td>
+					<?php
+					}
+					?>
+					<td><?php echo $this->Date->cast($invoices[$i]->date_billed);?></td>
+					<td><?php echo $this->Date->cast($invoices[$i]->date_due);?></td>
+					<td><a href="<?php echo $this->base_uri . "clients/editinvoice/" . $this->Html->_($invoices[$i]->client_id, true) . "/" . $this->Html->_($invoices[$i]->id, true) . "/";?>"><?php $this->_("AdminBilling.invoices.option_edit");?></a>, <a href="<?php echo $this->base_uri . "clients/viewinvoice/" . $this->Html->_($invoices[$i]->client_id, true) . "/" . $this->Html->_($invoices[$i]->id, true) . "/";?>"><?php $this->_("AdminBilling.invoices.option_view");?></a><?php if ($status == "open" || $status == "past_due") { ?>, <a href="<?php echo $this->Html->safe($this->base_uri . "clients/makepayment/" . $this->Html->ifSet($invoices[$i]->client_id) . "/" . $this->Html->ifSet($invoices[$i]->id) . "/");?>"><?php $this->_("AdminBilling.invoices.option_pay");?></a><?php } // endif ?></td>
+				</tr>
+				<tr class="expand_details" id="invoices_<?php $this->Html->_($invoices[$i]->id);?>">
+					<td colspan="8" class="subtable">
+					</td>
+				</tr>
+				<?php
+				}
+				?>
+			</table>			
+			<?php
+			}
+			$this->Pagination->build();
+		}
+		else {
+		?>
+		<div class="empty_section">
+			<div class="empty_box">
+				<?php $this->_("AdminBilling.invoices.no_results");?>
+			</div>
+		</div>
+		<?php
+		}
+		
+		$this->Widget->end();
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		// Fetch all transactions applied to the given invoices
+		$(".invoice_applied").click(function() {
+			$(this).blestaUpdateRow("<?php echo $this->Html->_($this->base_uri, true) . "billing/invoiceapplied/";?>" + $(this).next("tr").attr("id").split("_")[1], ".subtable");
+		});
+	});
+</script>

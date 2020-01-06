@@ -1,0 +1,136 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$tabs = array();
+				foreach ($this->Html->ifSet($theme_types, array()) as $type=>$name) {
+					$tabs[] = array('name' => $name, 'current'=>($this->Html->ifSet($selected_type) == $type), 'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "settings/company/themes/index/" . $this->Html->ifSet($type))));
+				}
+				
+				$this->Widget->clear();
+				$this->Widget->setTabs($tabs);
+				$this->Widget->create($this->_("AdminCompanyThemes.index.boxtitle_themes", true), array('id'=>"admin_company_general_themes"), $this->Html->ifSet($render_section, null));
+				$this->Form->create($this->Html->safe($this->base_uri . "settings/company/themes/index/" . $this->Html->ifSet($selected_type) . "/"));
+				?>
+				
+				<div class="inner">
+					<div class="links_row">
+						<a class="btn_right" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/themes/add/" . $this->Html->ifSet($selected_type) . "/");?>"><span><?php $this->_("AdminCompanyThemes.index.categorylink_addtheme");?></span></a>
+					</div>
+					
+					<?php
+					if ($this->Html->ifSet($themes, false)) {
+					?>
+					<table class="table" id="themes">
+						<tr class="heading_row">
+							<td></td>
+							<td><?php $this->_("AdminCompanyThemes.index.heading_color");?></td>
+							<td><?php $this->_("AdminCompanyThemes.index.heading_name");?></td>
+							<td class="last"><?php $this->_("AdminCompanyThemes.index.heading_options");?></td>
+						</tr>
+						<?php
+						// Display theme row
+						$i = 0;
+						foreach ($themes as $theme) {
+						?>
+						<tr<?php echo (($i++%2)==1) ? " class=\"odd_row\"" : "";?>>
+							<td class="extra_small"><?php $this->Form->fieldRadio("id", $this->Html->ifSet($theme->id, null), ($this->Html->ifSet($theme->id, true) == $this->Html->ifSet($vars->id, false)));?></td>
+							<td>
+								<ul>
+									<li class="colortheme">
+										<div>
+										<?php
+										foreach ($this->Html->ifSet($colors, array()) as $color) {
+											if (count($color) > 1) {
+												// Show gradient top/bottom
+												$top_color = $this->Html->ifSet($theme->colors[$color[0]]);
+												$bot_color = $this->Html->ifSet($theme->colors[$color[1]]);
+												$style = str_replace(array("theme_top_color", "theme_bottom_color"), array($top_color, $bot_color), "
+													background-color:#theme_top_color;
+													background: -moz-linear-gradient(top,  #theme_top_color 0%, #theme_bottom_color 100%);
+													background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#theme_top_color), color-stop(100%,#theme_bottom_color));
+													background: -webkit-linear-gradient(top,  #theme_top_color 0%,#theme_bottom_color 100%);
+													background: -o-linear-gradient(top,  #theme_top_color 0%,#theme_bottom_color 100%);
+													background: -ms-linear-gradient(top,  #theme_top_color 0%,#theme_bottom_color 100%);
+													background: linear-gradient(to bottom,  #theme_top_color 0%,#theme_bottom_color 100%);
+													filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#theme_top_color', endColorstr='#theme_bottom_color',GradientType=0 );
+												");
+											}
+											else {
+												// Show single color
+												$style = "background-color:#" . $this->Html->ifSet($theme->colors[$color[0]]) . ";";
+											}
+											?>
+											<span style="<?php echo $this->Html->safe($style);?>"></span>
+											<?php
+										}
+										?>
+										</div>
+									</li>
+								</ul>
+							</td>
+							<td><?php $this->Html->_($theme->name);?></td>
+							<td>
+								<?php
+								if ($theme->company_id != null) {
+								?>
+									<a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/themes/edit/" . $this->Html->ifSet($theme->id, true) . "/");?>"><?php $this->_("AdminCompanyThemes.index.option_edit");?></a>,
+                                    <a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/themes/export/" . $this->Html->ifSet($theme->id, true) . "/");?>"><?php $this->_("AdminCompanyThemes.index.option_export");?></a>,
+									<a id="theme_<?php $this->Html->_($theme->id);?>" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/themes/delete/" . $this->Html->ifSet($theme->id, true) . "/");?>" class="manage delete_theme" rel="<?php echo $this->Html->safe($this->_("AdminCompanyThemes.index.confirm_deletetheme", true));?>"><?php $this->_("AdminCompanyThemes.index.option_delete");?></a>
+								<?php
+								}
+                                else {
+                                ?>
+                                    <a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/themes/export/" . $this->Html->ifSet($theme->id, true) . "/");?>"><?php $this->_("AdminCompanyThemes.index.option_export");?></a>
+                                <?php
+                                }
+								?>
+							</td>
+						</tr>
+						<?php
+						}
+						?>
+					</table>
+					<?php
+					}
+					else {
+					?>
+					<div class="empty_section">
+						<div class="empty_box">
+							<?php $this->_("AdminCompanyThemes.index.no_results");?>
+						</div>
+					</div>
+					<?php
+					}
+					?>
+					
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyThemes.index.field_themessubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				
+				// Set delete forms for each theme
+				foreach ($this->Html->ifSet($themes, array()) as $theme) {
+					if ($theme->company_id != null) {
+						$this->Form->create($this->base_uri . "settings/company/themes/delete/", array('id' => "theme_form_" . $this->Html->ifSet($theme->id)));
+						$this->Form->fieldHidden("id", $this->Html->ifSet($theme->id, true));
+						$this->Form->end();
+					}
+				}
+				
+				$this->Widget->end();
+				?>
+			</section>
+		</div>
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	$('a.delete_theme[rel]').each(function() {
+		var theme_id = $(this).attr('id').split('_')[1];
+		$(this).blestaModalConfirm({base_url: '" . $this->Html->safe($this->base_uri) . "', close: '" . $this->_("AppController.modal.text_close", true) . "', submit: true, form:$('#theme_form_' + theme_id)});
+	});
+});
+");
+?>

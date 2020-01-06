@@ -1,0 +1,46 @@
+<?php
+if (!empty($notes)) {
+?>
+	<article class="sticky_note_box">
+		<ul>
+			<?php
+			// Show initial number of notes
+			$num_notes = count($notes);
+			for ($i=0; $i<min($this->Html->_($number_notes_to_show, true), $num_notes); $i++) {
+			?>
+			<li>
+                <a href="<?php echo $this->Html->safe($this->base_uri . "clients/editnote/" . $this->Html->ifSet($notes[$i]->client_id) . "/" . $this->Html->ifSet($notes[$i]->id) . "/");?>"><?php echo $this->Date->cast($this->Html->_($notes[$i]->date_updated, true)) . $this->_("AdminClients.stickynotes.date_separator", true) . " " . $this->Html->_($notes[$i]->title, true);?></a>
+                <div class="unstick" style="display:none;">
+                    <a href="<?php echo $this->base_uri . "clients/stickynotes/" . $this->Html->_($notes[$i]->client_id, true) . "/" . $this->Html->_($notes[$i]->id, true) . "/";?>"><?php $this->_("AdminClients.stickynotes.text_unstick");?></a>
+                </div>
+            </li>
+			<?php
+			}
+			?>
+		</ul>
+		<?php
+		// Show more notes
+		if ($num_notes > $this->Html->_($number_notes_to_show, true)) {
+		?>
+		<ul class="more_sticky_notes"<?php echo ($this->Html->_($show_more, true) == "true") ? "" : " style=\"display:none;\"";?>>
+			<?php
+			for ($i=$this->Html->_($number_notes_to_show, true); $i<$num_notes; $i++) {
+			?>
+			<li>
+                <a href="<?php echo $this->Html->safe($this->base_uri . "clients/editnote/" . $this->Html->ifSet($notes[$i]->client_id) . "/" . $this->Html->ifSet($notes[$i]->id) . "/");?>"><?php echo $this->Date->cast($this->Html->_($notes[$i]->date_updated, true)) . $this->_("AdminClients.stickynotes.date_separator", true) . " " . $this->Html->_($notes[$i]->title, true);?></a>
+                <div class="unstick" style="display:none;">
+                    <a href="<?php echo $this->base_uri . "clients/stickynotes/" . $this->Html->_($notes[$i]->client_id, true) . "/" . $this->Html->_($notes[$i]->id, true) . "/";?>"><?php $this->_("AdminClients.stickynotes.text_unstick");?></a>
+                </div>
+            </li>
+			<?php
+			}
+			?>
+		</ul>
+		<h4><a id="more_sticky_notes" class="<?php echo ($this->Html->_($show_more, true) == "true") ? "hide_content" : "show_content";?>" href="#"><?php $this->_("AdminClients.stickynotes.text_" . (($this->Html->_($show_more, true) == "true") ? "less" : "more"));?></a></h4>
+		<?php
+		}
+		?>
+	</article>
+<?php
+}
+?>

@@ -1,0 +1,8 @@
+
+    <?php
+    $disable_credit = (!empty($credit) ? array() : array('disabled' => "disabled"));
+    $this->Form->fieldRadio("payment_type", "record", ($this->Html->ifSet($vars->payment_type, "record") == "record" || empty($credit)), array('id'=>"payment_type_record", 'class'=>"payment_type"));
+    $this->Form->label($this->_("AdminClients.recordpayment.field_payment_type_record", true), "payment_type_record", array('class'=>"inline"));
+    $this->Form->fieldRadio("payment_type", "credit", ($this->Html->ifSet($vars->payment_type) == "credit" && !empty($credit)), array_merge(array('id'=>"payment_type_credit", 'class'=>"payment_type"), $disable_credit));
+    $this->Form->label($this->_("AdminClients.recordpayment.field_payment_type_credit", true, $this->CurrencyFormat->format($this->Html->ifSet($credit, 0), $this->Html->ifSet($currency))), "payment_type_credit", array('class'=>"inline"));
+    ?>

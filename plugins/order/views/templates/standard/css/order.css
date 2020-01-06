@@ -1,0 +1,70 @@
+.table-curved tbody>tr>td.price-col {
+  vertical-align: bottom;
+  text-align: right;
+}
+
+.totals-box {
+  margin-top: 20px;
+}
+
+.totals-box table {
+  margin-bottom: 20px;
+  text-align: right;
+  border: none;
+}
+
+.totals-box table>tbody>tr>td {
+  border: none;
+}
+
+.whois {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.whois div.checkbox label {
+  padding-right: 5px;
+}
+
+.whois div.tlds, div.search {
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+}
+
+.whois div.tlds {
+  margin-bottom: 0;
+}
+
+/* Begin for order pages */
+
+.panel-steps {
+	background: #ffffff;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#ebebeb));
+	background: -webkit-linear-gradient(#ffffff, #ebebeb);
+	background: -moz-linear-gradient(#ffffff, #ebebeb);
+	background: -ms-linear-gradient(#ffffff, #ebebeb);
+	background: -o-linear-gradient(#ffffff, #ebebeb);
+	background: linear-gradient(#ffffff, #ebebeb);
+	-pie-background: linear-gradient(#ffffff, #ebebeb);
+	position: relative;
+	behavior: url(../js/PIE.htc);
+}
+
+.panel-steps i {
+	opacity: 0.3;
+}
+
+.panel-steps p {
+	opacity: 0.7;
+}
+
+.table>tbody>tr.sub-item>td {
+  border-top: none;
+}
+
+#login_box #login_message .alert {
+	margin-top: 10px;
+}
+
+/* End for order pages */

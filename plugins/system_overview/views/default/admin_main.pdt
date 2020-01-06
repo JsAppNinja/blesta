@@ -1,0 +1,14 @@
+
+		<?php
+		$this->Widget->clear();
+		$this->Widget->setStyleSheet($this->view_dir . "css/styles.css", array('id' => "system_overview_styles"));
+		$this->Widget->setWidgetButton("arrow");
+		$this->Widget->setWidgetButton(array('href'=>$this->base_uri . "widget/system_overview/admin_main/settings/", 'class'=>"ajax setting"));
+		$this->Widget->create($this->_("AdminMain.index.boxtitle_overview", true), array('id'=>"widget_system_overview_admin_main"), $this->Html->ifSet($render_section, null));
+		?>
+		<div id="overview">
+			<?php echo $this->Html->ifSet($content);?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

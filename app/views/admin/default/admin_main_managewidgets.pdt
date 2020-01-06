@@ -1,0 +1,93 @@
+<?php
+echo $this->Html->ifSet($message);
+?>
+<div class="common_box" style="margin-bottom: 0px;">
+	<div class="content_section">
+		<p><?php $this->_("AdminMain.managewidgets.text_widgets");?></p>
+		<div class="inner" style="height: 200px; overflow: hidden; overflow-y: auto;">
+			<?php
+			$this->Form->create();
+			?>
+			<table>
+				<tr>
+					<td id="widgets_on" class="connected_widgets">
+					<?php
+					$num_widgets = count($displayed_widgets);
+					foreach ($displayed_widgets as $key => $widget) {
+					?>
+					<div id="<?php $this->Html->_($key);?>" class="itemlist manage_widgets">
+						<div class="logo" style="background:url(<?php $this->Html->_($widget->logo);?>) no-repeat 0 0; background-position: 0% 50%;">&nbsp;</div>
+						<ul>
+							<li><strong><?php $this->Html->_($widget->name);?></strong>, <?php $this->_("AdminMain.managewidgets.text_version", false, $widget->installed_version);?></li>
+							<li>
+								<?php $this->_("AdminMain.managewidgets.text_author");?>
+								<?php
+								foreach ((array)$this->Html->ifSet($widget->authors) as $author) {
+								?>
+								<a href="<?php $this->Html->_($author['url']);?>" target="_blank"><?php $this->Html->_($author['name']);?></a>
+								<?php
+								}
+								?>
+							</li>
+						</ul>
+						<div class="clear"></div>
+					</div>
+					<?php
+					}
+					?>
+					</td>
+					<td style="width: 2%;"></td>
+					<td id="widgets_off" class="connected_widgets">
+					<?php
+					$num_widgets = count($available_widgets);
+					foreach ($available_widgets as $key => $widget) {
+					?>
+					<div id="<?php $this->Html->_($key);?>" class="itemlist manage_widgets">
+						<div class="logo" style="background:url(<?php $this->Html->_($widget->logo);?>) no-repeat 0 0; background-position: 0% 50%;">&nbsp;</div>
+						<ul>
+							<li><strong><?php $this->Html->_($widget->name);?></strong>, <?php $this->_("AdminMain.managewidgets.text_version", false, $widget->installed_version);?></li>
+							<li>
+								<?php $this->_("AdminMain.managewidgets.text_author");?>
+								<?php
+								foreach ((array)$this->Html->ifSet($widget->authors) as $author) {
+								?>
+								<a href="<?php $this->Html->_($author['url']);?>" target="_blank"><?php $this->Html->_($author['name']);?></a>
+								<?php
+								}
+								?>
+							</li>
+						</ul>
+						<div class="clear"></div>
+					</div>
+					<?php
+					}
+					?>
+					</td>
+				</tr>
+			</table>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("#widgets_on, #widgets_off").blestaSortable(null, {
+		connectWith: '.connected_widgets',
+		axis: false,
+		containment: false,
+		cursor: "move",
+		opacity: 0.8,
+		update: function(event, ui) {
+			var key = $(this).attr('id');
+			var fields = $(this).closest("form").serialize();
+			
+			// Ajax request to update displayed widgets
+			$(this).blestaRequest("post", "<?php echo $this->Html->safe($this->base_uri . "main/managewidgets/");?>", $(this).sortable('serialize', {key: key + "[]", expression:/(.*)/}) + "&" + fields);
+		}
+	});
+});
+</script>

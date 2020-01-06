@@ -1,0 +1,94 @@
+						<p><?php $this->_("AdminCompanyBilling.notices.text_notices");?>						
+						<ul>
+							<li>
+								<?php
+								$this->Form->fieldCheckbox("send_payment_notices", "true", ($this->Html->ifSet($vars['send_payment_notices'], "false") == "true"), array('id'=>"send_payment_notices"));
+								$this->Form->label($this->_("AdminCompanyBilling.notices.field_send_payment_notices", true), "send_payment_notices", array("class"=>"inline"));
+								?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyBilling.!tooltip.send_payment_notices");?></div></span>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyBilling.notices.field_first_notice", true), "notice1");
+								
+								// Determine which notice1_type to select, before or after
+								$positive = true;
+								if (!empty($vars['notice1'])) {
+									if (is_numeric($vars['notice1'])) {
+										if ($vars['notice1'] < 0) {
+											$vars['notice1'] *= -1;
+											$positive = false;
+										}
+									}
+								}						
+								
+								$this->Form->fieldSelect("notice1", $this->Html->ifSet($notice_range), $this->Html->_($vars['notice1'], true), array("id"=>"notice1"));
+								$this->Form->fieldRadio("notice1_type", "-1", !$positive, array('id'=>"notice1_before"));
+								$this->Form->label($this->_("AdminCompanyBilling.notices.text_before", true), "notice1_before", array('class'=>"inline"));
+								$this->Form->fieldRadio("notice1_type", "1", $positive, array('id'=>"notice1_after"));
+								$this->Form->label($this->Html->concat(" ", $this->_("AdminCompanyBilling.notices.text_after", true), $this->_("AdminCompanyBilling.notices.text_inv_duedate", true)), "notice1_after", array('class'=>"inline"));
+								?>
+							</li>
+							<li>
+								<h4 class="icon edit"><span><a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/emails/edittemplate/" . $this->Html->ifSet($email_templates['invoice_notice_first']) . "/");?>"><?php $this->_("AdminCompanyBilling.notices.text_edit_template");?></a></span></h4>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyBilling.notices.field_second_notice", true), "notice2");
+								
+								// Determine which notice2_type to select, before or after
+								$positive = true;
+								if (!empty($vars['notice2'])) {
+									if (is_numeric($vars['notice2'])) {
+										if ($vars['notice2'] < 0) {
+											$vars['notice2'] *= -1;
+											$positive = false;
+										}
+									}
+								}
+								
+								$this->Form->fieldSelect("notice2", $this->Html->ifSet($notice_range), $this->Html->_($vars['notice2'], true), array("id"=>"notice2"));
+								$this->Form->fieldRadio("notice2_type", "-1", !$positive, array('id'=>"notice2_before"));
+								$this->Form->label($this->_("AdminCompanyBilling.notices.text_before", true), "notice2_before", array('class'=>"inline"));
+								$this->Form->fieldRadio("notice2_type", "1", $positive, array('id'=>"notice2_after"));
+								$this->Form->label($this->Html->concat(" ", $this->_("AdminCompanyBilling.notices.text_after", true), $this->_("AdminCompanyBilling.notices.text_inv_duedate", true)), "notice2_after", array('class'=>"inline"));
+								?>
+							</li>
+							<li>
+								<h4 class="icon edit"><span><a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/emails/edittemplate/" . $this->Html->ifSet($email_templates['invoice_notice_second']) . "/");?>"><?php $this->_("AdminCompanyBilling.notices.text_edit_template");?></a></span></h4>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyBilling.notices.field_third_notice", true), "notice3");
+								
+								// Determine which notice3_type to select, before or after
+								$positive = true;
+								if (!empty($vars['notice3'])) {
+									if (is_numeric($vars['notice3'])) {
+										if ($vars['notice3'] < 0) {
+											$vars['notice3'] *= -1;
+											$positive = false;
+										}
+									}
+								}
+								
+								$this->Form->fieldSelect("notice3", $this->Html->ifSet($notice_range), $this->Html->_($vars['notice3'], true), array("id"=>"notice3"));
+								$this->Form->fieldRadio("notice3_type", "-1", !$positive, array('id'=>"notice3_before"));
+								$this->Form->label($this->_("AdminCompanyBilling.notices.text_before", true), "notice3_before", array('class'=>"inline"));
+								$this->Form->fieldRadio("notice3_type", "1", $positive, array('id'=>"notice3_after"));
+								$this->Form->label($this->Html->concat(" ", $this->_("AdminCompanyBilling.notices.text_after", true), $this->_("AdminCompanyBilling.notices.text_inv_duedate", true)), "notice3_after", array('class'=>"inline"));
+								?>
+							</li>
+							<li>
+								<h4 class="icon edit"><span><a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/emails/edittemplate/" . $this->Html->ifSet($email_templates['invoice_notice_third']) . "/");?>"><?php $this->_("AdminCompanyBilling.notices.text_edit_template");?></a></span></h4>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyBilling.notices.field_notice_pending_autodebit", true), "notice_pending_autodebit");
+								$this->Form->fieldSelect("notice_pending_autodebit", $this->Html->ifSet($notice_range), $this->Html->_($vars['notice_pending_autodebit'], true), array("id"=>"notice_pending_autodebit"));
+								?>
+							</li>
+							<li>
+								<h4 class="icon edit"><span><a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/emails/edittemplate/" . $this->Html->ifSet($email_templates['auto_debit_pending']) . "/");?>"><?php $this->_("AdminCompanyBilling.notices.text_edit_template");?></a></span></h4>
+							</li>
+						</ul>

@@ -1,0 +1,66 @@
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$links = array(
+			array('name'=> $this->_("AdminMain.index.boxtitle_client", true, $this->Html->_($client->id_code, true), $this->Html->_($client->first_name, true), $this->Html->_($client->last_name, true)), 'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "clients/view/" . $this->Html->ifSet($client->id))))
+		);
+		$link_buttons = array(
+			array('name'=>$this->_("AdminMain.index.categorylink_adddocument", true), 'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "plugin/client_documents/admin_main/add/" . $client->id)))
+		);
+		
+		$this->Widget->clear();
+		$this->Widget->setLinks($links);
+		$this->Widget->setLinkButtons($link_buttons);
+		$this->Widget->create($this->_("AdminMain.index.boxtitle_documents", true), array('id'=>"admin_main"), $this->Html->ifSet($render_section, null));
+		
+		if ($this->Html->ifSet($documents, false) && ($num_documents = count($documents)) > 0) {
+		?>
+		<table class="table">
+			<tr class="heading_row">
+				<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "plugin/client_documents/admin_main/index/" . $this->Html->ifSet($client->id) . "/?sort=name&order=" . ($sort == "name" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "name" ? " " . $order : "");?>"><?php $this->_("AdminMain.index.heading_name");?></a></span></td>
+				<td><?php $this->_("AdminMain.index.heading_description");?></td>
+				<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "plugin/client_documents/admin_main/index/" . $this->Html->ifSet($client->id) . "/?sort=date_added&order=" . ($sort == "date_added" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_added" ? " " . $order : "");?>"><?php $this->_("AdminMain.index.heading_date_added");?></a></span></td>
+				<td class="last"><?php $this->_("AdminMain.index.heading_options");?></td>
+			</tr>
+			<?php
+			$i=0;
+			foreach ($documents as $document) {
+			?>
+			<tr class="<?php echo $this->Html->concat(" ", ($i++%2 == 1) ? "odd_row" : "");?>">
+				<td><?php $this->Html->_($document->name);?></td>
+				<td><?php $this->Html->_($document->description);?></td>
+				<td><?php echo $this->Date->cast($document->date_added);?></td>
+				<td>
+					<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/client_documents/admin_main/download/" . $this->Html->ifSet($document->id));?>"><?php $this->_("AdminMain.index.option_download");?></a>,
+					<?php
+					$this->Form->create($this->base_uri . "plugin/client_documents/admin_main/delete/" . $this->Html->ifSet($document->id));
+					$this->Form->fieldHidden("id", $this->Html->ifSet($document->id));
+					?>
+					<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/client_documents/admin_main/delete/" . $this->Html->ifSet($document->id));?>" class="manage" rel="<?php $this->_("AdminMain.modal.delete_document");?>"><?php $this->_("AdminMain.index.option_delete");?></a>
+					<?php
+					$this->Form->end();
+					?>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+		</table>
+		<?php
+		}
+		else {
+		?>
+		<div class="empty_section">
+			<div class="empty_box">
+				<?php $this->_("AdminMain.index.no_results");?>
+			</div>
+		</div>
+		<?php
+		}
+		$this->Widget->end();
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#admin_main a.manage[rel]').blestaModalConfirm({base_url: '<?php echo $this->Html->safe($this->base_uri);?>', close: '<?php $this->_("AppController.modal.text_close");?>', submit: true});
+	});
+</script>

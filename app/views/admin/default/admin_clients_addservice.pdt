@@ -1,0 +1,33 @@
+
+		<?php		
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminClients.addservice.boxtitle_addservice", true, $this->Html->ifSet($package->name)));
+		?>
+		
+		<div class="inner">
+		<?php
+		if (isset($package_options)) {
+			$this->Form->create(null, array('method'=>"get"));
+			?>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminClients.addservice.field_package", true), "group_package");
+						$this->Form->fieldSelect("group_package", $package_options, $this->Html->ifSet($vars->package_id), array('id'=>"group_package"), $this->Html->ifSet($package_attributes, array()));
+						?>
+					</li>
+				</ul>
+			</div>
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminClients.addservice.field_continue");?></a></div>
+			<?php
+			$this->Form->end();
+		}
+		else {
+			echo $this->Html->ifSet($form);
+		}
+		?>
+		</div>
+		<?php		
+		$this->Widget->end();
+		?>

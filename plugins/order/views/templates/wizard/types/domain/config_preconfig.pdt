@@ -1,0 +1,8 @@
+			<div class="navfix"></div>
+			<div class="col-md-12">
+				<?php
+				echo $this->Html->ifSet($message);
+				
+				echo $content;
+				?>
+			</div>

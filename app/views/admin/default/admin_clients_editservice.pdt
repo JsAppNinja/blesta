@@ -1,0 +1,16 @@
+
+		<?php
+		
+		$this->Widget->clear();
+		$this->Widget->setTabs($tabs);	
+		$this->Widget->create($this->_("AdminClients.editservice.boxtitle_editservice", true, $this->Html->ifSet($package->name), $this->Html->ifSet($service->name)), array('id'=>"admin_clients_editservice"), $this->Html->ifSet($render_section, null));
+		?>
+		
+		<div class="inner">
+			
+			<?php echo $this->Html->ifSet($form);?>
+			
+		</div>
+		<?php		
+		$this->Widget->end();
+		?>

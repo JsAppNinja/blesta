@@ -1,0 +1,79 @@
+		<?php
+		if (!empty($package_option->values)) {
+			$display_class = ($this->Html->ifSet($package_option->type) == "quantity") ? "" : " style=\"display:none;\"";
+		?>
+		<div class="group_title_row">
+			<div class="title_row first">
+				<h3><?php $this->_("AdminPackageOptions.optioninfo.heading_options");?></h3>
+			</div>
+			<table class="table option_table">
+				<thead>
+					<tr class="heading_row">
+						<td></td>
+						<td><span><?php $this->_("AdminPackageOptions.optioninfo.heading_name");?></span></td>
+						<td><span><?php $this->_("AdminPackageOptions.optioninfo.heading_value");?></span></td>
+						<td<?php echo $display_class;?>><span><?php $this->_("AdminPackageOptions.optioninfo.heading_min");?></span></td>
+						<td<?php echo $display_class;?>><span><?php $this->_("AdminPackageOptions.optioninfo.heading_max");?></span></td>
+						<td<?php echo $display_class;?>><span><?php $this->_("AdminPackageOptions.optioninfo.heading_step");?></span></td>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+				// Display all package options
+				$i = 0;
+				foreach ($this->Html->ifSet($package_option->values, array()) as $value) {
+				?>
+					<tr class="<?php echo $this->Html->concat(" ", ($i++%2 == 1) ? "odd_row" : "", "option_row");?>" id="values_<?php $this->Html->_($value->id);?>">
+						<td style="width:17px;"><div class="handle" style="display:none;"></div></td>
+						<td><?php $this->Html->_($value->name);?></td>
+						<td><?php $this->Html->_($value->value);?></td>
+						<td<?php echo $display_class;?>><?php $this->Html->_($value->min);?></td>
+						<td<?php echo $display_class;?>><?php $this->Html->_($value->max);?></td>
+						<td<?php echo $display_class;?>><?php $this->Html->_($value->step);?></td>
+					</tr>
+				<?php
+				}
+				?>
+				</tbody>
+			</table>
+		</div>
+		<?php
+		}
+		else {
+		?>
+		<div class="empty_section">
+			<div class="empty_box"><?php $this->_("AdminPackageOptions.optioninfo.no_results");?></div>
+		</div>
+		<?php
+		}
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Allow sort of options
+		var options = {
+			// Sort items on the list
+			update: function(event, ui) {
+				var params = {
+					option_id: $(this).closest("tr.expand_details").attr("id").replace("package_option_", ""),
+					_csrf_token: "<?php echo $this->Form->getCsrfToken();?>",
+				}
+				
+				$(this).blestaRequest("POST", '<?php echo $this->Html->safe($this->base_uri . "package_options/ordervalues/");?>', $(this).sortable("serialize") + "&" + $.param(params),
+				// Success
+				null,
+				// Error
+				null,
+				{dataType: 'json'});
+			}
+		}
+		$('table.table.option_table tbody').blestaSortable(false, options);
+		$('table.table.option_table tbody tr').hover(
+			function() {
+				$('.handle', this).show();
+			},
+			function() {
+				$('.handle', this).hide();
+			}
+		);
+	});
+</script>

@@ -1,0 +1,87 @@
+	<div class="login-box">
+		<h2><?php $this->_("AdminLogin.setup.title_adminarea", false, $this->Html->_($system_company->name, true));?></h2>
+		<div class="box">
+			<div class="t"></div>
+			<div class="c">
+				<?php echo $this->Html->ifSet($message);?>
+				<?php $this->Form->create();?>
+					<fieldset>
+						<div class="check-row" style="padding-bottom: 0px;">
+							<?php $this->Form->fieldRadio("enter_key", "false", $this->Html->ifSet($vars['enter_key']) == "false", array('id' => "enter_key_false"));?>
+							<?php $this->Form->label($this->_("AdminLogin.setup.field_enter_key_false", true), "enter_key_false");?>
+							
+							<div style="clear: both;"></div>
+							
+							<?php $this->Form->fieldRadio("enter_key", "true", $this->Html->ifSet($vars['enter_key'], "true") == "true", array('id' => "enter_key_true"));?>
+							<?php $this->Form->label($this->_("AdminLogin.setup.field_enter_key_true", true), "enter_key_true");?>
+						</div><!-- /row end -->
+						<div class="row license_key">
+							<?php $this->Form->label($this->_("AdminLogin.setup.field_license_key", true), "license_key");?>
+							<span class="text-item"><?php $this->Form->fieldText("license_key", $this->Html->ifSet($vars['license_key']), array('id' => "license_key"));?></span>
+						</div><!-- /row end -->
+						
+						<div style="margin: 16px 0 12px; border-top: 1px solid #ddd; padding-top: 18px;">
+							<p><?php $this->_("AdminLogin.setup.heading_create_account");?></p>
+						</div>
+						
+						<div class="row">
+							<?php $this->Form->label($this->_("AdminLogin.setup.field_first_name", true), "first_name");?>
+							<span class="text-item"><?php $this->Form->fieldText("first_name", $this->Html->ifSet($vars['first_name']), array('id' => "first_name"));?></span>
+						</div><!-- /row end -->
+						<div class="row">
+							<?php $this->Form->label($this->_("AdminLogin.setup.field_last_name", true), "last_name");?>
+							<span class="text-item"><?php $this->Form->fieldText("last_name", $this->Html->ifSet($vars['last_name']), array('id' => "last_name"));?></span>
+						</div><!-- /row end -->
+						<div class="row">
+							<?php $this->Form->label($this->_("AdminLogin.setup.field_email", true), "email");?>
+							<span class="text-item"><?php $this->Form->fieldText("email", $this->Html->ifSet($vars['email']), array('id' => "email"));?></span>
+						</div><!-- /row end -->
+						<div class="row">
+							<?php $this->Form->label($this->_("AdminLogin.setup.field_username", true), "username");?>
+							<span class="text-item"><?php $this->Form->fieldText("username", $this->Html->ifSet($vars['username']), array('id' => "username"));?></span>
+						</div><!-- /row end -->
+						<div class="row">
+							<?php $this->Form->label($this->_("AdminLogin.setup.field_password", true), "password");?>
+							<span class="text-item"><?php $this->Form->fieldPassword("password", array('id' => "password"));?></span>
+						</div><!-- /row end -->
+						<div class="row">
+							<?php $this->Form->label($this->_("AdminLogin.setup.field_confirm_password", true), "confirm_password");?>
+							<span class="text-item"><?php $this->Form->fieldPassword("confirm_password", array('id' => "confirm_password"));?></span>
+						</div><!-- /row end -->
+						<div class="btn-holder">
+							<a href="#" class="btn"><span><?php $this->_("AdminLogin.setup.field_submit");?></span></a><!-- /btn end -->
+						</div><!-- /btn-holder end -->
+					</fieldset>
+				<?php
+				// Allow form to be submitted on "enter"
+				$this->Form->fieldSubmit("login", "", array('class' => "hide_submit", 'hidefocus' => "true"));
+				$this->Form->end();
+				?>
+			</div>
+			<div class="b"></div>
+		</div><!-- /box end -->
+	</div><!-- /login-box end -->
+<?php
+$this->Javascript->setInline('
+	$(document).ready(function() {
+	
+		$(".license_key").hide();
+		if ($("#enter_key_true").is(":checked"))
+			$(".license_key").show();
+			
+		$("input[name=\'enter_key\']").change(function() {
+			$(".license_key").hide();
+			if ($(this).val() == "true") {
+				$(".license_key").show();
+			}
+		});
+	
+		$(".login-box").blestaVerticalAlign({container:window, offset:2.3});
+		$(window).resize(function() {
+			$(".login-box").blestaVerticalAlign({container:window, offset:2.3});
+		});
+		$("a.btn").blestaSubmitOnClick();
+	});
+');
+?>
+	

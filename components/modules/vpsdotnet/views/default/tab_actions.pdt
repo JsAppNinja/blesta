@@ -1,0 +1,160 @@
+
+	<div class="title_row first">
+		<h3><?php $this->_("Vpsdotnet.tab_actions.heading_actions");?></h3>
+	</div>
+	<div class="pad">
+		<div class="options">
+			<p><?php $this->_("Vpsdotnet.tab_actions.server_status");?> <span class="buff <?php $this->Html->_($server_state);?>"><?php $this->_("Vpsdotnet.tab_actions.status_" . $this->Html->_($server_state, true));?></span></p>
+			<?php
+			if ($this->Html->ifSet($server_state) == "online") {
+			?>
+			<a href="<?php echo $this->Html->safe($this->base_uri . "clients/servicetab/" . $this->Html->ifSet($client_id) . "/" . $this->Html->ifSet($service_id) . "/tabActions/reboot/");?>" class="reboot"><?php $this->_("Vpsdotnet.!actions.reboot");?></a>
+			<a href="<?php echo $this->Html->safe($this->base_uri . "clients/servicetab/" . $this->Html->ifSet($client_id) . "/" . $this->Html->ifSet($service_id) . "/tabActions/shutdown/");?>" class="shutdown"><?php $this->_("Vpsdotnet.!actions.shutdown");?></a>
+			<?php
+			}
+			elseif ($this->Html->ifSet($server_state) == "offline") {
+			?>
+			<a href="<?php echo $this->Html->safe($this->base_uri . "clients/servicetab/" . $this->Html->ifSet($client_id) . "/" . $this->Html->ifSet($service_id) . "/tabActions/boot/");?>" class="boot"><?php $this->_("Vpsdotnet.!actions.boot");?></a>
+			<?php
+			}
+			?>
+			<a href="#" class="reinstall"><?php $this->_("Vpsdotnet.!actions.reinstall");?></a>
+			<a href="#" class="hostname"><?php $this->_("Vpsdotnet.!actions.hostname");?></a>
+			<a href="#" class="password"><?php $this->_("Vpsdotnet.!actions.password");?></a>
+		</div>
+	</div>
+	
+	<div id="reinstall" style="display:none;">
+		<div class="title_row">
+			<h3><?php $this->_("Vpsdotnet.tab_actions.heading_reinstall");?></h3>
+		</div>
+		<?php
+		$this->Form->create($this->base_uri . "clients/servicetab/" . $this->Html->ifSet($client_id) . "/" . $this->Html->ifSet($service_id) . "/tabActions/reinstall/");
+		?>
+		<div class="pad">
+			<ul>
+				<li>
+					<?php
+					$this->Form->label($this->_("Vpsdotnet.tab_actions.field_vpsdotnet_template_group", true), "vpsdotnet_template_group");
+					$this->Form->fieldSelect("vpsdotnet_template_group", $this->Html->ifSet($template_groups), $this->Html->ifSet($vars->vpsdotnet_template_group), array('id' => "vpsdotnet_template_group"));
+					?>
+				</li>
+				<li>
+					<?php
+					$this->Form->label($this->_("Vpsdotnet.tab_actions.field_vpsdotnet_template", true), "vpsdotnet_template");
+					$this->Form->fieldSelect("vpsdotnet_template", $this->Html->ifSet($templates), $this->Html->ifSet($vars->vpsdotnet_template), array('id' => "vpsdotnet_template"));
+					?>
+				</li>
+				<li>
+					<?php
+					$this->Form->fieldCheckbox("confirm", "1", "0", array('id' => "confirm"));
+					$this->Form->label($this->_("Vpsdotnet.tab_actions.field_confirm", true), "confirm", array('class' => "inline"));
+					?>
+				</li>
+			</ul>
+		</div>
+		<div class="button_row">
+			<a class="btn_right submit" href="#"><?php $this->_("Vpsdotnet.tab_actions.field_reinstall_submit");?></a>
+		</div>
+		<?php
+		$this->Form->end();
+		?>
+	</div>
+	
+	<div id="hostname" style="display:none;">
+		<div class="title_row">
+			<h3><?php $this->_("Vpsdotnet.tab_actions.heading_hostname");?></h3>
+		</div>
+		<?php
+		$this->Form->create($this->base_uri . "clients/servicetab/" . $this->Html->ifSet($client_id) . "/" . $this->Html->ifSet($service_id) . "/tabActions/hostname/");
+		?>
+		<div class="pad">
+			<ul>
+				<li>
+					<?php
+					$this->Form->label($this->_("Vpsdotnet.tab_actions.field_vpsdotnet_hostname", true), "vpsdotnet_hostname");
+					$this->Form->fieldText("vpsdotnet_hostname", $this->Html->ifSet($vars->vpsdotnet_hostname), array('id' => "vpsdotnet_hostname"));
+					?>
+				</li>
+			</ul>
+		</div>
+		<div class="button_row">
+			<a class="btn_right submit" href="#"><?php $this->_("Vpsdotnet.tab_actions.field_hostname_submit");?></a>
+		</div>
+		<?php
+		$this->Form->end();
+		?>
+	</div>
+	
+	<div id="password" style="display:none;">
+		<div class="title_row">
+			<h3><?php $this->_("Vpsdotnet.tab_actions.heading_password");?></h3>
+		</div>
+		<?php
+		$this->Form->create($this->base_uri . "clients/servicetab/" . $this->Html->ifSet($client_id) . "/" . $this->Html->ifSet($service_id) . "/tabActions/password/");
+		$this->Form->fieldHidden("vpsdotnet_reset_password", 1);
+		?>
+		<div class="button_row">
+			<a class="btn_right submit" href="#"><?php $this->_("Vpsdotnet.tab_actions.field_password_submit");?></a>
+		</div>
+		<?php
+		$this->Form->end();
+		?>
+	</div>
+	
+<script type="text/javascript">
+$(document).ready(function() {
+	$(this).blestaSetHeadTag("link", {media:"screen", type:"text/css", rel:"stylesheet", href: "<?php echo $this->Html->safe($this->view_dir . "css/styles.css");?>"});
+	<?php
+	if ($this->Html->ifSet($reinstall, false)) {
+	?>
+	showSection('reinstall');
+	<?php
+	}
+	if ($this->Html->ifSet($hostname, false)) {
+	?>
+	showSection('hostname');
+	<?php
+	}
+	if ($this->Html->ifSet($password, false)) {
+	?>
+	showSection('password');
+	<?php
+	}
+	?>
+	
+	$('#vpsdotnet_template_group').change(function() {
+		$(this).blestaRequest('get', '<?php echo $this->Html->safe($this->base_uri . "clients/servicetab/" . $this->Html->ifSet($client_id) . "/" . $this->Html->ifSet($service_id) . "/tabActions/gettemplatesfromgroup/" . $this->Html->ifSet($module_row_id) . "/" . $this->Html->ifSet($cloud_id) . "/");?>' + $(this).val(), null, function(data) {
+				if (data) {
+					// Remove all existing items
+					$('option', '#vpsdotnet_template').remove();
+					
+					// Append all new items
+					$.each(data, function(val, text) {
+						$('#vpsdotnet_template').append( new Option(text, val));
+					});
+				}
+			},
+			null,
+			{dataType: 'json'}
+		);
+		return false;
+	});
+	
+	$('.options a.reinstall, .options a.hostname, .options a.password').click(function(e) {
+		hideSections();
+		showSection($(this).attr('class'));
+		return false;
+	});
+	
+	function hideSections() {
+		$('#reinstall').hide();
+		$('#hostname').hide();
+		$('#password').hide();
+	}
+	
+	function showSection(id) {
+		$('#' + id).show();
+	}
+});
+</script>

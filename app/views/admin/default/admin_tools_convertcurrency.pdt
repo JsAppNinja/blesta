@@ -1,0 +1,38 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminTools.convertcurrency.boxtitle_currency", true));
+		
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminTools.convertcurrency.field_amount", true), "amount");
+						$this->Form->fieldText("amount", $this->Html->ifSet($vars->amount), array("id"=>"amount", "class"=>"small"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminTools.convertcurrency.field_from", true), "from_currency");
+						$this->Form->fieldSelect("from_currency", $this->Html->ifSet($currencies), $this->Html->ifSet($vars->from_currency), array("id"=>"from_currency"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminTools.convertcurrency.field_to", true), "to_currency");
+						$this->Form->fieldSelect("to_currency", $this->Html->ifSet($currencies), $this->Html->ifSet($vars->to_currency), array("id"=>"to_currency"));
+						?>
+					</li>
+				</ul>
+			</div>
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminTools.convertcurrency.field_currencysubmit");?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>

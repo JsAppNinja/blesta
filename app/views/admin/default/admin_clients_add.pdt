@@ -1,0 +1,200 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminClients.add.boxtitle_newclient", true));
+		?>
+		
+		<div class="inner">
+			<?php $this->Form->create(); ?>
+			<div class="title_row first">
+				<h3><?php $this->_("AdminClients.add.heading_contact");?></h3>
+			</div>
+			
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_firstname", true), "first_name"); ?>
+						<?php $this->Form->fieldText("first_name", $this->Html->ifSet($vars->first_name), array("id"=>"first_name")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_lastname", true), "last_name"); ?>
+						<?php $this->Form->fieldText("last_name", $this->Html->ifSet($vars->last_name), array("id"=>"last_name")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_company", true), "company"); ?>
+						<?php $this->Form->fieldText("company", $this->Html->ifSet($vars->company), array("id"=>"company")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_address1", true), "address1"); ?>
+						<?php $this->Form->fieldText("address1", $this->Html->ifSet($vars->address1), array("id"=>"address1")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_address2", true), "address2"); ?>
+						<?php $this->Form->fieldText("address2", $this->Html->ifSet($vars->address2), array("id"=>"address2")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_city", true), "city"); ?>
+						<?php $this->Form->fieldText("city", $this->Html->ifSet($vars->city), array("id"=>"city")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_country", true), "country"); ?>
+						<?php $this->Form->fieldSelect("country", $this->Html->ifSet($countries), $this->Html->ifSet($vars->country), array("id"=>"country")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_state", true), "State"); ?>
+						<?php $this->Form->fieldSelect("state", $this->Html->ifSet($states), $this->Html->ifSet($vars->state), array("id"=>"state")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_zip", true), "zip"); ?>
+						<?php $this->Form->fieldText("zip", $this->Html->ifSet($vars->zip), array("id"=>"zip")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_email", true), "email"); ?>
+						<?php $this->Form->fieldText("email", $this->Html->ifSet($vars->email), array("id"=>"email")); ?>
+					</li>
+				</ul>
+			</div>
+			
+			<?php
+			// Set phones section
+			echo $this->Html->ifSet($partial_phones);
+			?>
+			
+			<div class="title_row">
+				<h3><?php $this->_("AdminClients.add.heading_billing");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->fieldCheckbox("tax_exempt", "true", $this->Html->ifSet($vars->tax_exempt, false), array("id"=>"tax_exempt")); ?>
+						<?php $this->Form->label($this->_("AdminClients.add.field_taxexempt", true), "tax_exempt", array('class'=>"inline")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_taxid", true), "tax_id"); ?>
+						<?php $this->Form->fieldText("tax_id", $this->Html->ifSet($vars->tax_id), array("id"=>"tax_id")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_preferredcurrency", true), "default_currency"); ?>
+						<?php $this->Form->fieldSelect("default_currency", $this->Form->collapseObjectArray($currencies, "code", "code"), $this->Html->ifSet($vars->default_currency), array("id"=>"default_currency")); ?>
+					</li>
+				</ul>
+			</div>
+			<div class="title_row">
+				<h3><?php $this->_("AdminClients.add.heading_authentication");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldRadio("username_type", "email", ($this->Html->ifSet($vars->username_type, "email") == "email"), array("id"=>"username_type_email"));
+						$this->Form->label($this->_("AdminClients.add.field_username_type_email", true), "username_type_email", array("class"=>"inline"));
+						
+						$this->Form->fieldRadio("username_type", "username", ($this->Html->ifSet($vars->username_type) == "username"), array("id"=>"username_type_username"));
+						$this->Form->label($this->_("AdminClients.add.field_username_type_username", true), "username_type_username", array("class"=>"inline"));
+						?>
+					</li>
+					<li class="username">
+						<?php
+						$this->Form->label($this->_("AdminClients.add.field_username", true), "username");
+						$this->Form->fieldText("username", $this->Html->ifSet($vars->username), array("id"=>"username"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminClients.add.field_newpassword", true), "new_password");
+						$this->Form->fieldPassword("new_password", array("id"=>"new_password"));
+						?>
+						<span class="icon"><a class="refresh" href="#"><?php $this->_("AdminClients.add.text_generate_password");?></a></span>
+					</li>
+				</ul>
+			</div>
+		
+			<div class="title_row">
+				<h3><?php $this->_("AdminClients.add.heading_settings");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_language", true), "language"); ?>
+						<?php $this->Form->fieldSelect("language", $this->Html->ifSet($languages), $this->Html->ifSet($vars->language), array("id"=>"language")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminClients.add.field_clientgroup", true), "client_group_id");?>
+						<?php $this->Form->fieldSelect("client_group_id", $this->Html->ifSet($client_groups), $this->Html->ifSet($vars->client_group_id), array("id"=>"client_group_id"));?>
+					</li>
+					<li>
+						<?php $this->Form->fieldCheckbox("send_registration_email", "true", $this->Html->ifSet($vars->send_registration_email, false), array("id"=>"send_registration_email")); ?>
+						<?php $this->Form->label($this->_("AdminClients.add.field_send_registration_email", true), "send_registration_email", array('class'=>"inline"));?>
+					</li>
+				</ul>
+				<ul id="custom_fields">
+					<?php
+					// Display custom fields partial
+					echo $this->Html->ifSet($custom_fields);
+					?>
+				</ul>
+			</div>
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminClients.add.field_clientsubmit"); ?></a></div>
+			<?php $this->Form->end(); ?>
+		</div>
+		
+<?php
+$this->Javascript->setInline('
+	$(document).ready(function() {
+		updateCustomFields({group_id:$("#client_group_id").val()});
+	
+		$("#country").change(function() {
+			$(this).blestaRequest("get", "' . $this->Html->safe($this->base_uri . "clients/getstates/") . '" + $(this).val(), null, function(data) {
+					// Remove all existing items
+					$("option", "#state").remove();
+					
+					// Append all new items
+                    $.each($(this).blestaSortObject(data), function(index, item) {
+                        $("#state").append( new Option(item.value, item.key));
+                    });
+				},
+				null,
+				{dataType: "json"}
+			);
+		});
+		
+		$("#client_group_id").change(function() {
+			var params = {group_id:$(this).val()};
+			
+			updateCustomFields(params);
+			
+			return false;
+		});
+		
+		if ($("#username_type_email").attr("checked"))
+			$(".username").hide();
+		
+		// Show/hide the username input
+		$("#username_type_username").click(function() {
+			$(".username").show();
+		});
+		$("#username_type_email").click(function() {
+			$(".username").hide();
+		});
+		
+		$(".refresh").click(function() {
+			$("#new_password").attr("value", $(this).blestaRandomString(10));
+			return false;
+		});
+	});
+	
+	// Get the custom fields
+	function updateCustomFields(params) {
+		$(this).blestaRequest("get", "' . $this->Html->safe($this->base_uri . "clients/getcustomfields/") . '", params, function(data) {
+				if (data.custom_fields)
+					$("#custom_fields").html(data.custom_fields);
+			},
+			function(data) { },
+			{dataType:"json"}
+		);
+	}
+');
+?>
+<?php $this->Widget->end(); ?>

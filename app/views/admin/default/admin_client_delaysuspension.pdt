@@ -1,0 +1,30 @@
+
+		<div class="common_box slim">
+			<div class="content_section">
+				<?php
+				$this->Form->create(null, array('id' => "admin_client_delaysuspension"));
+				?>
+				<div class="inner">
+					<ul>
+						<li>
+							<?php $this->Form->label("Date to Delay Suspension Until", "autosuspend_date");?>
+							<?php $this->Form->fieldText("autosuspend_date",$this->Html->ifSet($vars->autosuspend_date), array('id'=>"autosuspend_date", 'class'=>"date"));?>
+							<a href="#" class="clear">Clear</a>
+						</li>
+					</ul>
+					<div class="button_row"><a class="btn_right submit" href="#">Save</a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				?>
+			</div>
+		</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#admin_client_delaysuspension a.clear').click(function(e) {
+			$('#admin_client_delaysuspension input.date').val('');
+			e.preventDefault();
+		});
+		$('#admin_client_delaysuspension input.date').datePicker();
+	});
+</script>

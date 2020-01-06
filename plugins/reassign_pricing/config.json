@@ -1,0 +1,11 @@
+{
+	"version": "1.0.1",
+	"name": "Reassign Pricing",
+	"description": "Allows service pricing to be updated to pricing from other packages that use the same module.",
+	"authors": [
+		{
+			"name": "Phillips Data, Inc.",
+			"url": "http://blesta.com"
+		}
+	]
+}

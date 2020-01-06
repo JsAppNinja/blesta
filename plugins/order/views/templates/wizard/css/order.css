@@ -1,0 +1,242 @@
+.navfix {
+	margin-top: -20px;
+}
+.package {
+	margin: 10px 0 15px;
+	background: #fff;
+	text-align: center;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 3px 1px #acacac;
+	-moz-box-shadow: 0 3px 1px #acacac;
+	box-shadow: 0 3px 1px #acacac;
+	border: 2px solid #fff;
+	opacity: 0.6;
+}
+
+.package.selected {
+	opacity: 1;
+}
+.package > .selected-btn, .package.selected > .unselected-btn {
+	display: none;
+}
+.package > .unselected-btn, .package.selected > .selected-btn {
+	display: block;
+}
+
+.package .package-name {
+	-webkit-border-top-left-radius: 6px;
+	-webkit-border-top-right-radius: 6px;
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-topright: 6px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+}
+.package-name.panel-heading {
+	padding: 0;
+}
+
+.package p {
+	border-bottom: 1px dashed #efefef;
+	margin: 0;
+	padding: 5px 10px;
+}
+
+.package h4 {
+	border-bottom: 1px solid #efefef;
+	padding: 10px 0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.package .price-box {
+	background-color: #efefef;
+	padding: 1px 0;
+}
+
+.package .price-box p {
+	padding: 0;
+	margin-bottom: -10px;
+	margin-top: 5px;
+	font-style: italic;
+	font-size: 12px;
+	color: #999;
+}
+
+.package .order {
+	padding: 5px;
+	background-color: #efefef;
+	-webkit-border-bottom-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	-moz-border-radius-bottomright: 6px;
+	-moz-border-radius-bottomleft: 6px;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+
+.package-groups {
+	margin-top: 20px;
+}
+
+.section-title h3 {
+	color: #3A3A3A;
+	font-weight: bold;
+}
+
+.section-title p.format {
+	margin-top: -10px;
+	font-style: italic;
+}
+
+.well-order {
+	background-color: #fff;
+	font-size: 12px;
+}
+
+.well-order .table {
+	border: none;
+}
+
+.well-order .table > thead > tr > th {
+	background: none;
+	border: none;
+	border-bottom: 2px solid #efefef;
+}
+
+.well-order .table > tbody > tr > td {
+	border: none;
+	padding: 8px 4px 4px 4px;
+}
+
+.well-order .total-due {
+	text-align: right;
+}
+
+.well-order .total-due h4 {
+	margin-top: 5px;
+}
+
+.well-form {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.currency {
+	margin-top: 20px;
+}
+
+/* Slider Styles */
+.package-slider {
+	margin-top: 10px;
+	background: linear-gradient(#ececec, #ffffff);
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ececec), to(#ffffff));
+	background: -webkit-linear-gradient(#ececec, #ffffff);
+	background: -moz-linear-gradient(#ececec, #ffffff);
+	background: -ms-linear-gradient(#ececec, #ffffff);
+	background: -o-linear-gradient(#ececec, #ffffff);
+}
+.package-slider .slider.slider-horizontal {
+	width: 100%;
+}
+.package-slider .slider.slider-horizontal .slider-handle {
+	margin-top: -6px;
+}
+.package-slider .slider-handle {
+	width: 30px;
+	height: 30px;
+}
+.package-slider .slider.slider-horizontal .slider-track {
+	height: 20px;
+}
+.package-slider input {
+	width: 100%;
+}
+.package-slider .instructions {
+	margin-top: 15px;
+	font-style: italic;
+	color: #999;
+}
+.package-slider .package-block {
+	display: none;
+}
+.package-slider .package-block.active {
+	display: block;
+}
+.package-selected {
+	padding: 5px 15px 15px 15px;
+	margin-top: 10px;
+}
+.package-description {
+	padding: 15px 15px 10px 15px;
+}
+.package-description p {
+	margin: 2px 0;
+}
+
+/* Whois styles */
+
+.whois {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.whois div.checkbox label {
+  padding-right: 5px;
+}
+
+.whois div.tlds, div.search {
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+}
+
+.whois div.tlds {
+  margin-bottom: 0;
+}
+
+.domains {
+	font-size: 14px;
+}
+
+div.noindent {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#queue_nonempty_btns {
+	display: none;
+}
+
+#empty_cart {
+	margin-bottom: 20px;
+}
+
+/* List Styles */
+
+.package-list {
+	margin-top: 10px;
+	background-color: #fff;
+}
+
+.package-list .package-item {
+	margin-top: 0;
+	padding: 5px 15px 15px 15px;
+}
+
+.package-list h3 {
+	margin-top: 5px;
+}
+
+.package-list .instructions {
+	margin-bottom: 2px;
+	font-style: italic;
+	color: #999;
+}
+
+.package-list .selected-btn, .package-list.selected .unselected-btn  {
+	display: none;
+}
+.package-list .unselected-btn, .package-list.selected .selected-btn {
+	display: block;
+}

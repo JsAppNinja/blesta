@@ -1,0 +1,15 @@
+<?php
+if (isset($error)) {
+?>
+<div class="error">
+	<?php
+	foreach ((array)$error as $err) {
+	?>
+	<p><?php $this->Html->_($err);?></p>
+	<?php
+	}
+	?>
+</div>
+<?php
+}
+?>

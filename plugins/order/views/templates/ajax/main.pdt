@@ -1,0 +1,171 @@
+				<div class="navfix"></div>
+				<div class="col-md-12">
+					<?php
+					if ($order_form->template_style != "list") {
+					?>
+						<div class="section-title">
+							<h3><?php $this->_("Main.index.heading");?></h3>
+							<p><?php $this->_("Main.index.subheading");?></p>
+						</div>
+					<?php
+					}
+					?>
+					
+					<?php
+					echo $this->Html->ifSet($message);
+					?>
+					
+					<?php
+					if ($order_form->template_style == "list") {
+						foreach ($package_groups as $group_id => $package_group) {
+							if (!array_key_exists($group_id, $packages))
+								continue;
+					?>
+							<div class="col-md-10">
+								<div class="section-title">
+									<h3><?php $this->Html->_($package_group->name);?></h3>
+									<?php
+									if (empty($package_group->description)) {
+									?>
+									<p class="format"><?php $this->_("Main.index.group_heading");?></p>
+									<?php
+									}
+									else {
+										echo $this->TextParser->encode($parser_syntax, $package_group->description);
+									}
+									?>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<?php
+								if (count($order_form->currencies) > 1) {
+								?>
+								<div class="currency">
+						
+									<?php
+									$this->Form->setCsrfOptions(array('set_on_create' => false));
+									$this->Form->create(null, array('method' => "GET", 'class' => "form-inline"));
+									$this->Form->fieldHidden("group_id", $this->Html->ifSet($package_group->id));
+									?>
+										<label for="change_currency_<?php $this->Html->_($package_group->id);?>">
+											<?php $this->_("Main.index.field_currency");?>
+										</label>
+										<?php
+										$this->Form->fieldSelect("currency", $this->Form->collapseObjectArray($order_form->currencies, "currency", "currency"), $this->Html->ifSet($currency), array('class' => "form-control input-sm change_currency", 'id' => "change_currency_" . $this->Html->_($package_group->id, true)));
+										?>
+									<?php
+									$this->Form->end();
+									$this->Form->setCsrfOptions(array('set_on_create' => true));
+									?>
+								</div>
+								<?php
+								}
+								?>
+							</div>
+							<div class="clearfix"></div>
+							<?php
+							foreach ($packages[$group_id] as $package) {
+							?>
+							<div class="well well-order package-list">
+								<?php
+								$this->Form->setCsrfOptions(array('set_on_create' => false));
+								$this->Form->create($this->base_uri . "order/main/packages/" . $order_form->label, array('class' => "form-inline", 'role' => "form", 'method' => "GET"));
+								$this->Form->fieldHidden("group_id", $group_id);
+								?>
+								<div class="col-md-4 col-sm-6 col-xs-12 package-item">
+									<h3><?php $this->Html->_($package->name);?></h3>
+									<div>
+										<div class="instructions"><?php $this->_("Main.index.field_pricing_id");?> <i class="fa fa-share fa-rotate-90"></i></div>
+										<?php
+										$prices = array();
+										foreach ($package->pricing as $price) {
+											if ($this->Html->ifSet($price->period) == "onetime")
+												$period = $this->Html->ifSet($periods[$price->period]);
+											else {
+												$term = $this->Html->_($price->term, true);
+												$period = $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])));
+											}
+											$display_price = $this->CurrencyFormat->format($price->price, $price->currency);
+											$prices[$price->id] = $this->_("Main.index.package_price", true, $period, $this->CurrencyFormat->format($price->price, $price->currency));
+											$option_attributes[$price->id] = array('data-period' => $this->_("Main.index.package_price", true, $period, null), 'data-display-price' => $display_price);
+										}
+										$this->Form->fieldSelect("pricing_id", $prices, null, array('class' => "form-control"), $option_attributes);
+										?>
+									</div>
+								</div>
+								<div class="col-md-4 col-sm-6 col-xs-12 package-description">
+									<?php
+									if (!empty($package->description_html) || !empty($package->description)) {
+									?>
+										<?php echo ($this->Html->ifSet($package->description_html) != "" ? $package->description_html : $this->TextParser->encode($parser_syntax, $package->description));?>
+									<?php
+									}
+									?>
+								</div>
+								<div class="col-md-4 col-sm-12 col-xs-12 package-item">
+									<h3 class="pull-right"><small class="term"></small> <span class="price"></span></h3>
+									<div class="clearfix"></div>
+									<div class="pull-right">
+										<button type="submit" class="btn btn-lg btn-success pull-right"><?php $this->_("Main.index.button_order");?> <i class="fa fa-angle-double-right"></i></button>
+									</div>
+								</div>
+								<?php
+								$this->Form->end();
+								?>
+								<div class="clearfix"></div>
+							</div>
+							<?php
+							}
+							?>
+					<?php
+						}
+					}
+					else {
+					?>
+						<div class="list-group package-groups">
+						<?php
+						foreach ($package_groups as $group_id => $package_group) {
+							if (!array_key_exists($group_id, $packages))
+								continue;
+						?>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/main/packages/" . $this->Html->ifSet($order_form->label) . "/?group_id=" . $group_id);?>" class="list-group-item">
+								<h4><?php $this->Html->_($package_group->name);?></h4>
+							</a>					
+						<?php
+						}
+						?>
+						</div>
+					<?php
+					}
+					?>
+				</div>
+				
+				<?php
+				if ($order_form->template_style == "list") {
+				?>
+					<script type="text/javascript">
+						$(document).ready(function() {
+							$("form select[name='pricing_id']").each(function() {
+								displaySelectedPrice($(this));
+							});
+							$("form").on("change", "select[name='pricing_id']", function() {
+								displaySelectedPrice($(this));
+							});
+							
+							function displaySelectedPrice(field) {
+								var display = field.closest(".package-list");
+								
+								$(".term", display).html(field.find(":selected").attr('data-period'));
+								$(".price", display).html(field.find(":selected").attr('data-display-price'));
+							}
+							
+							// Process change currency request
+							$(".change_currency").change(function() {
+								$(this).closest("form").attr('action', window.location.href);
+								$(this).closest("form").submit();
+							});
+						});
+					</script>
+				<?php
+				}
+				?>

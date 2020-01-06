@@ -1,0 +1,36 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$widget_title = $this->_("DownloadManagerManagePlugin.addcategory.boxtitle_root", true, $this->_("DownloadManagerManagePlugin.!text.root_directory", true));
+		if (!empty($category))
+			$widget_title = $this->_("DownloadManagerManagePlugin.addcategory.boxtitle_addcategory", true, $this->Html->ifSet($category->name));
+			
+		$this->Widget->clear();
+		$this->Widget->create($widget_title);
+		
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->label($this->_("DownloadManagerManagePlugin.addcategory.field_name", true));?>
+						<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array('id'=>"name"));?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("DownloadManagerManagePlugin.addcategory.field_description", true));?>
+						<?php $this->Form->fieldTextarea("description", $this->Html->ifSet($vars->description), array('id'=>"description", 'class'=>"small"));?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("DownloadManagerManagePlugin.addcategory.submit_add");?></a>
+				<a class="btn_right" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($category->id));?>"><?php $this->_("DownloadManagerManagePlugin.addcategory.submit_cancel");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>

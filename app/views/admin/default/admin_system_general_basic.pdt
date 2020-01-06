@@ -1,0 +1,63 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemGeneral.basic.boxtitle_basic", true));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemGeneral.basic.field_root_web_dir", true), "root_web_dir");?>
+								<?php $this->Form->fieldText("root_web_dir", $this->Html->ifSet($vars['root_web_dir']), array("id"=>"root_web_dir"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemGeneral.basic.field_tempdir", true), "temp_dir");?>
+								<?php $this->Form->fieldText("temp_dir", $this->Html->ifSet($vars['temp_dir']), array("id"=>"temp_dir"));?>
+								<?php
+								if ($this->Html->ifSet($dirs_writable['temp_dir'], false)) {
+								?>
+								<span class="icon active"><?php $this->_("AdminSystemGeneral.basic.text_writable");?></span>
+								<?php
+								}
+								else {
+								?>
+								<span class="icon inactive"><?php $this->_("AdminSystemGeneral.basic.text_unwritable");?></span>
+								<?php
+								}
+								?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemGeneral.basic.field_uploadsdir", true), "uploads_dir");?>
+								<?php $this->Form->fieldText("uploads_dir", $this->Html->ifSet($vars['uploads_dir']), array("id"=>"uploads_dir"));?>
+								<?php
+								if ($this->Html->ifSet($dirs_writable['uploads_dir'], false)) {
+								?>
+								<span class="icon active"><?php $this->_("AdminSystemGeneral.basic.text_writable");?></span>
+								<?php
+								}
+								else {
+								?>
+								<span class="icon inactive"><?php $this->_("AdminSystemGeneral.basic.text_unwritable");?></span>
+								<?php
+								}
+								?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemGeneral.basic.field_log_days", true), "log_days");?>
+								<?php $this->Form->fieldSelect("log_days", $this->Html->ifSet($log_days), $this->Html->ifSet($vars['log_days']), array("id"=>"log_days"));?>
+							</li>
+						</ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminSystemGeneral.basic.field_basicsubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

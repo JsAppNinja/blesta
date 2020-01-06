@@ -1,0 +1,33 @@
+
+<ul>
+    <li>
+        <?php
+        $this->Form->label($this->_('Converge.merchant_id', true));
+        $this->Form->fieldText('merchant_id', $this->Html->ifSet($meta['merchant_id']));
+        ?>
+    </li>
+    <li>
+        <?php
+        $this->Form->label($this->_('Converge.user_id', true));
+        $this->Form->fieldText('user_id', $this->Html->ifSet($meta['user_id']));
+        ?>
+    </li>
+    <li>
+        <?php
+        $this->Form->label($this->_('Converge.pin', true));
+        $this->Form->fieldText('pin', $this->Html->ifSet($meta['pin']));
+        ?>
+    </li>
+    <li>
+        <?php
+        $this->Form->fieldCheckbox('live_mode', 'true', ($this->Html->ifSet($meta['live_mode'], 'false') == 'true'), array('id'=>'live_mode'));
+        $this->Form->label($this->_('Converge.live_mode', true), 'live_mode', array('class'=>'inline'));
+        ?>
+    </li>
+    <li>
+        <?php
+        $this->Form->label($this->_('Converge.multiCurrency', true));
+        $this->Form->fieldSelect('multicurrency', array(0 => $this->_('Converge.no', true), 1 => $this->_('Converge.yes', true)), $this->Html->ifSet($meta['multicurrency']));
+        ?>
+    </li>
+</ul>

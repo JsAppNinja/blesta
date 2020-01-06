@@ -1,0 +1,62 @@
+
+			<div class="row total-summary">
+				<div class="col-sm-5 pull-right">
+					<div class="well well-sm">
+						<div class="table-responsive">
+							<table class="table table-curved">
+								<tbody>
+									<tr>
+										<td><?php $this->_("ClientServices.totals.subtotal");?></td>
+										<td class="text-right">
+											<?php echo $this->CurrencyFormat->format($this->Html->_($items['totals']->subtotal, true), $this->Html->ifSet($currency));?>
+										</td>
+									</tr>
+									<?php
+									foreach ($this->Html->ifSet($items['discounts'], array()) as $discount) {
+									?>
+									<tr>
+										<td><?php $this->Html->_($discount->description);?></td>
+										<td class="text-right">
+											<?php
+											// Show discount as negative
+											$discount = $this->Html->ifSet($discount->total, 0) * -1;
+											echo $this->CurrencyFormat->format($this->Html->_($discount, true), $this->Html->ifSet($currency));
+											?>
+										</td>
+									</tr>
+									<?php
+									}
+									
+									foreach ($this->Html->ifSet($items['taxes'], array()) as $tax) {
+									?>
+									<tr>
+										<td><?php $this->Html->_($tax->description);?></td>
+										<td class="text-right">
+											<?php echo $this->CurrencyFormat->format($this->Html->_($tax->total, true), $this->Html->ifSet($currency));?>
+										</td>
+									</tr>
+									<?php
+									}
+									?>
+								</tbody>
+							</table>
+							<hr />
+							<table class="table table-curved">
+								<tbody>
+									<tr>
+										<td><?php $this->_("ClientServices.totals.total");?></td>
+										<td class="text-right">
+											<h4>
+												<?php echo $this->CurrencyFormat->format($this->Html->_($items['totals']->total, true), $this->Html->ifSet($currency));?>
+											</h4>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="pull-right total-summary">
+			</div>
+			<div class="clearfix"></div>

@@ -1,0 +1,108 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$tabs = array();
+		foreach ($this->Html->ifSet($link_tabs, array()) as $tab) {
+			$tabs[] = array(
+				'name'=>$tab['name'],
+				'current'=>($this->Html->ifSet($tab['uri'], "index") == "index"),
+				'attributes'=>array(
+					'href'=>$this->base_uri . "myinfo/" . $tab['uri'] . "/",
+					'class'=>"ajax"
+				)
+			);
+		}
+		
+		$this->Widget->clear();
+		$this->Widget->setTabs($tabs);
+		$this->Widget->create($this->_("AdminMyinfo.index.boxtitle_myinfo", true), array('id'=>"admin_myinfo"), $this->Html->ifSet($render_section, null));
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_username", true), "username"); ?>
+						<?php $this->Form->fieldText("username", $this->Html->ifSet($vars->username), array("id"=>"username")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_email", true), "email"); ?>
+						<?php $this->Form->fieldText("email", $this->Html->ifSet($vars->email), array("id"=>"email")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_mobileemail", true), "email_mobile"); ?>
+						<?php $this->Form->fieldText("email_mobile", $this->Html->ifSet($vars->email_mobile), array("id"=>"email_mobile")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_newpass", true), "new_password"); ?>
+						<?php $this->Form->fieldPassword("new_password", array("id"=>"new_password")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_confirmpass", true), "confirm_password"); ?>
+						<?php $this->Form->fieldPassword("confirm_password", array("id"=>"confirm_password")); ?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_twofactormode", true), "two_factor_mode"); ?>
+						<?php $this->Form->fieldSelect("two_factor_mode", $this->Html->ifSet($two_factor_modes), $this->Html->ifSet($vars->two_factor_mode), array("id"=>"two_factor_mode")); ?>
+					</li>
+					<li id="factor_key">
+						<img id="two_factor_qr" src="//chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?php echo $this->Html->safe("otpauth://totp/" . urlencode($this->Html->ifSet($vars->username)) . "?secret=" . $this->Html->ifSet($vars->two_factor_key_base32) . "&issuer=Blesta");?>" alt="" />
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_twofactorkey", true), "two_factor_key"); ?>
+						<?php $this->Form->fieldText("two_factor_key", $this->Html->ifSet($vars->two_factor_key), array("id"=>"two_factor_key")); ?>
+					</li>
+					<li id="factor_pin">
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_twofactorpin", true), "two_factor_pin"); ?>
+						<?php $this->Form->fieldText("two_factor_pin", $this->Html->ifSet($vars->two_factor_pin), array("id"=>"two_factor_pin")); ?>
+					</li>
+					<li id="factor_otp">
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_otp", true), "otp");?>
+						<?php $this->Form->fieldText("otp", null, array("id"=>"otp")); ?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminMyinfo.index.note_otp");?></div></span>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("AdminMyinfo.index.field_currentpass", true), "current_password"); ?>
+						<?php $this->Form->fieldPassword("current_password", array("id"=>"current_password")); ?>
+					</li>
+				</ul>
+			</div>
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminMyinfo.index.field_infosubmit");?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		hideTwoFactorModes();
+		
+		$('#two_factor_mode').live('click', function() {
+			hideTwoFactorModes();
+		});
+	});
+	
+	function hideTwoFactorModes() {
+		switch($('#two_factor_mode').val()) {
+			case 'motp':
+				$('#two_factor_qr').hide();
+				$('#factor_pin').show();
+				$('#factor_key').show();
+				$('#factor_otp').show();
+				break;
+			case 'totp':
+				$('#two_factor_qr').show();
+				$('#factor_key').show();
+				$('#factor_pin').hide();
+				$('#factor_otp').show();
+				break;
+			case 'none':
+			default:
+				$('#two_factor_qr').hide();
+				$('#factor_key').hide();
+				$('#factor_pin').hide();
+				$('#factor_otp').hide();
+				break;
+		}
+	}
+</script>

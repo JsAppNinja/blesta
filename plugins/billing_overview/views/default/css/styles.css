@@ -1,0 +1,35 @@
+/* Billing Overview plugin */
+.billing_top_row { float:left; width:96%; padding:7px 2% 13px; background:url(../images/line_bg.gif) repeat 0 0;}
+.billing_top_row .left_box{ float:left; width:48%; list-style:none;}
+.billing_top_row .right_box{ float:right; width:48%; list-style:none;}
+.billing_top_row .billing_settings li{ display:block; overflow:hidden; padding:8px 0 3px; border-bottom:1px solid #e1e1e1; font-style:italic;}
+.billing_top_row .billing_settings li div{ float:left; width:100%; display:block;}
+.billing_top_row .billing_settings li.invoiced_month div{ background:url(../../../../../vendors/fugue_icons/document-invoice.png) no-repeat;}
+.billing_top_row .billing_settings li.invoiced_today div{ background:url(../../../../../vendors/fugue_icons/document-invoice.png) no-repeat;}
+.billing_top_row .billing_settings li.revenue_month div,
+	.billing_top_row .billing_settings li.revenue_year div { background:url(../../../../../vendors/fugue_icons/table-money.png) no-repeat;}
+.billing_top_row .billing_settings li.revenue_today div{ background:url(../../../../../vendors/fugue_icons/money-coin.png) no-repeat;}
+.billing_top_row .billing_settings li.credits_month div,
+	.billing_top_row .billing_settings li.credits_year div { background:url(../../../../../vendors/fugue_icons/money-coin-taxes.png) no-repeat;}
+.billing_top_row .billing_settings li.credits_today div{ background:url(../../../../../vendors/fugue_icons/money--exclamation.png) no-repeat;}
+.billing_top_row .billing_settings li.balance_outstanding div{ background:url(../../../../../vendors/fugue_icons/balance.png) no-repeat;}
+.billing_top_row .billing_settings li.balance_overdue div{ background:url(../../../../../vendors/fugue_icons/balance--exclamation.png) no-repeat;}
+.billing_top_row .billing_settings li.scheduled_cancelation div{ background:url(../../../../../vendors/fugue_icons/clock--exclamation.png) no-repeat;}
+.billing_top_row .billing_settings li.services_active div{ background:url(../../../../../vendors/fugue_icons/tick-circle.png) no-repeat;}
+.billing_top_row .billing_settings li.services_added_today div{ background:url(../../../../../vendors/fugue_icons/chart-up-color.png) no-repeat;}
+.billing_top_row .billing_settings li.services_canceled_today div{ background:url(../../../../../vendors/fugue_icons/chart-down-color.png) no-repeat;}
+.billing_top_row .billing_settings li div em{ padding-left:21px; float:left; font-size:14px; color:#656565;}
+.billing_top_row .billing_settings li div span{ float:right; font-size:18px; font-weight:bold; line-height:18px;}
+.billing_top_row .billing_settings li div span.less{color:#cb0000;}
+.billing_top_row .billing_settings li div span.neutral{color:#232427;}
+.billing_top_row .billing_settings li div span.more{color:#60cb00;}
+.billing_top_row .billing_settings ul.fields { padding-top:6px;}
+.billing_top_row .billing_settings ul.fields li { border:none;}
+
+.billing_bottom_row { clear:both; width:100%; padding:0 0 13px;}
+.billing_bottom_row .currency ul { background-color:#f6f6f6; list-style:none; padding:5px 2% 5px; text-align:right;}
+.billing_bottom_row .graphs { width:96%; padding:0 2%; }
+.billing_bottom_row .graphs .graph_box { padding-top:16px;}
+.billing_bottom_row .graphs .graph_box .graph .jqplot-title { font-size:12px !important;}
+.billing_bottom_row .graphs .graph_box .graph .jqplot-axis { font-size:11px !important;}
+.billing_bottom_row .clear { clear:both;}

@@ -1,0 +1,41 @@
+
+		<div class="title_row">
+			<h3><?php $this->_("AdminSearch.packages.heading");?></h3>
+		</div>
+		<?php
+		if ($this->Html->ifSet($packages, false) && ($num_packages = count($packages)) > 0) {
+		?>
+		<table class="table">
+			<tr class="heading_row">
+				<td><span><?php $this->_("AdminSearch.packages.heading_package_id");?></span></td>
+				<td><span><?php $this->_("AdminSearch.packages.heading_name");?></span></td>
+				<td><span><?php $this->_("AdminSearch.packages.heading_module");?></span></td>
+				<td><span><?php $this->_("AdminSearch.packages.heading_quantity");?></span></td>
+				<td class="last"><span><?php $this->_("AdminSearch.packages.heading_status");?></span></td>
+			</tr>
+			<?php
+			for ($i=0; $i<$num_packages; $i++) {
+			?>
+			<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : "";?>>
+				<td><a href="<?php echo $this->Html->safe($this->base_uri . "packages/edit/" . $this->Html->_($packages[$i]->id, true) . "/");?>"><?php $this->Html->_($packages[$i]->id_code);?></a></td>
+				<td><?php $this->Html->_($packages[$i]->name);?></td>
+				<td><?php $this->Html->_($packages[$i]->module_name);?></td>
+				<td><?php $this->Html->_($packages[$i]->qty);?></td>
+				<td><?php echo $this->Html->ifSet($package_status[$packages[$i]->status]);?></td>
+			</tr>
+			<?php
+			}
+			?>
+		</table>
+		<?php
+		}
+		else {
+		?>
+		<div class="empty_section">
+			<div class="empty_box">
+				<?php $this->_("AdminSearch.packages.no_results");?>
+			</div>
+		</div>
+		<?php
+		}
+		?>

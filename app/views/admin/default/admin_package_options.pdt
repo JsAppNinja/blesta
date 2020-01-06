@@ -1,0 +1,28 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$links = array(
+			array('name' => $this->_("AdminPackageOptions.index.category_groups", true) . " <span>(" . $this->Html->_($type_count['groups'], true) . ")</span>", 'current' => ($this->Html->ifSet($type) == "groups" ? true : false), 'attributes' => array('href' => $this->Html->safe($this->base_uri . "package_options/index/groups/"), 'class'=>"ajax")),
+			array('name' => $this->_("AdminPackageOptions.index.category_options", true) . " <span>(" . $this->Html->_($type_count['options'], true) . ")</span>", 'current' => ($this->Html->ifSet($type) == "options" ? true : false), 'attributes' => array('href' => $this->Html->safe($this->base_uri . "package_options/index/options/"), 'class'=>"ajax")),
+		);
+		$link_buttons = array(
+			array('name' => $this->_("AdminPackageOptions.index.categorylink_createoption", true), 'attributes' => array('href' => $this->Html->safe($this->base_uri . "package_options/add/"))),
+			array('name' => $this->_("AdminPackageOptions.index.categorylink_creategroup", true), 'attributes' => array('href' => $this->Html->safe($this->base_uri . "package_options/addgroup/")))
+		);
+		
+		$this->Widget->clear();
+		$this->Widget->setLinks($links);
+		$this->Widget->setLinkButtons($link_buttons);
+		$this->Widget->create($this->_("AdminPackageOptions.index.boxtitle_options", true), array('id' => "admin_package_options"), $this->Html->ifSet($render_section, null));
+		
+		echo $this->Html->ifSet($content);
+		
+		$this->Widget->end();
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Handle confirmation
+		$('#package_options a.manage[rel]').blestaModalConfirm({base_url: '<?php echo $this->base_uri;?>', close: '<?php $this->_("AppController.modal.text_close");?>', submit: true});
+	});
+</script>

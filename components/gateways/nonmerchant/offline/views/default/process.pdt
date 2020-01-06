@@ -1,0 +1,3 @@
+<?php
+echo $this->TextParser->encode("markdown", $this->Html->ifSet($meta['instructions']));
+?>

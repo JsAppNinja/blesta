@@ -1,0 +1,18 @@
+	<div class="table-responsive">
+		<table class="table table-curved table-striped">
+			<thead>
+				<tr>
+					<th><i class="fa fa-share fa-flip-vertical"></i></th>
+					<th><?php $this->_("Vpsdotnet.service_info.vpsdotnet_primary_ip_address");?></th>
+					<th><?php $this->_("Vpsdotnet.service_info.vpsdotnet_password");?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td><?php $this->Html->_($service_fields->vpsdotnet_primary_ip_address);?></td>
+					<td><?php $this->Html->_($service_fields->vpsdotnet_password);?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>

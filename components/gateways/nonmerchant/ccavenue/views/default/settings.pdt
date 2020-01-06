@@ -1,0 +1,31 @@
+
+	<ul>
+        <li>
+            <?php
+            $this->Form->label($this->_("Ccavenue.merchant_id", true), "merchant_id");
+            $this->Form->fieldText("merchant_id", $this->Html->ifSet($meta['merchant_id']), array('id'=>"merchant_id"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Ccavenue.merchant_id_note");?></div></span>
+        </li>
+        <li>
+            <?php
+            $this->Form->label($this->_("Ccavenue.encryption_key", true), "encryption_key");
+            $this->Form->fieldText("encryption_key", $this->Html->ifSet($meta['encryption_key']), array('id'=>"encryption_key"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Ccavenue.encryption_key_note");?></div></span>
+        </li>
+        <li>
+            <?php
+            $this->Form->label($this->_("Ccavenue.access_code", true), "access_code");
+            $this->Form->fieldText("access_code", $this->Html->ifSet($meta['access_code']), array('id'=>"access_code"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Ccavenue.access_code_note");?></div></span>
+        </li>
+		<li>
+            <?php
+            $this->Form->fieldCheckbox("test_mode", "true", ($this->Html->ifSet($meta['test_mode'], "false") == "true"), array('id'=>"test_mode"));
+            $this->Form->label($this->_("Ccavenue.test_mode", true), "test_mode", array('class'=>"inline"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Ccavenue.test_mode_note"); ?></div></span>
+        </li>
+	</ul>

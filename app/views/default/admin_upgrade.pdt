@@ -1,0 +1,19 @@
+	<div class="wrapper">
+		<h3>Blesta Upgrader</h3>
+		<div class="contents">
+			<h4>Upgrade via Web Browser</h4>
+			<p>
+				<a href="<?php echo $this->Html->safe($this->base_uri . "upgrade/process/");?>">Continue with Upgrade</a>
+			</p>
+			
+			<h4>Upgrade via CLI</h4>
+			<p>
+				To upgrade via the command line, run:
+			</p>
+			<div>
+				<code>
+					php <?php echo ROOTWEBDIR;?>index.php <?php echo Configure::get("Route.admin");?>/upgrade
+				</code>
+			</div>
+		</div>
+	</div>

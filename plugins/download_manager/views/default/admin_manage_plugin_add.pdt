@@ -1,0 +1,235 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$widget_title = $this->_("DownloadManagerManagePlugin.add.boxtitle_root", true, $this->_("DownloadManagerManagePlugin.!text.root_directory", true));
+		if (!empty($category))
+			$widget_title = $this->_("DownloadManagerManagePlugin.add.boxtitle_add", true, $this->Html->ifSet($category->name));
+			
+		$this->Widget->clear();
+		$this->Widget->create($widget_title);
+		
+		$this->Form->create(null, array('id' => "add_download", 'enctype' => "multipart/form-data"));
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldRadio("type", "public", ($this->Html->ifSet($vars->type, "public") == "public"), array('id' => "public", 'class' => "type"));
+						$this->Form->label($this->_("DownloadManagerManagePlugin.add.field_public", true), "public", array('class' => "inline"));
+						$this->Form->fieldRadio("type", "logged_in", ($this->Html->ifSet($vars->type) == "logged_in"), array('id' => "logged_in", 'class' => "type"));
+						$this->Form->label($this->_("DownloadManagerManagePlugin.add.field_logged_in", true), "logged_in", array('class' => "inline"));
+						?>
+					</li>
+					<li class="download_logged_in" style="display:none;">
+						<?php
+						$this->Form->fieldCheckbox("available_to_client_groups", "1", ($this->Html->ifSet($vars->available_to_client_groups) == "1"), array('id' => "available_to_client_groups"));
+						$this->Form->label($this->_("DownloadManagerManagePlugin.add.field_available_to_client_groups", true), "available_to_client_groups", array('class' => "inline"));
+						?>
+					</li>
+					<li id="download_client_groups" style="display:none;">
+						<table id="assign_client_groups">
+							<tr>
+								<td><?php $this->Form->label($this->_("DownloadManagerManagePlugin.add.text_clientgroups", true), "assigned");?></td>
+								<td></td>
+								<td><?php $this->Form->label($this->_("DownloadManagerManagePlugin.add.text_availableclientgroups", true), "available");?></td>
+							</tr>
+							<tr>
+								<td>
+									<?php $this->Form->fieldMultiSelect("file_groups[]", $this->Html->ifSet($vars->file_groups), array(), array('id' => "assigned_client_groups"));?>
+								</td>
+								<td><a href="#" class="client_group move_left">&nbsp;</a> &nbsp; <a href="#" class="client_group move_right">&nbsp;</a></td>
+								<td>
+									<?php $this->Form->fieldMultiSelect("available_client_groups[]", $this->Html->ifSet($client_groups), array(), array('id' => "available_client_groups"));?>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<li class="download_logged_in" style="display:none;">
+						<?php
+						$this->Form->fieldCheckbox("available_to_packages", "1", ($this->Html->ifSet($vars->available_to_packages) == "1"), array('id' => "available_to_packages"));
+						$this->Form->label($this->_("DownloadManagerManagePlugin.add.field_available_to_packages", true), "available_to_packages", array('class' => "inline"));
+						?>
+					</li>
+					<li id="download_packages" style="display:none;">
+						<table id="assign_packages">
+							<tr>
+								<td><?php $this->Form->label($this->_("DownloadManagerManagePlugin.add.text_packagegroups", true), "assigned");?></td>
+								<td></td>
+								<td><?php $this->Form->label($this->_("DownloadManagerManagePlugin.add.text_availablepackages", true), "available");?></td>
+							</tr>
+							<tr>
+								<td>
+									<?php $this->Form->fieldMultiSelect("file_packages[]", $this->Html->ifSet($vars->file_packages), array(), array('id' => "assigned_packages"));?>
+								</td>
+								<td><a href="#" class="packages move_left">&nbsp;</a> &nbsp; <a href="#" class="packages move_right">&nbsp;</a></td>
+								<td>
+									<?php $this->Form->fieldMultiSelect("available_packages[]", $this->Html->ifSet($packages), array(), array('id' => "available_packages"));?>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("DownloadManagerManagePlugin.add.field_name", true), "name");?>
+						<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array('id' => "name"));?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldRadio("file_type", "upload", ($this->Html->ifSet($vars->file_type, "upload") == "upload"), array('id' => "upload", 'class' => "file_path"));
+						$this->Form->label($this->_("DownloadManagerManagePlugin.add.field_upload", true), "upload", array('class' => "inline"));
+						$this->Form->fieldRadio("file_type", "path", ($this->Html->ifSet($vars->file_type) == "path"), array('id' => "path", 'class' => "file_path"));
+						$this->Form->label($this->_("DownloadManagerManagePlugin.add.field_path", true), "path", array('class' => "inline"));
+						?>
+					</li>
+					<li id="file_upload" style="display:none;">
+						<?php $this->Form->label($this->_("DownloadManagerManagePlugin.add.field_file", true), "file");?>
+						<?php $this->Form->fieldFile("file", array('id' => "file"));?>
+					</li>
+					<li id="file_full_path" style="display:none;">
+						<?php $this->Form->label($this->_("DownloadManagerManagePlugin.add.field_file_name", true), "file_name");?>
+						<?php $this->Form->fieldText("file_name", $this->Html->ifSet($vars->file_name), array('id' => "file_name"));?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?> <div><?php $this->_("DownloadManagerManagePlugin.!tooltip.path_to_file");?></div></span>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("DownloadManagerManagePlugin.add.submit_add");?></a>
+				<a class="btn_right" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($category->id));?>"><?php $this->_("DownloadManagerManagePlugin.add.submit_cancel");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#add_download').submit(function() {
+		$('#assigned_client_groups option').attr('selected', 'selected');
+		$('#assigned_packages option').attr('selected', 'selected');
+	});
+	
+	// Show selected fields
+	if ($('#logged_in').attr('checked'))
+		showLoggedInFields(true);
+	if ($('#path').attr('checked'))
+		showFileFields("path", true);
+	if ($('#upload').attr('checked'))
+		showFileFields("upload", true);
+	
+	// Move client groups from right to left
+	$('.client_group.move_left').click(function() {
+		$('#available_client_groups option:selected').appendTo($('#assigned_client_groups'));
+		return false;
+	});
+	// Move client_groups from left to right
+	$('.client_group.move_right').click(function() {
+		$('#assigned_client_groups option:selected').appendTo($('#available_client_groups'));
+		return false;
+	});
+	
+	// Move packages from right to left
+	$('.packages.move_left').click(function() {
+		$('#available_packages option:selected').appendTo($('#assigned_packages'));
+		return false;
+	});
+	// Move packages from left to right
+	$('.packages.move_right').click(function() {
+		$('#assigned_packages option:selected').appendTo($('#available_packages'));
+		return false;
+	});
+	
+	// Hide/show logged in fields
+	$('.type').change(function() {
+		if ($(this).val() == "logged_in")
+			showLoggedInFields(true);
+		else
+			showLoggedInFields(false);
+	});
+	
+	// Hide/show client groups/packages
+	$('#available_to_client_groups').change(function() {
+		if ($(this).attr('checked'))
+			showAvailableGroups("client_groups", true);
+		else
+			showAvailableGroups("client_groups", false);
+	});
+	$('#available_to_packages').change(function() {
+		if ($(this).attr('checked'))
+			showAvailableGroups("packages", true);
+		else
+			showAvailableGroups("packages", false);
+	});
+	
+	// Hide/show file fields
+	$('.file_path').change(function() {
+		if ($(this).val() == "path")
+			showFileFields("path", true);
+		else
+			showFileFields("upload", true);
+	});
+});
+
+function showLoggedInFields(show) {
+	if (show) {
+		// Show checkboxes
+		$('.download_logged_in').show();
+		
+		// Show available/selected items
+		if ($('#available_to_client_groups').attr('checked'))
+			showAvailableGroups("client_groups", true);
+		if ($('#available_to_packages').attr('checked'))
+			showAvailableGroups("packages", true);
+	}
+	else {
+		// Hide checkboxes
+		$('.download_logged_in').hide();
+		showAvailableGroups("client_groups", false);
+		showAvailableGroups("packages", false);
+	}
+}
+
+function showAvailableGroups(type, show) {
+	switch (type) {
+		case "client_groups":
+			if (show)
+				$('#download_client_groups').show();
+			else
+				$('#download_client_groups').hide();
+			break;
+		case "packages":
+			if (show)
+				$('#download_packages').show();
+			else
+				$('#download_packages').hide();
+			break;
+	}
+}
+
+function showFileFields(type, show) {
+	switch (type) {
+		case "path":
+			if (show) {
+				$('#file_full_path').show();
+				$('#file_upload').hide();
+			}
+			else {
+				$('#file_full_path').hide();
+				$('#file_upload').show();
+			}
+			break;
+		case "upload":
+			if (show) {
+				$('#file_upload').show();
+				$('#file_full_path').hide();
+			}
+			else {
+				$('#file_upload').hide();
+				$('#file_full_path').show();
+			}
+			break;
+	}
+}
+</script>

@@ -1,0 +1,91 @@
+
+		<?php
+		$link_buttons = array(
+			array('name'=>$this->_("DownloadManagerManagePlugin.index.add_download", true), 'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->_($plugin_id, true) . (!empty($category) ? "/" . $this->Html->ifSet($category->id) : "") ."/?action=add"), 'class'=>"add_download")),
+			array('name'=>$this->_("DownloadManagerManagePlugin.index.add_category", true), 'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->_($plugin_id, true) . (!empty($category) ? "/" . $this->Html->ifSet($category->id) : "") . "/?action=addcategory"), 'class'=>"add_download"))
+		);
+		
+		$this->Widget->clear();
+		$this->Widget->setStyleSheet($this->view_dir . "css/styles.css");
+		$this->Widget->setLinkButtons($link_buttons);
+		$this->Widget->create($this->_("DownloadManagerManagePlugin.index.boxtitle_downloadmanager", true));
+		
+		$category_name = (isset($category->name) ? $this->Html->_($category->name, true) : null);
+		?>
+		<div class="title_row first">
+			<h3><?php echo $this->Html->ifSet($category_name, $this->_("DownloadManagerManagePlugin.!text.root_directory", true));?></h3>
+		</div>
+		<?php
+		// Set a link to go back a directory
+		if (!empty($category)) {
+		?>
+		<div id="up_directory" class="clear">
+			<a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->_($plugin_id, true) . "/" . $this->Html->ifSet($parent_category->id));?>"><?php $this->_("DownloadManagerManagePlugin.index.go_back");?></a>
+		</div>
+		<?php
+		}
+		
+		if (!empty($categories) || !empty($files)) {
+		?>
+		<div class="pad">
+			<dl id="downloads">
+				<div>
+					<?php
+					foreach ($this->Html->ifSet($categories, array()) as $category) {
+					?>
+					<dd>
+						<div class="category">
+							<a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($category->id) . "/");?>"><?php $this->Html->_($category->name);?></a>
+							<?php $this->_("DownloadManagerManagePlugin.!text.open_parenthesis");?><a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($category->id) . "/?action=editcategory");?>"><?php $this->_("DownloadManagerManagePlugin.index.edit");?></a>
+							<?php $this->_("DownloadManagerManagePlugin.!text.forward_slash");?>
+							<?php
+							$this->Form->create($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/?action=deletecategory");
+							$this->Form->fieldHidden("id", $this->Html->ifSet($category->id));
+							?>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($category->id) . "/?action=deletecategory");?>" class="manage" rel="<?php $this->_("DownloadManagerManagePlugin.modal.delete_category");?>"><?php $this->_("DownloadManagerManagePlugin.index.delete");?></a><?php $this->_("DownloadManagerManagePlugin.!text.closed_parenthesis");?>
+							<?php
+							$this->Form->end();
+							?>
+						</div>
+					</dd>
+					<?php
+					}
+					foreach ($this->Html->ifSet($files, array()) as $file) {
+					?>
+					<dd>
+						<div class="file">
+							<a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($file->id) . "/?action=download");?>"><?php echo $this->Html->safe($this->Html->ifSet($file->name) . $this->Html->ifSet($file->extension));?></a>
+							<?php $this->_("DownloadManagerManagePlugin.!text.open_parenthesis");?><a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($file->id) . "/?action=edit");?>"><?php $this->_("DownloadManagerManagePlugin.index.edit");?></a>
+							<?php $this->_("DownloadManagerManagePlugin.!text.forward_slash");?>
+							<?php
+							$this->Form->create($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/?action=delete");
+							$this->Form->fieldHidden("id", $this->Html->ifSet($file->id));
+							?>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($file->id) . "/?action=delete");?>" class="manage" rel="<?php $this->_("DownloadManagerManagePlugin.modal.delete_file");?>"><?php $this->_("DownloadManagerManagePlugin.index.delete");?></a><?php $this->_("DownloadManagerManagePlugin.!text.closed_parenthesis");?>
+							<?php
+							$this->Form->end();
+							?>
+						</div>
+					</dd>
+					<?php
+					}
+					?>
+				</div>
+			</dl>
+		</div>
+		<?php
+		}
+		else {
+		?>
+			<div class="empty_section">
+				<div class="empty_box"><?php $this->_("DownloadManagerManagePlugin.index.no_downloads");?></div>
+			</div>
+		<?php
+		}
+		$this->Widget->end();
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#downloads a.manage[rel]').blestaModalConfirm({base_url: '<?php echo $this->Html->safe($this->base_uri);?>', close: '<?php $this->_("AppController.modal.text_close");?>', submit: true});
+	});
+</script>

@@ -1,0 +1,48 @@
+		<?php
+		$this->Widget->clear();
+		$this->Widget->create($this->_("TheSSLStore.add_row.box_title", true));
+		?>
+		<div class="inner">
+			<?php
+			$this->Form->create();
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("TheSSLStore.add_row.basic_title");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("TheSSLStore.row_meta.thesslstore_name", true), "thesslstore_name");
+						$this->Form->fieldText("thesslstore_name", $this->Html->ifSet($vars->thesslstore_name), array('id' => "thesslstore_name"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("TheSSLStore.row_meta.api_partner_id", true), "api_partner_id");
+						$this->Form->fieldText("api_partner_id", $this->Html->ifSet($vars->api_partner_id), array('id' => "api_partner_id"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("TheSSLStore.row_meta.api_token", true), "api_token");
+						$this->Form->fieldText("api_token", $this->Html->ifSet($vars->api_token), array('id' => "api_token"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("sandbox", "true", $this->Html->ifSet($vars->sandbox) == "true", array('id' => "sandbox"));
+						$this->Form->label($this->_("TheSSLStore.row_meta.sandbox", true), "sandbox", array('class' => "inline"));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("TheSSLStore.add_row.add_btn");?></a></div>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

@@ -1,0 +1,35 @@
+
+	<div class="title_row first">
+		<h3><?php $this->_("TheSSLStore.tab_reissue.heading_reissue");?></h3>
+	</div>
+	<div class="pad">
+		<?php
+		$this->Form->create($this->base_uri . "clients/servicetab/" . $this->Html->ifSet($client_id) . "/" . $this->Html->ifSet($service_id) . "/tabClientReissue/");
+		?>
+		<ul>
+			<li>
+				<?php
+				$this->Form->label($this->_("TheSSLStore.service_field.thesslstore_approver_email", true), "thesslstore_approver_email");
+				$this->Form->fieldSelect("thesslstore_approver_email", $this->Html->ifSet($thesslstore_approver_emails), $this->Html->ifSet($vars->thesslstore_approver_email), array('id' => "thesslstore_approver_email"));
+				?>
+			</li>
+			<li>
+				<?php
+				$this->Form->label($this->_("TheSSLStore.service_field.thesslstore_csr", true), "thesslstore_csr");
+				$this->Form->fieldTextArea("thesslstore_csr", $this->Html->ifSet($vars->thesslstore_csr), array('id' => "thesslstore_csr"));
+				?>
+			</li>
+			<li>
+				<?php
+				$this->Form->label($this->_("TheSSLStore.service_field.thesslstore_webserver_type", true), "thesslstore_webserver_type");
+				$this->Form->fieldSelect("thesslstore_webserver_type", $this->Html->ifSet($thesslstore_webserver_types), $this->Html->ifSet($vars->thesslstore_webserver_type), array('id' => "thesslstore_webserver_type"));
+				?>
+			</li>
+		</ul>
+		<div class="button_row">
+			<a class="btn_right submit" href="#"><?php $this->_("TheSSLStore.tab_reissue.heading_reissue");?></a>
+		</div>
+		<?php
+		$this->Form->end();
+		?>
+	</div>

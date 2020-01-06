@@ -1,0 +1,78 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyEmails.templates.boxtitle_templates", true));
+				?>
+				<div class="inner">
+				<?php
+				if ($this->Html->ifSet($groups, true)) {
+					$k=0;
+					foreach ($groups as $type => $templates) {
+						// Display group heading
+						?>
+						<div class="title_row<?php echo ($k++ > 0 ? "" : " first");?>"><h3><?php $this->_("AdminCompanyEmails.templates.heading_" . $this->Html->_($type, true));?></h3></div>
+						<?php
+						// List all templates
+						if (!empty($templates)) {
+							// Clear heading
+							?>
+							<div class="clear"></div>
+							<table class="table">
+								<tr class="heading_row">
+									<td>&nbsp;</td>
+									<td><span><?php $this->_("AdminCompanyEmails.templates.text_name");?></span></td>
+									<?php
+									// Show plugin column if set
+									if ($this->Html->_($type, true) == "plugins") {
+									?>
+									<td><span><?php $this->_("AdminCompanyEmails.templates.text_plugin");?></span></td>
+									<?php
+									}
+									?>
+									<td><span><?php $this->_("AdminCompanyEmails.templates.text_description");?></span></td>
+									<td class="last"><span><?php $this->_("AdminCompanyEmails.templates.text_options");?></span></td>
+								</tr>
+							<?php								
+							// Display templates for this group
+							for ($i=0, $num_templates=count($templates); $i<$num_templates; $i++) {
+							?>
+								<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : "";?>>
+									<td class="icon"><div class="<?php echo (($this->Html->_($templates[$i]->status, true) == "active") ? "active" : "inactive");?>">&nbsp;</div></td>
+									<td><a href="<?php echo $this->base_uri . "settings/company/emails/edittemplate/" . $this->Html->_($templates[$i]->email_group_id, true) . "/";?>"><?php $this->Html->_($templates[$i]->group_name);?></a></td>
+									<?php
+									// Show plugin name if set
+									if ($this->Html->_($type, true) == "plugins") {
+									?>
+									<td><span><?php $this->Html->_($templates[$i]->plugin_name);?></span></td>
+									<?php
+									}
+									?>
+									<td><?php $this->Html->_($templates[$i]->group_desc);?></td>
+									<td class="last"><a href="<?php echo $this->base_uri . "settings/company/emails/edittemplate/" . $this->Html->_($templates[$i]->email_group_id, true) . "/";?>"><?php $this->_("AdminCompanyEmails.templates.option_edit");?></a></td>
+								</tr>
+							<?php
+							}
+							?>
+							</table>
+							<?php
+						}
+						else {
+						?>
+						<div class="empty_section">
+							<div class="empty_box">
+								<?php $this->_("AdminCompanyEmails.templates.no_results");?>
+							</div>
+						</div>
+						<?php
+						}
+					}
+				}
+				?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>

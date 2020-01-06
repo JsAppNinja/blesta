@@ -1,0 +1,187 @@
+--------------------------------------------------------------------------------
+Blesta License Agreement
+--------------------------------------------------------------------------------
+
+License Agreement – Published Oct 2, 2008. Last Revised August 8, 2013.
+
+License Agreement
+Blesta (the "Software")
+
+This License Agreement is a CONTRACT between you (either an individual or
+company) and us. "You" means the licensee. "We" and "us" means Phillips
+Data, Inc., a California corporation.
+
+Limited Non-Exclusive License
+
+You acknowledge that you are acquiring only a limited non-exclusive license
+to use the Software (the "License"). We remain the owner of all right,
+title, and interest in the Software and in any copies of it.
+
+The License permits you to install one copy of the Software on one domain,
+e.g., yourdomain.com.  Additional installations require additional licenses.
+Additional domains require additional “Multi-Company” license addons.
+
+You may make a reasonable number of backup copies of the Software solely for
+backup purposes.
+
+You agree not to make nor to permit the making of copies of the Software
+(including its documentation) except as authorized by this License Agreement
+or otherwise authorized in writing by us.
+
+You agree not to engage in nor to permit the decompilation, disassembly, or
+other reverse engineering of the Software.
+
+No Warranties
+
+YOU ACCEPT THE SOFTWARE "AS IS," AND WE MAKE NO WARRANTY AS TO ITS USE,
+PERFORMANCE, OR OTHERWISE. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE
+LAW, WE DISCLAIM ALL OTHER REPRESENTATIONS, WARRANTIES, AND CONDITIONS,
+EXPRESS OR IMPLIED, STATUTORY OR OTHERWISE, INCLUDING, BUT NOT LIMITED TO,
+IMPLIED WARRANTIES OR CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. THE ENTIRE
+RISK ARISING OUT OF USE OR PERFORMANCE OF THE SOFTWARE REMAINS WITH YOU.
+
+No Incidental or Consequential Damages
+
+IN NO EVENT WILL WE BE LIABLE TO YOU FOR ANY INCIDENTAL, SPECIAL, PUNITIVE,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES ARISING FROM OR CONNECTED WITH THIS
+AGREEMENT OR YOUR USE OF THE SOFTWARE, regardless whether we know or have
+reason to know of the possibility of such damages.
+
+Some states do not allow exclusion or limitation of incidental or
+consequential damages, so the above limitation or exclusion may not apply to
+you.
+
+Your Indemnity to Us
+
+Independent of the foregoing provisions, you agree to defend and indemnify
+us against, and hold us harmless from, any and all claims, damages, losses,
+and expenses of any kind arising from or connected with the operation of
+your business.
+
+Termination
+
+If you materially breach this License Agreement, we may terminate your right
+to use the Software by automatic process, with our without notice to you.
+
+You agree that, upon termination of the License, you will destroy all copies
+of the Software in your possession.
+
+Entire Agreement, etc.
+
+This written License Agreement is the exclusive agreement between you and us
+concerning the Software and supersedes any and all prior oral or written
+agreements, negotiations, or other dealings between us concerning the
+Software.
+
+This License Agreement may be modified by us at anytime. Any such revisions
+will be posted online at our website at www.blesta.com. We will make an
+attempt to notify you via email of any such revisions.
+
+This License Agreement will be governed by the law of the State of
+California, USA.
+
+This License Agreement is effective upon the earlier of (1) your signature
+below, or (2) your use of the Software (provided that your acquisition of a
+copy of the Software was from us or our representative); you agree that we
+need not sign this License Agreement in order for it to take effect.
+
+
+--------------------------------------------------------------------------------
+Resource License Information
+--------------------------------------------------------------------------------
+
+-minPHP
+
+	Copyright (c) 2010-2012 Phillips Data, Inc.
+	Use of this work is licensed under the MIT License.
+
+-SwiftMailer
+
+	Copyright (c) 2004-2009 Chris Corbyn
+	Use of this work is licensed under the LGPL license.
+	
+-phpseclib
+	
+	Copyright (c) 2007-2010 TerraFrost (Jim Wigginton)
+	Use of this work is licensed under the MIT License.
+	
+-phpass
+
+	Written by Solar Designer
+	Public Domain
+	
+-TCPDF
+
+	Copyright (c) 2002-2010  Nicola Asuni - Tecnick.com S.r.l.
+	Use of this work is licensed under the LGPL License.
+	
+-Services_JSON
+	
+	Copyright (c) 2005 Michal Migurski
+	Use of this work is licensed under the BSD License.
+	
+-PHP Markdown
+	
+	Copyright (c) 2004-2009 Michel Fortin
+	Use of this work is licensed under the BSD License.
+	
+-jQuery
+
+	Copyright (c) 2010 John Resig, http://jquery.com/	
+	Use of this work is licensed under the MIT License.
+	
+-jQuery UI
+
+	Copyright (c) 2010 Paul Bakaus, http://jqueryui.com/
+	Use of this work is licensed under the MIT License.
+	
+-jqPlot
+	
+	Copyright (c) 2009-2010 Chris Leonello
+	Use of this work is licensed under the MIT License.
+
+-ColorPicker
+
+	Copyright (c) 2007 Stefan Petre, http://www.eyecon.ro/
+	Use of this work is licensed under the MIT License.
+	
+-History.js
+
+	Copyright (c) 2011 Benjamin Arthur Lupton
+	Use of this work is licensed under the New BSD License.
+	
+-innerShiv
+
+	Use of this work is licensed under the WTFPL License version 2.
+
+-ExplorerCanvas
+	
+	Copyright (c) 2006 Google, Inc.
+	Use of this work is licensed under the Apache License version 2.0
+	
+-Fugue Icons
+
+	Copyright (c) 2010 Yusuke Kamiyamane
+	Use of this work is licensed under the Creative Commons Attribution 3.0
+	License.
+	
+-CKEditor
+
+	Copyright (c) 2011 Frederico Knabben
+	Use of this work is licensed under the LGPL License.
+	
+-H2o
+
+	Copyright (c) 2008 Taylor Luk
+	Use of this work is licensed under the MIT License.
+	
+-MaxMind GeoIP
+
+	Copyright (c) 2008 MaxMind, Inc.
+	Use of this work is licensed under the LGPL License.
+
+-Slider for Bootstrap
+
+	Copyright (c) 2012 Stefan Petre
+	Use of this work is licensed under the Apache License version 2.0

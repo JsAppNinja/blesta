@@ -1,0 +1,26 @@
+{
+    "name": "blesta/pricing",
+    "description": "A library for handling pricing and pricing modifiers",
+    "keywords": ["pricing", "tax", "discount", "totals"],
+    "homepage": "http://github.com/blesta/pricing",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cody Phillips",
+            "email": "therealclphillips@gmail.com"
+        },
+        {
+            "name": "Tyson Phillips"
+        }
+    ],
+    "require": {
+        "php": ">=5.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.6",
+        "squizlabs/php_codesniffer": "~2.3"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}

@@ -1,0 +1,107 @@
+			<!-- Steps -->
+			<div class="col-md-12 hidden-xs hidden-sm">
+				<div class="panel panel-blesta panel-steps">
+					<div class="panel-body">
+						<div class="col-md-3">
+							<i class="fa fa-chevron-right fa-lg pull-right"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/main/index/" . $this->Html->ifSet($order_form->label));?>" class="active"><strong><?php $this->_("Main.steps.step_1_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_1_description");?></em></p>
+						</div>
+						<div class="col-md-3">
+							<i class="fa fa-chevron-right fa-lg pull-right"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/config/index/" . $this->Html->ifSet($order_form->label));?>"><strong><?php $this->_("Main.steps.step_2_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_2_description");?></em></p>
+						</div>
+						<div class="col-md-3">
+							<i class="fa fa-chevron-right fa-lg pull-right"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/cart/index/" . $this->Html->ifSet($order_form->label));?>"><strong><?php $this->_("Main.steps.step_3_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_3_description");?></em></p>
+						</div>
+						<div class="col-md-3">
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/checkout/index/" . $this->Html->ifSet($order_form->label));?>"><strong><?php $this->_("Main.steps.step_4_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_4_description");?></em></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Packages and Cart -->
+			<div class="col-md-9">
+				<?php
+				echo $this->Html->ifSet($message);
+				?>
+				<?php
+				foreach ($package_groups as $group_id => $package_group) {
+					if (!array_key_exists($group_id, $packages))
+						continue;
+					
+					$this->WidgetClient->clear();
+					$this->WidgetClient->create($this->Html->ifSet($package_group->name));
+				?>
+					<div class="panel-body">
+						<?php
+						$j=0;
+						foreach ($packages[$group_id] as $package) {
+							// Only render package if there are pricing options available
+							if (empty($package->pricing)) {
+								continue;
+							}
+						?>
+							<?php
+							if ($j++ > 0) {
+							?>
+								<hr />
+							<?php
+							}
+							?>
+							<strong><?php $this->Html->_($package->name);?></strong>
+							<div class="pkg-description">
+								<?php echo ($this->Html->ifSet($package->description_html) != "" ? $package->description_html : $this->TextParser->encode($parser_syntax, $package->description));?>
+							</div>
+							<div class="pull-right">
+								<?php
+								$this->Form->create(null, array('class' => "form-inline", 'role' => "form"));
+								$this->Form->fieldHidden("group_id", $group_id);
+								?>
+								<div class="form-group">
+									<?php
+									$prices = array();
+									foreach ($package->pricing as $price) {
+										if ($this->Html->ifSet($price->period) == "onetime")
+											$period = $this->Html->ifSet($periods[$price->period]);
+										else {
+											$term = $this->Html->_($price->term, true);
+											$period = $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])));
+										}
+										$prices[$price->id] = $this->_("Main.index.package_price", true, $period, $this->CurrencyFormat->format($price->price, $price->currency));
+									}
+									$this->Form->fieldSelect("pricing_id", $prices, null, array('class' => "form-control input-sm"));
+									?>
+								</div>
+								<button type="submit" class="btn btn-default btn-sm"><i class="fa fa-shopping-cart"></i> <?php $this->_("Main.index.select_btn");?></button>
+								<?php
+								$this->Form->end();
+								?>
+							</div>
+							<div class="clearfix"></div>
+						<?php
+						}									
+						?>
+					</div>
+				<?php
+					$this->WidgetClient->end();
+				}
+				?>
+				
+			</div>
+			<div class="col-md-3" id="summary_section"></div>
+			
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(this).blestaRequest('GET', '<?php echo $this->Html->safe($this->base_uri . "order/summary/index/" . $this->Html->ifSet($order_form->label));?>', null,
+			function(data) {
+				$("#summary_section").html(data);
+			}
+		);
+	});
+</script>

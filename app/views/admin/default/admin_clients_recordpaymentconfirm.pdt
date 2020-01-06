@@ -1,0 +1,60 @@
+		<?php
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminClients.recordpaymentconfirm.boxtitle_recordconfirm", true), array('id'=>"admin_clients_recordpaymentconfirm"), $this->Html->ifSet($render_section, null));
+		
+		$this->Form->create();
+		$this->Form->fieldHidden("vars", base64_encode(serialize($vars)));
+		$this->Form->fieldHidden("step", $this->Html->ifSet($step));
+		?>
+		<div class="inner">
+			<div class="pad">
+				<section class="fieldset">
+					<h1>
+						<?php $this->_("AdminClients.recordpaymentconfirm.payment_details");?>
+					</h1>
+					<p>
+						<?php
+                        if ($this->Html->ifSet($vars->payment_type) == "credit")
+                            $this->_("AdminClients.recordpaymentconfirm.trans_info_credit");
+						elseif ($this->Html->ifSet($vars->transaction_id) != "")
+							$this->_("AdminClients.recordpaymentconfirm.trans_info_detailed", false, $this->Html->ifSet($transaction_types[$vars->transaction_type]), $this->Html->ifSet($vars->transaction_id));
+                        else
+							$this->_("AdminClients.recordpaymentconfirm.trans_info", false, $this->Html->ifSet($transaction_types[$vars->transaction_type]));
+						?>
+					</p>
+				</section>
+				
+				<section class="fieldset">
+					<h1>
+						<?php $this->_("AdminClients.recordpaymentconfirm.email_receipt");?>
+					</h1>
+					<p>
+						<?php $this->_($this->Html->ifSet($vars->email_receipt) == "true" ? "AdminClients.recordpaymentconfirm.email_receipt_yes" : "AdminClients.recordpaymentconfirm.email_receipt_no");?>
+					</p>
+				</section>
+				
+				<div class="sub_total_box">
+					<div class="row payment_total">
+						<span><?php $this->_("AdminClients.recordpaymentconfirm.total");?></span>
+						<strong>
+							<em><?php echo $this->CurrencyFormat->format($this->Html->ifSet($total), $currency);?></em>
+						</strong>
+					</div>
+				</div>
+			</div>
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("AdminClients.recordpaymentconfirm.field_submit");?></a>
+				<a class="btn_right submit edit" href="#"><?php $this->_("AdminClients.recordpaymentconfirm.field_edit");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("a.btn_right.edit").click(function() {
+			$("#admin_clients_recordpaymentconfirm input[name='step']").val("1");
+		});
+	});
+</script>

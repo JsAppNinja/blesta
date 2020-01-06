@@ -1,0 +1,26 @@
+.portal-box .well {
+    background-color: #fff;
+}
+.portal-box .well:hover {
+    background-color: #f5f5f5;
+}
+.portal-box a {
+    color: #656565;
+    text-decoration: none;
+}
+.portal-box i {
+    text-align: center;
+    display: block;
+}
+.portal-box h4, .portal-box p {
+    text-align: center;
+}
+
+.thanks blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 14px;
+    border-left: 5px solid #DBDBDB;
+    border-right: 5px solid #dbdbdb;
+    background-color: #FFF;
+}

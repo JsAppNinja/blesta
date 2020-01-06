@@ -1,0 +1,168 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+
+				$this->Widget->create($this->_("AdminCompanyCustomFields.add.boxtitle_add", true));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.add.field_client_group_id", true), "client_group_id");?>
+								<?php $this->Form->fieldSelect("client_group_id", $this->Html->ifSet($groups), $this->Html->ifSet($vars->client_group_id), array("id"=>"client_group_id"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.add.field_name", true), "name");?>
+								<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array("id"=>"name"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("is_lang", "1", ($this->Html->ifSet($vars->is_lang) == "1"), array("id"=>"is_lang"));?>
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.add.field_is_lang", true), "is_lang", array("class"=>"inline"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyCustomFields.tooltip.is_lang");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.add.field_type", true), "type");?>
+								<?php $this->Form->fieldSelect("type", $this->Html->ifSet($types), $this->Html->ifSet($vars->type), array("id"=>"type"));?>
+							</li>
+							<li id="checkbox" style="display:none;">
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.edit.field_checkbox_value", true), "checkbox_value");?>
+								<?php $this->Form->fieldText("checkbox_value", $this->Html->ifSet($vars->checkbox_value), array('id'=>"checkbox_value"));?>
+							</li>
+							<li id="select" style="display:none;">
+								<div class="links_row">
+									<a class="btn_right select_row_add" href="#"><span><?php $this->_("AdminCompanyCustomFields.edit.categorylink_select");?></span></a>
+								</div>
+								<table class="table clear">
+									<thead>
+										<tr class="heading_row">
+											<td><?php $this->_("AdminCompanyCustomFields.add.heading_select_value");?></td>
+											<td><?php $this->_("AdminCompanyCustomFields.add.heading_select_option");?></td>
+											<td class="last"></td>
+										</tr>
+									</thead>
+									<tbody>
+									<?php
+									// Display each select option
+									$num_options = max(1, count($this->Html->ifSet($vars->select['value'], 0)));
+									for ($i=0; $i<$num_options; $i++) {
+									?>
+										<tr class="select_row">
+											<td><?php $this->Form->fieldText("select[value][]", $this->Html->ifSet($vars->select['value'][$i]));?></td>
+											<td><?php $this->Form->fieldText("select[option][]", $this->Html->ifSet($vars->select['option'][$i]));?></td>
+											<td><a href="#" class="manage select_row_remove"><?php $this->_("AdminCompanyCustomFields.add.text_remove");?></a></td>
+										</tr>
+									<?php
+									}
+									?>
+									</tbody>
+								</table>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("show_client", "1", ($this->Html->ifSet($vars->show_client) == "1"), array("id"=>"show_client"));?>
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.add.field_show_client", true), "show_client", array("class"=>"inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("read_only", "1", ($this->Html->ifSet($vars->read_only) == "1"), array("id"=>"read_only"));?>
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.add.field_read_only", true), "read_only", array("class"=>"inline"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyCustomFields.tooltip.read_only");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.add.field_required", true), "required");?>
+								<?php $this->Form->fieldSelect("required", $this->Html->ifSet($required_types), $this->Html->ifSet($vars->required), array("id"=>"required"));?>
+							</li>
+							<li class="regex_enabled">
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.add.field_regex", true), "regex");?>
+								<?php $this->Form->fieldText("regex", $this->Html->ifSet($vars->regex), array("id"=>"regex"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("encrypted", "1", ($this->Html->ifSet($vars->encrypted) == "1"), array("id"=>"encrypted"));?>
+								<?php $this->Form->label($this->_("AdminCompanyCustomFields.add.field_encrypted", true), "encrypted", array("class"=>"inline"));?>
+							</li>
+						</ul>
+						<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyCustomFields.add.field_addsubmit");?></a></div>
+					</div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>
+
+<?php
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		// Show/hide custom regex field
+		if ($('#required').val() != 'regex')
+			$('.regex_enabled').hide();
+
+		showType($('#type').val());
+
+		$('#required').change(function() {
+			if ($(this).val() == 'regex')
+				$('.regex_enabled').show();
+			else
+				$('.regex_enabled').hide();
+		});
+
+		$('#type').change(function() {
+			hideAllTypes();
+
+			showType($(this).val());
+		});
+
+		$('.select_row_add').click(function() {
+			var fields = $('tr.select_row:first').clone(true);
+			// Remove input text data
+			fields.find('input:text').val('');
+
+			// Add the new row
+			$('tr.select_row:last').after(fields);
+			updateRows();
+			return false;
+		});
+
+		$('.select_row_remove').click(function() {
+			if ($('tr.select_row').length > 1) {
+				$(this).closest('tr').remove();
+				updateRows();
+			}
+			return false;
+		});
+	});
+
+	// Show the selected type
+	function showType(value) {
+		switch (value) {
+			case 'checkbox':
+				$('#checkbox').show();
+				break;
+			case 'select':
+				$('#select').show();
+				break;
+		}
+	}
+
+	// Hides all custom field types
+	function hideAllTypes() {
+		$('#checkbox').hide();
+		$('#select').hide();
+	}
+
+	// Update the Select rows
+	function updateRows() {
+		var i = 0;
+		$('#select table tr.select_row').each(function() {
+			if (i++%2 == 1)
+				$(this).addClass('odd_row');
+			else
+				$(this).removeClass('odd_row');
+		});
+	}
+");
+?>

@@ -1,0 +1,61 @@
+
+	<?php
+	$this->Form->create();
+	?>
+	<div class="row panel-fix">
+		<div class="col-md-12">
+			<h4><?php $this->_("Logicboxes.tab_settings.field_registrar_lock");?></h4>
+			<div class="form-group">
+				<div class="radio">
+					<label>
+						<?php
+						$this->Form->fieldRadio("registrar_lock", "true", $this->Html->ifSet($vars->registrar_lock) == "true");
+						$this->_("Logicboxes.tab_settings.field_registrar_lock_yes");
+						?>
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<?php
+						$this->Form->fieldRadio("registrar_lock", "false", $this->Html->ifSet($vars->registrar_lock) == "false");
+						$this->_("Logicboxes.tab_settings.field_registrar_lock_no");
+						?>
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="checkbox">
+					<label>
+						<?php
+						$this->Form->fieldCheckbox("request_epp", "true", $this->Html->ifSet($vars->request_epp) == "true", array('id' => "request_epp"));
+						$this->_("Logicboxes.tab_settings.field_request_epp");
+						?>
+					</label>
+					<strong class="epp_code" style="display: none;"><?php $this->Html->_($vars->epp_code);?></strong>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="btn btn-default pull-right" type="submit">
+		<i class="fa fa-edit"></i> <?php $this->_("Logicboxes.tab_settings.field_submit");?>
+	</button>
+	<?php
+	$this->Form->end();
+	?>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			showEpp();
+			$("#request_epp").change(function() {
+				showEpp();
+			});
+			
+			function showEpp() {
+				if ($("#request_epp").is(":checked"))
+					$(".epp_code").show();
+				else
+					$(".epp_code").hide();
+			}
+		});
+	</script>

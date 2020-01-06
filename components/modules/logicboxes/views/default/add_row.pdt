@@ -1,0 +1,49 @@
+		<?php
+		$this->Widget->clear();
+		$this->Widget->create($this->_("Logicboxes.add_row.box_title", true));
+		?>
+		<div class="inner">
+			<?php
+			$this->Form->create();
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("Logicboxes.add_row.basic_title");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("Logicboxes.row_meta.registrar", true), "registrar");
+						$this->Form->fieldText("registrar", $this->Html->ifSet($vars->registrar), array('id' => "registrar"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Logicboxes.row_meta.reseller_id", true), "reseller_id");
+						$this->Form->fieldText("reseller_id", $this->Html->ifSet($vars->reseller_id), array('id' => "reseller_id"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Logicboxes.row_meta.key", true), "key");
+						$this->Form->fieldText("key", $this->Html->ifSet($vars->key), array('id' => "key"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("sandbox", "true", $this->Html->ifSet($vars->sandbox) == "true", array('id' => "sandbox"));
+						$this->Form->label($this->_("Logicboxes.row_meta.sandbox", true), "sandbox", array('class' => "inline"));
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Logicboxes.!tooltip.row_meta.sandbox");?></div></span>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("Logicboxes.add_row.add_btn");?></a></div>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

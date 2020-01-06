@@ -1,0 +1,78 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyPlugins.available.boxtitle_plugins", true));
+				?>
+				<div class="inner">					
+					<?php
+					$num_plugins=count($this->Html->ifSet($plugins));
+					if ($num_plugins > 0) {
+						
+						// List all plugins
+						for ($i=0; $i<$num_plugins; $i++) {
+						?>
+						<div class="itemlist<?php echo ($i==$num_plugins-1) ? " last" : "";?>">
+							<div class="logo<?php echo ($this->Html->ifSet($plugins[$i]->installed, false) ? " installed" : "");?>" style="background:url(<?php $this->Html->_($plugins[$i]->logo);?>) no-repeat 0 0; background-position: 0% 50%;">&nbsp;</div>
+							<ul>
+								<li><strong><?php $this->Html->_($plugins[$i]->name);?></strong> <?php $this->_("AdminCompanyPlugins.available.text_version", false, $this->Html->_($plugins[$i]->version, true));?></li>
+								<li>
+									<?php $this->_("AdminCompanyPlugins.available.text_author");?>
+									<?php
+									foreach ((array)$this->Html->ifSet($plugins[$i]->authors) as $author) {
+									?>
+									<a href="<?php $this->Html->_($author['url']);?>" target="_blank"><?php $this->Html->_($author['name']);?></a>
+									<?php
+									}
+									?>
+								</li>
+								<li><?php echo nl2br($this->Html->_($plugins[$i]->description, true))?></li>
+							</ul>
+							<?php
+							// Show install button if this plugin is currently not installed
+							if (!$this->Html->ifSet($plugins[$i]->installed, true)) {
+							?>
+							<div class="button_row_inline">
+								<?php
+								$this->Form->create($this->base_uri . "settings/company/plugins/install/");
+								$this->Form->fieldHidden("id", $this->Html->ifSet($plugins[$i]->dir));
+								?>
+								<a class="btn_right submit" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/install/" . $this->Html->ifSet($plugins[$i]->dir) . "/");?>"><?php $this->_("AdminCompanyPlugins.available.btn_install");?></a>
+								<?php
+								$this->Form->end();
+								?>
+							</div>
+							<?php
+							}
+							?>
+							<div class="clear"></div>
+						</div>
+						<?php
+						}
+					}
+					else {
+						// No plugins available
+						?>
+						<div class="empty_section">
+							<div class="empty_box">
+								<?php $this->_("AdminCompanyPlugins.available.text_none");?>
+							</div>
+						</div>
+						<?php
+					}
+					?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#right_container .itemlist .button_row_inline form').on('submit', function() {
+            $(this).find('a').css({"pointer-events":"none", "cursor":"default"});
+        });
+    });
+</script>

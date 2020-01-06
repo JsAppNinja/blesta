@@ -1,0 +1,290 @@
+<!DOCTYPE HTML>
+<html dir="<?php echo (in_array($this->_("AppController.lang.dir", true), array("ltr", "rtl")) ? $this->_("AppController.lang.dir", true) : "ltr");?>">
+<head>
+<title><?php echo (($page_title = (isset($page_title) ? $page_title : $this->_($page_title_lang, true, $get_params))) ? $this->Html->_($page_title, true) . " | " : "") . $this->Html->_($system_company->name, true);?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" href="<?php echo $this->view_dir;?>images/favicon.ico" />
+	<link href="<?php echo $this->view_dir;?>css/reset.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="<?php echo $this->view_dir;?>css/jquery-ui.min.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="<?php echo $this->view_dir;?>css/layout.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="<?php echo $this->view_dir;?>css/css3.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="<?php echo $this->view_dir;?>css/colorpicker.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="<?php echo $this->view_dir;?>css/datepicker.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="<?php echo $this->view_dir;?>css/dashboard_calendar.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="<?php echo $this->view_dir;?>css/jquery.qtip.css" rel="stylesheet" type="text/css" media="screen" />
+	<?php
+	// jRating CSS
+	if (isset($jrating_css)) {
+	?>
+	<link href="<?php $this->Html->_($jrating_css);?>" rel="stylesheet" type="text/css" media="screen" />
+	<?php
+	}
+	// Theme CSS
+	if (isset($theme_css)) {
+	?>
+	<link href="<?php $this->Html->_($theme_css);?>" rel="stylesheet" type="text/css" media="screen" />
+	<?php
+	}
+	// Large calendar
+	if (isset($calendar_css)) {
+	?>
+	<link href="<?php $this->Html->_($calendar_css);?>" rel="stylesheet" type="text/css" media="screen" />
+	<?php
+	}
+    if ($this->_("AppController.lang.dir", true) == "rtl") {
+    ?>
+    <link href="<?php echo $this->view_dir;?>css/rtl.css" rel="stylesheet" type="text/css" media="screen" />
+    <?php
+    }
+	?>	
+	
+	<!--[if IE]>
+	<script>
+	document.createElement("header");
+	document.createElement("footer");
+	document.createElement("article");
+	document.createElement("nav");
+	document.createElement("section");
+	document.createElement("aside")
+	</script>
+	<![endif]-->
+	<!--[if lt IE 7]> <link rel="stylesheet" type="text/css" href="<?php echo $this->view_dir;?>css/ie.css" media="screen" /> <![endif]-->
+	<?php
+	if (isset($this->Javascript)) {
+		echo $this->Javascript->getFiles("head");
+	}
+	?>
+	<?php echo $this->Html->ifSet($head);?>
+</head>
+<body>
+	<?php echo $this->Html->ifSet($body_start);?>
+	<div id="layout">
+		<header id="main_header">
+			<?php
+			if ($this->Html->ifSet($maintenance_mode, false)) {
+			?>
+			<div class="maintenance_mode">
+				<p><a href="<?php echo $this->Html->safe($this->base_uri . "settings/system/general/maintenance/");?>"><?php $this->_("AppController.structure.text_maintenance");?></a></p>
+			</div>
+			<?php
+			}
+			?>
+			<section class="top_row">
+				<div class="gap_row">
+					<h1>
+						<a href="<?php echo $this->Html->safe($this->base_uri);?>">
+						<?php
+						if (!empty($theme_logo)) {
+						?>
+							<img src="<?php $this->Html->_($theme_logo);?>" alt="Logo" />
+						<?php
+						}
+						else {
+						?>
+							<img src="<?php echo $this->view_dir;?>images/logo.png" alt="Blesta" />
+						<?php
+						}
+						?>
+						</a>
+					</h1>
+					<section class="right_section">
+						<nav class="top_nav">
+							<ul>
+								<li><a href="<?php echo $this->base_uri;?>myinfo/"><?php $this->_("AppController.structure.text_myinfo");?></a></li>
+								<li><span>/</span></li>
+								<li><a href="<?php echo $this->base_uri;?>settings/"><?php $this->_("AppController.structure.text_settings");?></a></li>
+								<li><span>/</span></li>
+								<li><a href="<?php echo $this->base_uri;?>logout/"><?php $this->_("AppController.structure.text_logout");?></a></li>
+							</ul>
+						</nav>
+						<div class="form_row">
+							<?php
+							$num_companies = count($this->Html->ifSet($system_companies, array()));
+							if ($num_companies > 1) {
+							?>
+							<div class="select_box">
+								<div id="current_company">
+									<span><?php $this->Html->_($system_company->name);?></span><a href="#"><img src="<?php echo $this->view_dir;?>images/arrow02.png" alt="" /></a>
+								</div>
+								<div>
+									<ul class="dropdown-menu" id="available_companies">
+										<?php
+										for ($i=0; $i<$num_companies; $i++) {
+										?>
+										<li><a href="<?php echo $this->base_uri;?>login/index/<?php $this->Html->_($system_companies[$i]->id);?>/?uri=<?php $this->Html->_($_SERVER['REQUEST_URI']);?>"><?php $this->Html->_($system_companies[$i]->name);?></a></li>
+										<?php
+										}
+										?>
+									</ul>
+								</div>
+							</div>
+							<?php
+							}
+							?>
+						</div>
+					</section>
+				</div>
+			</section>
+			<nav class="menu">
+				<ul>
+					<?php
+					$i = 0;
+					foreach ($this->Html->ifSet($nav, array()) as $link => $value) {
+						$attributes = array();
+						if ($value['active'])
+							$attributes['class'][] = "active";
+							
+						if ($i == 0)
+							$attributes['class'][] = "first";
+					?>
+					<li<?php echo $this->Html->buildAttributes($attributes);?>>
+						<a href="<?php $this->Html->_($link);?>"><?php $this->Html->_($value['name']);?></a>
+						<?php
+						if ($this->Html->ifSet($value['sub']) && is_array($value['sub'])) {
+							$ul_attributes = array();
+							if ($value['active'])
+								$ul_attributes['class'][] = "active";
+						?>
+						<ul<?php echo $this->Html->buildAttributes($ul_attributes);?>>
+							<?php
+							$j=0;
+							foreach ($value['sub'] as $sub_link => $sub_value) {
+								$attributes = array();
+								if ($sub_value['active'])
+									$attributes['class'][] = "current";
+							?>
+							<?php
+							if ($j++>0) {
+							?>
+							<li<?php echo $this->Html->buildAttributes($attributes);?>>/</li>
+							<?php
+							}
+							?>
+							<li<?php echo $this->Html->buildAttributes($attributes);?>>
+								<a href="<?php $this->Html->_($sub_link);?>"><?php $this->Html->_($sub_value['name']);?></a>
+							</li>
+							<?php
+							}
+							?>
+						</ul>
+						<?php
+						}
+						?>
+					</li>
+					<?php
+						$i++;
+					}
+					unset($i);
+					?>	
+				</ul>
+			</nav>
+			<section class="black_row">
+				<nav class="breadcrumbs">
+					<a href="<?php echo $this->base_uri;?>main/updatequicklink/" id="quicklink" class="<?php echo $this->Html->_($quicklink_active, true) ? "star-on" : "star-off";?>"></a>
+				</nav>
+				<div class="serach_block">
+					<?php
+					$this->Form->create($this->base_uri . "search/");
+					?>
+						<?php
+						$this->Form->fieldHidden("search_type", $this->Html->ifSet($default_search_option, "smart"));
+						$this->Form->fieldButton("toggle", "", array('class' => "search_btn"));
+						?>
+						<div class="input_box">
+							<?php
+							$this->Form->fieldText("search", "", array('class' => "search", 'placeholder'=>$this->Html->ifSet($search_options[$this->Html->ifSet($default_search_option, "smart")])));
+							?>
+						</div>
+						
+						<div class="select_container">
+							<div class="select_box">
+								<?php
+								if ($this->Html->ifSet($search_options)) {
+								?>
+								<ul class="dropdown-menu" id="all_search_options">
+									<?php
+									foreach ($search_options as $option => $name) {
+									?>
+									<li><a href="#" class="<?php $this->Html->_($option);?>"><?php $this->Html->_($name);?></a></li>
+									<?php
+									}
+									?>
+								</ul>
+								<?php
+								}
+								?>
+							</div>
+						</div>
+						
+					<?php
+					$this->Form->end();
+					?>
+				</div>
+			</section>
+		</header>
+		<section id="body_container">
+			<div class="gap_row">
+				<?php echo $this->Html->ifSet($content);?>
+			</div>
+		</section>
+		<footer id="footer">
+			<div class="gap_row">
+				<p>
+					Blesta &copy; 2007-<?php echo $this->Date->format("Y");?>, Phillips Data, Inc.<br>
+					Licensed to <?php $this->Html->_($system_company->name);?><br>
+					Installed Version <?php echo BLESTA_VERSION;?>
+				</p>
+			</div>
+		</footer>
+	</div>
+	<?php
+	if (isset($this->Javascript)) {
+		echo $this->Javascript->getFiles("body");
+		echo $this->Javascript->getInline();
+	}
+	?>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		// Show/hide currently active nav when hovering other nav items
+		var active = $(".menu li.active");
+		$(".menu > ul > li").hover(
+			function() {
+				if ($(active).get(0) != $(this).get(0)) {
+					active.removeClass("active");
+				}
+			},
+			function() {
+				active.addClass("active");
+			}
+		);
+
+		// Show company drop-down
+		$("#current_company").click(function() {
+			// Show the drop-down
+			$("#available_companies").toggle();
+			return false;
+		});
+		$(document).click(function() {
+			$("#available_companies").hide();
+		});
+		
+		// Show search drop-down
+		$(".search_btn").click(function() {
+			// Show the drop-down
+			$("#all_search_options").toggle();
+			return false;
+		});
+		$(document).click(function() {
+			$("#all_search_options").hide();
+		});
+		
+		$("#all_search_options li").click(function() {
+			$(".serach_block input[name='search_type']").val($("a", this).attr('class'));
+			$(".serach_block input[name='search']").attr('placeholder', $("a", this).text());
+		});
+	});
+	</script>
+	<?php echo $this->Html->ifSet($body_end);?>
+</body>
+</html>

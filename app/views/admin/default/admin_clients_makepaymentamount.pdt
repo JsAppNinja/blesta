@@ -1,0 +1,79 @@
+		<?php
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminClients.makepayment.boxtitle_makepaymentamount", true), array('id'=>"admin_clients_makepaymentamount"), $this->Html->ifSet($render_section, null));
+		
+		$this->Form->create();
+		$this->Form->fieldHidden("vars", base64_encode(serialize($vars)));
+		$this->Form->fieldHidden("step", $this->Html->ifSet($step));
+		?>
+		<div class="inner">
+			<div class="title_row first">
+				<h3><?php $this->_("AdminClients.makepaymentamount.heading_invoices");?></h3>
+			</div>
+			<div class="pad clear">
+				<?php
+				// Show currency only when we do not have a single invoice
+				if (!$this->Html->ifSet($invoice, false)) {
+				?>
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminClients.makepaymentamount.field_currency", true), "currency");
+						$this->Form->fieldSelect("currency", $this->Html->ifSet($currencies), $this->Html->ifSet($vars->currency), array('id'=>"currency"));
+						?>
+					</li>
+				</ul>
+				<?php
+				}
+				?>
+			
+				<div id="invoices_to_pay">
+					<?php
+					echo $this->Html->ifSet($invoice_info);
+					?>
+				</div>
+			</div>
+			<div class="pad clear">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminClients.makepaymentamount.field_credit", true), "credit");
+						$this->Form->fieldText("credit", $this->Html->ifSet($vars->credit), array('id'=>"credit", 'class'=>"small"));		
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("email_receipt", "true", $this->Html->ifSet($vars->email_receipt), array('id'=>"email_receipt"));
+						$this->Form->label($this->_("AdminClients.makepaymentamount.field_receipt", true), "email_receipt", array('class'=>"inline"));
+						?>
+					</li>
+				</ul>
+			</div>
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminClients.makepaymentamount.field_submit");?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+		
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("input[name='invoice_id[]']").live("click", function() {
+			if ($(this).val() == "all") {
+				if ($(this).attr("checked"))
+					$("input[name='invoice_id[]']").attr('checked', 'checked');
+				else
+					$("input[name='invoice_id[]']").removeAttr('checked');
+			}
+		});
+		
+		// Swap invoices to be paid based on currency selected
+		$("#currency").change(function() {
+			$(this).blestaRequest("POST", "<?php echo $this->base_uri;?>clients/makepaymentinvoices/<?php echo $client->id;?>/", $(this).closest("form").serialize(), function(data) {
+				$("#invoices_to_pay").html(data.content);
+			},
+			null,
+			{dataType: "json"});
+		});
+	});
+</script>

@@ -1,0 +1,46 @@
+
+					<?php
+					if ($this->Html->ifSet($gateway_logs, false)) {
+					?>
+					<table class="table">
+						<tr class="heading_row">
+							<td class="border_left"><?php $this->_("AdminTools.gatewayloglist.text_direction");?></td>
+							<td><?php $this->_("AdminTools.gatewayloglist.text_data");?></td>
+							<td><?php $this->_("AdminTools.gatewayloglist.text_date");?></td>
+							<td class="last"><?php $this->_("AdminTools.gatewayloglist.text_status");?></td>
+						</tr>
+						<?php
+						$i = 0;
+						foreach ($gateway_logs as $gateway_log) {
+						?>
+						<tr<?php echo ($i++%2 == 1) ? " class=\"odd_row\"" : "";?>>
+							<td><?php $this->_("AdminTools.gatewayloglist.text_" . $this->Html->_($gateway_log->direction, true));?></td>
+							<td>
+								<?php
+								$this->Form->create();
+								$this->Form->fieldTextarea("data", $this->Html->ifSet($gateway_log->url) . "\n" . $this->Html->ifSet($gateway_log->data));
+								$this->Form->end();
+								?>
+							</td>
+							<td><?php echo $this->Date->cast($this->Html->_($gateway_log->date_added, true), "date_time");?></td>
+							<td class="icon middle">
+								<?php $status = $this->Html->_($gateway_log->status, true);?>
+								<div class="pad_left <?php echo ($status == "success") ? "green_txt active" : "red_txt inactive";?>">
+									&nbsp;<?php $this->_("AdminTools.gatewayloglist.text_" . $status);?>
+								</div>
+							</td>
+						</tr>
+						<?php
+						}
+						?>
+					</table>
+					<?php
+					}
+					else {
+					?>
+					<div class="empty_section">
+						<div class="empty_box"><?php $this->_("AdminTools.gatewayloglist.no_results");?></div>
+					</div>
+					<?php
+					}
+					?>

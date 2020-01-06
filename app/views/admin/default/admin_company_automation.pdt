@@ -1,0 +1,136 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyAutomation.index.boxtitle_automation", true));
+				?>
+				<div class="inner">
+					<?php
+					// Configuration
+					$this->Form->create();
+					?>
+					<div class="title_row first"><h3><?php $this->_("AdminCompanyAutomation.index.heading_automation");?></h3></div>
+					
+					<div class="pad">
+						<div class="clear"></div>
+						<?php
+						if (!empty($vars->id)) {
+							for ($i=0, $num_tasks=count($vars->id); $i<$num_tasks; $i++) {
+						?>
+						<section class="fieldset">
+							<h1>
+								<?php $this->Html->_($vars->real_name[$i]);?>
+							</h1>
+							<?php
+							if (!empty($vars->description[$i])) {
+							?>
+							<p>
+								<?php $this->Html->_($vars->real_description[$i]);?>
+							</p>
+							<?php
+							}
+							?>
+							<p>
+							<?php $this->_("AdminCompanyAutomation.index.text_task_lastran");?>
+							<?php
+							// Last time the cron task ran
+							if (!empty($vars->last_ran[$i])) {
+								if (!empty($vars->is_stalled[$i]) && $vars->is_stalled[$i]) {
+								?>
+								<span class="highlight">
+								<?php
+								}
+								
+								$this->Html->_($vars->last_ran[$i]);
+								
+								if (!empty($vars->is_stalled[$i]) && $vars->is_stalled[$i]) {
+								?>
+								</span>
+								<?php
+								}
+							}
+							else
+								$this->_("AdminCompanyAutomation.index.no_cron_lastran");
+							
+							// Task has not completed
+							if (!empty($vars->is_running[$i]) && $vars->is_running[$i]) {
+							?>
+								<img class="vert-align-bot" src="<?php echo $this->Html->safe($this->view_dir . "images/ajax_loader.gif");?>" />
+							<?php
+							}
+							if (!empty($vars->is_stalled[$i]) && $vars->is_stalled[$i]) {
+							?>
+								<a id="clear_task_<?php $this->Html->_($vars->task_run_id[$i]);?>" href="<?php echo $this->base_uri . "settings/company/automation/cleartask/" . $this->Html->_($vars->task_run_id[$i], true) . "/";?>" class="manage clear_task" rel="<?php echo $this->Html->safe($this->_("AdminCompanyAutomation.index.confirm_clear_task", true));?>"><?php $this->_("AdminCompanyAutomation.index.option_clear_task");?></a>
+							<?php
+							}
+							?>
+							</p>
+							<ul>
+								<li>
+									<?php
+									$this->Form->fieldCheckbox("enabled[" . $i . "]", "1", ($this->Html->ifSet($vars->enabled[$i]) == "1"), array('id'=>"enabled[" . $i . "]"));
+									$this->Form->label($this->_("AdminCompanyAutomation.index.field_enabled", true), "enabled[" . $i . "]", array('class'=>"inline"));
+									?>
+								</li>
+								<li>
+								<?php
+								if (!empty($vars->time[$i])) {
+									$this->Form->label($this->_("AdminCompanyAutomation.index.text_starttime", true), "time[" . $i . "]");
+									$this->Form->fieldSelect("time[" . $i . "]", $this->Html->ifSet($time_values), $this->Html->ifSet($vars->time[$i]), array('id'=>"time[" . $i . "]"));
+									$this->Html->_($company_timezone);
+								}
+								else {
+									$this->Form->label($this->_("AdminCompanyAutomation.index.text_interval", true), "time[" . $i . "]");
+									$this->Form->fieldSelect("interval[" . $i . "]", $this->Html->ifSet($interval_values), $this->Html->ifSet($vars->interval[$i]), array('id'=>"interval[" . $i . "]"));
+								}
+								?>
+								</li>
+							</ul>
+						</section>
+						<?php
+							}
+						}
+						else {
+						?>
+						<div class="empty_section">
+							<div class="empty_box">
+								<?php $this->_("AdminCompanyAutomation.index.no_results");?>
+							</div>
+						</div>
+						<?php
+						}
+						?>
+					</div>
+					
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyAutomation.index.field_automationsubmit");?></a></div>
+					<?php
+					$this->Form->end();
+					
+					// Set clear task forms for each task
+					if (!empty($vars->id)) {
+						for ($i=0, $num_tasks=count($vars->id); $i<$num_tasks; $i++) {
+							if (!empty($vars->is_stalled[$i]) && $vars->is_stalled[$i]) {
+								$this->Form->create($this->base_uri . "settings/company/automation/cleartask/", array('id' => "clear_task_form_" . $this->Html->ifSet($vars->task_run_id[$i])));
+								$this->Form->fieldHidden("run_id", $this->Html->ifSet($vars->task_run_id[$i]));
+								$this->Form->end();
+							}
+						}
+					}
+					?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	$('a.clear_task[rel]').each(function() {
+		var task_run_id = $(this).attr('id').split('_')[2];
+		$(this).blestaModalConfirm({base_url: '" . $this->Html->safe($this->base_uri) . "', close: '" . $this->_("AppController.modal.text_close", true) . "', submit: true, form:$('#clear_task_form_' + task_run_id)});
+	});
+});
+");
+?>

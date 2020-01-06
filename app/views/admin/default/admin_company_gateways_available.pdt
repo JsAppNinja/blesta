@@ -1,0 +1,119 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyGateways.available.boxtitle_gateway", true));
+				?>
+				<div class="inner">					
+					<?php
+					if ($this->Html->ifSet($gateways, false)) {
+						$k=0;
+						foreach ($gateways as $type => $gateway_list) {
+							// Display gateway heading
+							?>
+							<div class="title_row<?php echo ($k++ > 0 ? "" : " first");?>"><h3><?php $this->_("AdminCompanyGateways.available.heading_" . $type);?></h3></div>
+							<?php
+							$num_gateways = count($gateway_list);							
+							if ($num_gateways > 0) {
+								// Clear heading
+								?>
+								<div class="clear"></div>
+								<?php
+								// List all gateways of this type
+								for ($i=0; $i<$num_gateways; $i++) {
+								?>
+								<div class="itemlist<?php echo ($i==$num_gateways-1) ? " last" : "";?>">
+									<div class="logo<?php echo ($this->Html->ifSet($gateway_list[$i]->installed, false) ? " installed" : "");?>" style="background:url(<?php $this->Html->_($gateway_list[$i]->logo);?>) no-repeat 0 0; background-position: 0% 50%;">&nbsp;</div>
+									<ul>
+										<li>
+											<strong><?php $this->Html->_($gateway_list[$i]->name);?></strong>
+											<?php $this->_("AdminCompanyGateways.available.text_version", false, $this->Html->_($gateway_list[$i]->version, true));?>
+											
+											<?php
+											if ($this->Html->ifSet($gateway_list[$i]->signup_url)) {
+											?>
+											<a href="<?php echo $this->Html->safe($gateway_list[$i]->signup_url);?>" target="_blank"><?php $this->_("AdminCompanyGateways.available.signup_url");?></a>
+											<?php
+											}
+											?>
+										</li>
+										<li>
+											<?php $this->_("AdminCompanyGateways.available.text_author");?>
+											<?php
+											foreach ((array)$this->Html->ifSet($gateway_list[$i]->authors) as $author) {
+											?>
+											<a href="<?php $this->Html->_($author['url']);?>" target="_blank"><?php $this->Html->_($author['name']);?></a>
+											<?php
+											}
+											?>
+										</li>
+										<?php
+										if ($type == "merchant") {
+										?>
+										<li>
+											<?php $this->_("AdminCompanyGateways.available.text_supports");?>
+											<?php
+											if ($this->Html->ifSet($gateway_list[$i]->interfaces, false)) {
+												$num_interfaces = count($gateway_list[$i]->interfaces);
+												
+												for ($j=0; $j<$num_interfaces; $j++)
+													echo ($j>0 ? ", " : "") . $this->_("AdminCompanyGateways.available.text_" . strtolower($gateway_list[$i]->interfaces[$j]), true);
+											}
+											?>
+										</li>
+										<?php
+										}
+										?>
+										<li><?php echo nl2br($this->Html->_($gateway_list[$i]->description, true))?></li>
+									</ul>
+									<?php
+									// Show install button if this gateway is currently not installed
+									if (!$this->Html->ifSet($gateway_list[$i]->installed, true)) {
+									?>
+									<div class="button_row_inline">
+										<?php
+										$this->Form->create($this->base_uri . "settings/company/gateways/install/");
+										$this->Form->fieldHidden("id", $this->Html->ifSet($gateway_list[$i]->class));
+										$this->Form->fieldHidden("type", $this->Html->ifSet($type));
+										?>
+										<a class="btn_right submit" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/gateways/install/" . $this->Html->ifSet($gateway_list[$i]->class) . "/" . $this->Html->ifSet($type) . "/");?>"><?php $this->_("AdminCompanyGateways.available.btn_install");?></a>
+										<?php
+										$this->Form->end();
+										?>
+									</div>
+									<?php
+									}
+									?>
+									<div class="clear"></div>
+								</div>
+								<?php
+								}
+							}
+							else {
+								// No gateways of this type
+								?>
+								<div class="empty_section">
+									<div class="empty_box">
+										<?php $this->_("AdminCompanyGateways.available.text_" . $type . "_none");?>
+									</div>
+								</div>
+								<?php
+							}
+						}
+					}	
+					?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+        
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#right_container .itemlist .button_row_inline form').on('submit', function() {
+            $(this).find('a').css({"pointer-events":"none", "cursor":"default"});
+        });
+    });
+</script>

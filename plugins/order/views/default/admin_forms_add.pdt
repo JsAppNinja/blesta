@@ -1,0 +1,210 @@
+		<?php
+		echo $this->Html->ifSet($message);
+		?>
+		
+		<?php	
+		$this->Widget->clear();
+		$this->Widget->create($this->_("AdminForms.add.boxtitle_order", true));
+		$this->Form->create(null, array('id' => "order_form"));
+		?>
+		<div class="inner">
+			<div class="title_row first">
+				<h3><?php $this->_("AdminForms.add.heading_basic");?></h3>
+			</div>
+			
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.add.field_status", true), "form_status");
+						
+						$this->Form->fieldRadio("status", "active", $this->Html->ifSet($vars->status, "active") == "active", array('id' => "form_status_active"));
+						$this->Form->label($this->_("AdminForms.add.field_status_active", true), "form_status_active", array('class' => "inline"));
+						
+						$this->Form->fieldRadio("status", "inactive", $this->Html->ifSet($vars->status) == "inactive", array('id' => "form_status_inactive"));
+						$this->Form->label($this->_("AdminForms.add.field_status_inactive", true), "form_status_inactive", array('class' => "inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.add.field_name", true), "form_name");
+						$this->Form->fieldText("name", $this->Html->ifSet($vars->name), array('id' => "form_name"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.add.field_label", true), "form_label");
+						$this->Form->fieldText("label", $this->Html->ifSet($vars->label), array('id' => "form_label"));
+						?>
+						<a href="<?php $this->Html->_($base_order_url);?>" target="_blank" id="form_label_link"><?php $this->Html->_($base_order_url);?><span id="order_label"></span></a>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.add.field_type", true), "form_type");
+						$this->Form->fieldSelect("type", $this->Html->ifSet($types), $this->Html->ifSet($vars->type, "general"), array('id' => "form_type"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.add.field_template", true), "form_template");
+						$this->Form->fieldHidden("template", $this->Html->ifSet($vars->template), array('id' => "form_template"));
+						
+						foreach ($templates as $dir => $template) {
+							foreach ($template->styles as $key => $style) {
+						?>
+							<div class="thumbnail list">
+								<label class="thumb">
+									<img src="<?php echo $this->Html->safe($this->view_dir . "../templates/" . $this->Html->ifSet($dir) . "/" . $this->Html->ifSet($style->thumbnail));?>" />
+									<div class="caption">
+										<?php
+										$this->Form->fieldRadio("template_style", $key, ($this->Html->ifSet($vars->template) . "." . $this->Html->ifSet($vars->template_style)) == ($dir . "." . $key), array('class' => "template_style", 'data-template' => $dir));
+										$this->Html->_($style->name);
+										?>
+										<br />
+										<a href="<?php echo $this->Html->safe($this->view_dir . "../templates/" . $this->Html->ifSet($dir) . "/" . $this->Html->ifSet($style->screenshot));?>" target="_blank"><?php $this->_("AdminForms.add.template_preview");?></a>
+									</div>
+								</label>
+							</div>
+						<?php
+							}
+						}
+						?>
+						<div class="clear"></div>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.add.field_client_group_id", true), "form_client_group_id");
+						$this->Form->fieldSelect("client_group_id", $this->Form->collapseObjectArray($this->Html->ifSet($client_groups, array()), 'name', 'id'), $this->Html->ifSet($vars->client_group_id), array('id' => "form_client_group_id"));
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php echo nl2br($this->_("AdminForms.add.tooltip_client_group", true));?></div></span>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("allow_coupons", "1", $this->Html->ifSet($vars->allow_coupons) == "1", array('id' => "form_allow_coupons"));
+						$this->Form->label($this->_("AdminForms.add.field_allow_coupons", true), "form_allow_coupons", array('class' => "inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("manual_review", "1", $this->Html->ifSet($vars->manual_review) == "1", array('id' => "form_manual_review"));
+						$this->Form->label($this->_("AdminForms.add.field_manual_review", true), "form_manual_review", array('class' => "inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("require_ssl", "1", $this->Html->ifSet($vars->require_ssl) == "1", array('id' => "form_require_ssl"));
+						$this->Form->label($this->_("AdminForms.add.field_require_ssl", true), "form_require_ssl", array('class' => "inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("require_captcha", "1", $this->Html->ifSet($vars->require_captcha) == "1", array('id' => "form_require_captcha"));
+						$this->Form->label($this->_("AdminForms.add.field_require_captcha", true), "form_require_captcha", array('class' => "inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("require_tos", "1", $this->Html->ifSet($vars->require_tos) == "1", array('id' => "form_require_tos"));
+						$this->Form->label($this->_("AdminForms.add.field_require_tos", true), "form_require_tos", array('class' => "inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.add.field_tos_url", true), "form_tos_url");
+						$this->Form->fieldText("tos_url", $this->Html->ifSet($vars->tos_url), array('id' => "form_tos_url"));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div id="order_form_meta">
+				<?php
+				if ($this->Html->ifSet($vars->currencies)) {
+					foreach ($vars->currencies as $currency) {
+						$this->Form->fieldHidden("currencies[]", isset($currency->currency) ? $currency->currency : $currency);
+					}
+				}
+				if ($this->Html->ifSet($vars->gateways)) {
+					foreach ($vars->gateways as $gateway) {
+						$this->Form->fieldHidden("gateways[]", isset($gateway->gateway_id) ? $gateway->gateway_id : $gateway);
+					}
+				}
+				if ($this->Html->ifSet($vars->groups)) {
+					foreach ($vars->groups as $group) {
+						$this->Form->fieldHidden("groups[]", isset($group->package_group_id) ? $group->package_group_id : $group);
+					}
+				}
+				if ($this->Html->ifSet($vars->meta)) {
+					foreach ($vars->meta as $key => $meta) {
+						if (is_object($meta))
+							$this->Form->fieldHidden("meta[" . $meta->key . "]", $meta->value);
+						else
+							$this->Form->fieldHidden("meta[" . $key . "]", $meta);
+					}
+				}
+				?>
+			</div>
+			
+			<div class="button_row">
+				<a class="btn_right submit" href=""><?php $this->_("AdminForms.add.field_addsubmit");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+		
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		loadMeta(this);		
+		$('#form_type').change(function() {
+			loadMeta(this);
+		});
+		
+		// Load swappable meta section
+		function loadMeta(element) {
+			$(element).blestaRequest("POST", "<?php echo $this->Html->safe($this->base_uri . "plugin/order/admin_forms/meta/");?>", $("#order_form").serialize(), function(data) {
+				if (data.content)
+					$("#order_form_meta").html(data.content);
+			},
+			null,
+			{dataType: 'json'}
+			);
+		}
+		
+		// Move packages from right to left
+		$("#order_form .move_left").live("click", function() {
+		//$('.move_left').click(function() {
+			$('#available option:selected').appendTo($('#assigned'));
+			return false;
+		});
+		// Move packages from left to right
+		$("#order_form .move_right").live("click", function() {
+		//$('.move_right').click(function() {
+			$('#assigned option:selected').appendTo($('#available'));
+			return false;
+		});
+		
+		$('#order_form').submit(function() {
+			$('#assigned option').attr('selected', 'selected');
+		});
+		
+		// Update label section of URL on load
+		$('#order_label').text(encodeURIComponent($("#form_label").val()));
+		$('#form_label_link').attr('href', $('#form_label_link').text());
+		$('#form_label').keyup(function() {
+			
+			// Update label section of URL
+			$('#order_label').text(encodeURIComponent($(this).val()));
+			
+			// Update href with new URL
+			$('#form_label_link').attr('href', $('#form_label_link').text());
+		});
+		
+		$(".template_style").change(function() {
+			$("#form_template").val($(this).attr('data-template'));
+		});
+	});
+
+</script>

@@ -1,0 +1,16 @@
+	<div class="program_error">
+		<h3>Oh noes!</h3>
+		<div class="contents">
+			<p>
+                <?php
+                if (!empty($error)) {
+                    echo $error;
+                } else {
+                ?>
+                An unexpected error occurred. Please contact the site administrator for help.
+                <?php
+                }
+                ?>
+            </p>
+		</div>
+	</div>

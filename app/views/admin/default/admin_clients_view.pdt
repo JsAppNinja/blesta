@@ -1,0 +1,310 @@
+				<aside id="left_container">
+					<section class="client_detail_box">
+						<div class="client_detail_box_inner">
+							<header class="heading"><a href="<?php echo $this->base_uri . "clients/view/" . $this->Html->_($client->id, true) . "/";?>"><?php echo $this->_("AdminClients.view.boxtitle_client", true, $this->Html->ifSet($client->id_code));?></a></header>
+							<a href="<?php echo $this->base_uri . "clients/quickupdate/" . $this->Html->_($client->id, true) . "/status/";?>" class="quickupdate statusupdate"><span class="status_box <?php $this->Html->_($client->status);?>"><?php $this->Html->_($status[$client->status]);?> <span class="change"><?php $this->_("AdminClients.view.status_link");?></span></span></a>
+							<article class="address_box">
+								<p><span><?php echo $this->Html->_($client->first_name, true) . " " . $this->Html->_($client->last_name, true);?></span>
+									<?php
+									echo (!empty($client->company) ? $this->Html->_($client->company, true) . "<br />" : "");
+									echo (!empty($client->address1) ? $this->Html->_($client->address1, true) . "<br />" : "");
+									echo (!empty($client->address2) ? $this->Html->_($client->address2, true) . "<br />" : "");
+									echo (!empty($client->city) ? $this->Html->_($client->city, true) . (!empty($client->state) ? ", " . $this->Html->_($client->state, true) : "") : $this->Html->_($client->state, true));
+									echo " " . $this->Html->_($client->zip, true) . " " . $this->Html->_($client->country, true);
+									?>
+									<br /><br />
+									<a href="mailto:<?php $this->Html->_($client->email);?>"><?php $this->Html->_($client->email);?></a>
+									<?php
+									// Display client phone numbers
+									if ($this->Html->ifSet($client->numbers, false) && ($num_numbers = count($client->numbers)) > 0) {
+										for ($i=0; $i<$num_numbers; $i++) {
+										?>
+										<em><?php $this->Html->_($client->numbers[$i]->number);?> (<?php echo ucfirst($this->Html->_($client->numbers[$i]->location, true)) . " " . ucfirst($this->Html->_($client->numbers[$i]->type, true));?>)</em>
+										<?php
+										}
+									}
+									?>
+								</p>
+								<div class="bottom_row">
+									<a href="<?php echo $this->base_uri . "clients/vcard/" . $this->Html->_($client->id, true) . "/";?>"><?php $this->_("AdminClients.view.link_vcard");?></a><br />
+									<a href="<?php echo $this->base_uri . "clients/notes/" . $this->Html->_($client->id, true) . "/";?>" class="note"><?php $this->_("AdminClients.view.link_notes");?> <span>(<?php echo $this->Html->_($client->note_count);?>)</span></a>
+									<a href="<?php echo $this->base_uri . "clients/edit/" . $this->Html->_($client->id, true) . "/";?>" class="edit_btn"><?php $this->_("AdminClients.view.link_editclient");?></a>
+								</div>
+							</article>
+							<?php
+							// Only display client group if more than one group exists for the company
+							if ($this->Html->ifSet($multiple_groups, false)) {
+							?>
+							<div class="gradient_row">
+								<span class="member_txt"><?php $this->_("AdminClients.view.setting_memberof");?>
+									<span class="buff" style="background-color:<?php echo $this->Color->hex($this->Html->ifSet($client->group->color))->asHtml();?>; color:<?php echo $this->Color->hex($this->Html->ifSet($client->group->color))->contrastYiq()->asHtml();?>;"><?php $this->Html->_($client->group->name);?></span>
+								</span>
+							</div>
+							<?php
+							}
+							?>
+							<div class="gradient_row">
+								<div class="method_box">
+									<span class="first"><?php $this->_("AdminClients.view.setting_invoicemethod");?></span>
+									<a href="<?php echo $this->base_uri . "clients/quickupdate/" . $this->Html->_($client->id, true) . "/inv_method/";?>" class="quickupdate">
+										<strong class="<?php $this->Html->_($client->settings['inv_method']);?>">
+											<span class="status"><?php $this->Html->_($delivery_methods[$this->Html->ifSet($client->settings['inv_method'])]);?></span>
+										</strong>
+									</a>
+									
+									<span class="second"><?php $this->_("AdminClients.view.setting_autosuspension");?></span>
+									<a href="<?php echo $this->base_uri . "clients/quickupdate/" . $this->Html->_($client->id, true) . "/autosuspend/";?>" class="quickupdate">
+										<strong class="<?php echo $this->Html->safe($this->Html->ifSet($client->settings['autosuspend'], "false") == "true" ? "enable" : "disable");?>">
+											<?php
+											$strike = ($this->Html->ifSet($client->settings['autosuspend']) == "true" && $this->Html->ifSet($client->settings['autosuspend_date']) != "");
+											?>
+											<span class="status<?php echo $strike ? " strike" : "";?>"><?php echo $this->Html->safe($this->_($this->Html->ifSet($client->settings['autosuspend'], "false") == "true" ? "AdminClients.view.setting_enabled" : "AdminClients.view.setting_disabled", true), true);?></span>
+											<div class="autosuspend_date dp-choose-date<?php echo $this->Html->ifSet($client->settings['autosuspend']) != "true" ? " hidden" : "";?>"></div>
+										</strong>
+									</a>
+								</div>
+								<div class="method_box">
+									<span class="first"><?php $this->_("AdminClients.view.setting_autodebit");?></span>
+									<a href="<?php echo $this->base_uri . "clients/quickupdate/" . $this->Html->_($client->id, true) . "/autodebit/";?>" class="quickupdate">
+										<strong class="<?php echo $this->Html->safe($this->Html->ifSet($client->settings['autodebit'], "false") == "true" ? "enable" : "disable");?>">
+											<?php
+											$strike = ($this->Html->ifSet($client->settings['autodebit']) == "true" && empty($client_account));
+											?>
+											<span class="status<?php echo $strike ? " strike" : "";?>"><?php echo $this->Html->safe($this->_($this->Html->ifSet($client->settings['autodebit'], "false") == "true" ? "AdminClients.view.setting_enabled" : "AdminClients.view.setting_disabled", true), true);?></span>
+											<span class="tooltip<?php echo !$strike ? " hidden" : "";?>"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminClients.view.tooltip_autodebit_enabled");?></div></span>
+										</strong>
+									</a>
+									
+									<span class="second"><?php $this->_("AdminClients.view.setting_send_payment_notices");?></span>
+									<a href="<?php echo $this->base_uri . "clients/quickupdate/" . $this->Html->_($client->id, true) . "/send_payment_notices/";?>" class="quickupdate">
+										<strong class="<?php echo $this->Html->safe($this->Html->ifSet($client->settings['send_payment_notices'], "false") == "true" ? "enable" : "disable");?>">
+											<span class="status"><?php echo $this->Html->safe($this->_($this->Html->ifSet($client->settings['send_payment_notices'], "false") == "true" ? "AdminClients.view.setting_enabled" : "AdminClients.view.setting_disabled", true), true);?></span>
+										</strong>
+									</a>
+									
+									<?php
+									/*
+									<span class="second"><?php $this->_("AdminClients.view.setting_sublogin");?></span>
+									<?php
+									#
+									# TODO: set sub login enabled/disabled
+									#
+									?>
+									<strong class="enable">ENABLED</strong>
+									*/
+									?>
+								</div>
+							</div>
+						<?php
+						if ($this->Html->ifSet($client->contacts, false) && ($num_contacts = count($client->contacts)) > 0) {
+						?>
+							<header class="heading parent"><?php $this->_("AdminClients.view.boxtitle_contacts");?></header>
+							<div class="gradient_row">
+								<div class="contacts">
+									<?php
+									// Show all client contacts
+									for ($i=0; $i<$num_contacts; $i++) {
+									?>
+									<p class="contact">
+										<a href="<?php echo $this->base_uri . "clients/editcontact/" . $this->Html->_($client->contacts[$i]->client_id, true) . "/" . $this->Html->_($client->contacts[$i]->id, true) . "/";?>"><?php echo $this->Html->_($client->contacts[$i]->first_name, true) . " " . $this->Html->_($client->contacts[$i]->last_name, true);?></a>
+										<span>
+										<?php
+										$contact_type_key = (isset($client->contacts[$i]->contact_type_id) ? $client->contacts[$i]->contact_type_id : $client->contacts[$i]->contact_type);
+										$this->_("AdminClients.view.contact_type", false, $this->Html->ifSet($contact_types[$contact_type_key]));
+										?>
+										</span>
+									</p>
+									<?php
+									}
+									?>
+								</div>
+							</div>
+						<?php
+						}
+						?>
+						</div>
+						<div class="shadow"></div>
+					</section>
+					<section class="member_stats">
+						<p><?php $this->_("AdminClients.view.member_since", false, $this->Date->cast($this->Html->ifSet($client->date_added)));?></p>
+						<div>
+						<?php
+						if ($this->Html->ifSet($user_log->date_updated, false)) {
+							$this->_("AdminClients.view.member_last_seen", false, $this->Date->cast($this->Html->ifSet($user_log->date_updated)));
+						?>
+							<span class="tooltip">
+								<?php $this->Html->_($user_log->ip_address);?>
+								
+								<div>
+									<p><strong><?php $this->_("AdminClients.view.tooltip_activity");?></strong></p>
+									<p>
+										<?php
+										// Show date timestamp or last activity of latest users
+										if ($this->Html->ifSet($user_log->last_activity, false))
+											$this->Html->_($user_log->last_activity);
+										else
+											echo $this->Date->cast($user_log->date_updated, "date_time");
+										?>
+									</p>
+									
+									<?php
+									if ($this->Html->ifSet($user_log->geo_ip['location'])) {
+										$location = $user_log->geo_ip['location'];
+									?>
+									<p>&nbsp;</p>
+									<p><strong><?php $this->_("AdminClients.view.tooltip_location");?></strong></p>
+									<p><?php echo $this->Html->safe($this->Html->concat(", ", $this->Html->ifSet($location['city']), $this->Html->ifSet($location['region'])));?></p>
+									<p><?php $this->Html->_($location['country_name']);?></p>
+									<?php
+									}
+									?>
+								</div>
+							</span>
+						<?php
+						}
+						else {
+							$this->_("AdminClients.view.member_last_seen_never");
+						}
+						?>
+						</div>
+					</section>
+					<section class="account_actions">
+						<h3><?php $this->_("AdminClients.view.actions_title");?></h3>
+						<ul>
+							<li class="invoice"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/createinvoice/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_createinvoice");?></a></li>
+							<li class="payment"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/makepayment/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_makepayment");?></a></li>
+							<li class="record_payment"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/recordpayment/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_recordpayment");?></a></li>
+							<li class="account"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/accounts/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_manageaccount");?></a></li>
+							<li class="service"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/addservice/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_addservice");?></a></li>
+						</ul>
+						<ul class="other_actions">
+							<li class="contact"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/addcontact/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_addcontact");?></a></li>
+							<li class="note"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/addnote/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_addnote");?></a></li>
+							<li class="package"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/packages/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_setpackages");?></a></li>
+							<li class="mail"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/email/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_emailclient");?></a></li>
+							<li class="login"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/loginasclient/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_login");?></a></li>
+							<li class="maillog"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/emails/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_viewmaillog");?></a></li>
+							<?php
+							/*
+							<li class="merge"><a href="<?php echo $this->Html->safe($this->base_uri . "clients/merge/" . $this->Html->ifSet($client->id) . "/");?>"><?php $this->_("AdminClients.view.actionlink_mergeclient");?></a></li>
+							*/
+							?>
+							<li class="delete">
+								<?php
+								$this->Form->create($this->base_uri . "clients/delete/");
+								$this->Form->fieldHidden("id", $this->Html->ifSet($client->id));
+								?>
+								<a href="<?php echo $this->Html->safe($this->base_uri . "clients/delete/" . $this->Html->ifSet($client->id) . "/");?>" rel="<?php echo $this->Html->safe($this->_("AdminClients.view.confirm_delete", true));?>"><?php $this->_("AdminClients.view.actionlink_deleteclient");?></a>
+								<?php
+								$this->Form->end();
+								?>
+							</li>
+							
+							<?php
+							if ($this->Html->ifSet($plugin_actions)) {
+								foreach ($plugin_actions as $plugin_action) {
+							?>
+								<li class="<?php $this->Html->_($plugin_action->options['class']);?>"><a href="<?php echo $this->Html->safe($this->base_uri . $plugin_action->uri . $this->Html->ifSet($client->id));?>"><?php $this->Html->_($plugin_action->name);?></a></li>
+							<?php
+								}
+							}
+							?>
+						</ul>
+						<a href="#" class="show_all"><?php $this->_("AdminClients.view.actionlink_more");?></a>
+						<a href="#" class="show_common"><?php $this->_("AdminClients.view.actionlink_less");?></a>
+					</section>
+					<section class="currency_amounts"></section>
+				</aside>
+				<div id="right_outer">
+					<section id="right_container">
+						<?php echo $this->Html->ifSet($message);?>
+						<div class="column section1">
+							<?php echo $this->Html->ifSet($sticky_notes);?>
+							<?php echo $this->Html->ifSet($content);?>
+						</div>
+					</section>
+				</div>
+				
+<?php
+if ($this->Html->_($content, true) == "") {
+	$this->Javascript->setInline('
+		$(document).ready(function() {
+			$(".column").blestaLoadWidgets({
+				fetch_uri: "' . $this->Html->safe($this->base_uri . "clients/getwidgets/" . $client->id, true) . '",
+				update_uri: "' . $this->Html->safe($this->base_uri . "clients/reorderwidgets/") . '",
+				toggle_uri: "' . $this->Html->safe($this->base_uri . "clients/togglewidget/") . '"
+			});
+		});
+	');
+}
+$this->Javascript->setInline('
+	$(document).ready(function() {
+		fetchCurrencyAmounts("' . $this->Html->ifSet($default_currency) . '");
+		$(".currency_amounts .currencies a").live("click", function() {
+			fetchCurrencyAmounts($(this).attr("id"));
+			return false;
+		});
+		
+		$("a.quickupdate").click(function() {
+			var a = $(this);
+			$(this).blestaRequest("GET", $(this).attr("href"), null, function(data) {
+				if (data.class_name) {
+					if (a.hasClass("statusupdate")) {
+						var span = $("span,strong", a).eq(0).find("span");
+						$("span,strong", a).eq(0).attr("class", data.class_name).html(data.text + " ");
+						if (span)
+							$("span,strong", a).eq(0).append(span);
+					}
+					else {
+						$("strong", a).attr("class", data.class_name);
+						$("strong span.status", a).html(data.text + " ");
+						
+						if (data.tooltip) {
+							$("strong span.tooltip", a).attr("class", "tooltip");
+							$("strong span.status", a).attr("class", "status strike");
+						}
+						else if (typeof data.autosuspend_date !== "undefined") {
+							if (data.class_name == "enable") {
+								if (data.autosuspend_date) {
+									$("strong span.status", a).attr("class", "status strike");
+								}
+								$(".autosuspend_date", a).removeClass("hidden");
+							}
+							else {
+								$(".autosuspend_date", a).addClass("hidden");
+								$("strong span.status", a).attr("class", "status");
+							}
+						}
+						else {
+							$("strong span.tooltip", a).attr("class", "tooltip hidden");
+							$("strong span.status", a).attr("class", "status");
+						}
+					}
+				}
+			},
+			null,
+			{dataType:"json"});
+			
+			return false;
+		});
+		
+		
+		$(".autosuspend_date").click(function(e) {
+			e.stopPropagation();
+		});
+		$(".autosuspend_date").blestaModal({title: "' . $this->_("AdminClients.view.delaysuspension_modal_title", true) . '", url: "' . $this->Html->safe($this->base_uri . "clients/delaysuspension/" . $this->Html->ifSet($client->id)) . '"});
+		
+		// Handle confirmation on delete action
+		$(".delete a[rel]").blestaModalConfirm({base_url: "' . $this->Html->safe($this->base_uri) . '", close: "' . $this->_("AppController.modal.text_close", true) . '", submit: true});
+	});
+	
+	function fetchCurrencyAmounts(currency) {
+		$(this).blestaRequest("GET", "' . $this->Html->safe($this->base_uri . "clients/getcurrencyamounts/" . $this->Html->ifSet($client->id) . "/") . '" + currency, null, function(data) {
+			if (data)
+				$(".currency_amounts").html(data);
+		},
+		null,
+		{dataType:"json"});
+	}
+');
+?>

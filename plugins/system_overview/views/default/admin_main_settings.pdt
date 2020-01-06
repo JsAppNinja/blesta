@@ -1,0 +1,115 @@
+
+		<?php
+		$this->Form->create($this->Html->safe($this->base_uri . "widget/system_overview/admin_main/update/"));
+		?>
+		<div class="inner">
+			<div class="title_row first"><h3><?php $this->_("AdminMain.settings.heading_statistics");?></h3></div>
+			<div class="pad">
+				<p><?php $this->_("AdminMain.settings.text_options");?></p>
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("clients_active", "1", ($this->Html->ifSet($vars['clients_active'], 0) == 1), array('id'=>"clients_active"));
+						$this->Form->label($this->_("AdminMain.settings.clients_active", true), "clients_active", array('class'=>"inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("active_users_today", "1", ($this->Html->ifSet($vars['active_users_today'], 0) == 1), array('id'=>"active_users_today"));
+						$this->Form->label($this->_("AdminMain.settings.active_users_today", true), "active_users_today", array('class'=>"inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("services_active", "1", ($this->Html->ifSet($vars['services_active'], 0) == 1), array('id'=>"services_active"));
+						$this->Form->label($this->_("AdminMain.settings.services_active", true), "services_active", array('class'=>"inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("recurring_invoices", "1", ($this->Html->ifSet($vars['recurring_invoices'], 0) == 1), array('id'=>"recurring_invoices"));
+						$this->Form->label($this->_("AdminMain.settings.recurring_invoices", true), "recurring_invoices", array('class'=>"inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$attr = array('id'=>"pending_orders");
+						if (!$this->Html->ifSet($plugins['order']))
+							$attr['disabled'] = "disabled";
+						$this->Form->fieldCheckbox("pending_orders", "1", ($this->Html->ifSet($plugins['order']) && $this->Html->ifSet($vars['pending_orders'], 0) == 1), $attr);
+						$this->Form->label($this->_("AdminMain.settings.pending_orders", true), "pending_orders", array('class'=>"inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$attr = array('id' => "open_tickets");
+						if (!$this->Html->ifSet($plugins['support_manager']))
+							$attr['disabled'] = "disabled";
+						$this->Form->fieldCheckbox("open_tickets", "1", ($this->Html->ifSet($plugins['support_manager']) && $this->Html->ifSet($vars['open_tickets'], 0) == 1), $attr);
+						$this->Form->label($this->_("AdminMain.settings.open_tickets", true), "open_tickets", array('class'=>"inline"));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="title_row"><h3><?php $this->_("AdminMain.settings.heading_clients");?></h3></div>
+			<div class="pad">
+				<p><?php $this->_("AdminMain.settings.text_graphs_clients");?></p>
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("graph_clients", "1", ($this->Html->ifSet($vars['graph_clients'], 0) == 1), array('id'=>"graph_clients"));
+						$this->Form->label($this->_("AdminMain.settings.graph_clients", true), "graph_clients", array('class'=>"inline"));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="title_row"><h3><?php $this->_("AdminMain.settings.heading_services");?></h3></div>
+			<div class="pad">
+				<p><?php $this->_("AdminMain.settings.text_graphs_services");?></p>
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("graph_services", "1", ($this->Html->ifSet($vars['graph_services'], 0) == 1), array('id'=>"graph_services"));
+						$this->Form->label($this->_("AdminMain.settings.graph_services", true), "graph_services", array('class'=>"inline"));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="title_row"><h3><?php $this->_("AdminMain.settings.heading_settings");?></h3></div>
+			<div class="pad">
+				<p><?php $this->_("AdminMain.settings.text_graph_settings");?></p>
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("show_one_tab", "1", ($this->Html->ifSet($vars['show_one_tab'], 0) == 1), array('id'=>"show_one_tab"));
+						$this->Form->label($this->_("AdminMain.settings.show_one_tab", true), "show_one_tab", array('class'=>"inline"));
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminMain.settings.tooltip_show_one_tab");?></div></span>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("show_legend", "1", ($this->Html->ifSet($vars['show_legend'], 0) == 1), array('id'=>"show_legend"));
+						$this->Form->label($this->_("AdminMain.settings.show_legend", true), "show_legend", array('class'=>"inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminMain.settings.date_range", true), "date_range");
+						$this->Form->fieldSelect("date_range", $this->Html->ifSet($date_ranges), $this->Html->ifSet($vars['date_range']), array('id'=>"date_range"));
+						?>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="button_row">
+			<a class="btn_right submit" href="#"><?php $this->_("AdminMain.settings.submit_settings");?></a>
+			<a class="btn_right ajax" href="<?php echo $this->Html->safe($this->base_uri);?>widget/system_overview/admin_main/index/return"><?php $this->_("AdminMain.settings.submit_cancel");?></a>
+		</div>
+
+		<?php
+		$this->Form->end();
+		?>

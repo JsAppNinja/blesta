@@ -1,0 +1,40 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				
+				$this->Widget->create($this->_("AdminCompanyBilling.acceptedtypes.boxtitle_types", true));
+				$this->Form->create();
+				
+				// Set a placeholder value so that data is submitted if no checkboxes are set
+				$this->Form->fieldHidden("update", "true");
+				?>
+				<div class="inner">
+					<div class="pad">
+						<p><?php $this->_("AdminCompanyBilling.acceptedtypes.text_description");?></p>
+						<ul>
+							<li>
+								<?php
+								$this->Form->fieldCheckbox("payments_allowed_cc", "true", ($this->Html->ifSet($vars['payments_allowed_cc']) == "true"), array('id'=>"cc"));
+								$this->Form->label($this->_("AdminCompanyBilling.acceptedtypes.field_cc", true), "cc", array('class'=>"inline"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->fieldCheckbox("payments_allowed_ach", "true", ($this->Html->ifSet($vars['payments_allowed_ach']) == "true"), array('id'=>"ach"));
+								$this->Form->label($this->_("AdminCompanyBilling.acceptedtypes.field_ach", true), "ach", array('class'=>"inline"));
+								?>
+							</li>
+						<ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyBilling.acceptedtypes.field_typessubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

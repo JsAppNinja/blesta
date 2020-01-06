@@ -1,0 +1,122 @@
+
+<div class="title_row"><h3><?php $this->_("AdminPackages.add.heading_module");?></h3></div>
+<div class="pad">
+    <?php
+    // Set any hidden fields
+    foreach ($this->Html->ifSet($fields, array()) as $index => $field) {
+        foreach ($field->fields as $input) {
+            if ($input->type == "fieldHidden") {
+                call_user_func_array(array($this->Form, $input->type), $input->params);
+                unset($fields[$index]);
+                continue 2;
+            }
+        }
+    }
+
+    if (empty($groups))
+        $this->Form->fieldHidden("module_group", $this->Html->ifSet($vars->module_group), array('id' => "module_group"));
+    ?>
+	<ul>
+		<?php
+		if (!empty($groups)) {
+		?>
+		<li>
+			<?php
+			$this->Form->label($group_name, "module_group");
+			$this->Form->fieldSelect("module_group", array(''=>$this->_("AdminPackages.add.field_modulegroup_any", true)) + $groups, $this->Html->ifSet($vars->module_group), array('id'=>"module_group"));
+			?>
+		</li>
+		<?php
+		}
+		
+		if (!empty($rows)) {
+		?>
+		<li class="module_row_field">
+			<?php
+			$this->Form->label($row_name, "module_row");
+			$this->Form->fieldSelect("module_row", $rows, $this->Html->ifSet($vars->module_row, 0), array('id' => "module_row"));
+			?>
+		</li>
+		<?php
+		}
+		else {
+			$this->Form->fieldHidden("module_row", $this->Html->ifSet($vars->module_row, 0), array('id' => "module_row"));
+		}
+		?>
+		<?php
+		foreach ($fields as $field) {
+		?>
+		<li>
+			<?php
+			// Draw the primary label/field
+			call_user_func_array(array($this->Form, $field->type), $field->params);
+			
+			// Draw each form field associated with this label
+			$tooltips = array();
+			foreach ($field->fields as $input) {
+				
+				// Collect all tooltips to be displayed at the end
+				if ($input->type == "tooltip") {
+					$tooltips[] = $input;
+					continue;
+				}
+				
+				call_user_func_array(array($this->Form, $input->type), $input->params);
+				
+				// Draw the form field's secondary label if checkbox or radio item
+				if (($input->type == "fieldCheckbox" || $input->type == "fieldRadio") && isset($input->label)) {
+					if (isset($input->label->params['attributes']['class'])) {
+						if (is_array($input->label->params['attributes']['class']))
+							$input->label->params['attributes']['class'][] = "inline";
+						else
+							$input->label->params['attributes']['class'] .= " inline";
+					}
+					else
+						$input->label->params['attributes']['class'] = "inline";
+						
+					call_user_func_array(array($this->Form, "label"), $input->label->params);
+				}
+			}
+			
+			foreach ($tooltips as $tooltip) {
+			?>
+			<span class="tooltip">
+				<?php $this->_("AppController.tooltip.text");?>
+				<div><?php $this->Html->_($tooltip->params['message']);?></div>
+			</span>
+			<?php
+			}
+			?>
+		</li>
+		<?php
+		}
+		?>
+	</ul>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			// Bind tooltips for this content
+			$('#module_group').closest('ul').blestaBindToolTips();
+			
+			// If no group selected hide row listing
+			<?php
+			if (!empty($groups)) {
+			?>
+			if ($('#module_group').val() != "")
+				$('li.module_row_field').hide();
+			<?php
+			}
+			?>
+			
+			// If group changes, determine if row listing should be shown
+			$('#module_group').change(function() {
+				if ($('#module_group').val() != "")
+					$('li.module_row_field').hide();
+				else
+					$('li.module_row_field').show();
+			})
+		});
+	</script>
+	<?php echo $this->Html->ifSet($html);?>
+</div>

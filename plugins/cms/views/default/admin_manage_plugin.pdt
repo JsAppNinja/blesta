@@ -1,0 +1,53 @@
+		<?php
+		$this->Widget->clear();
+		$this->Widget->setStyleSheet($this->view_dir . "css/styles.css");
+		$this->Widget->create($this->_("CmsManagePlugin.index.boxtitle_portal", true));
+		
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("CmsManagePlugin.index.field_title", true), "title");
+						$this->Form->fieldText("title", $this->Html->ifSet($vars->title), array('id' => "title"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("CmsManagePlugin.index.field_tags", true), "tags");
+						?>
+						<div class="accent_box">
+							<?php
+							foreach ($this->Html->ifSet($tags, array()) as $tag)
+								echo $this->Html->concat(" ", $this->Html->_($tag, true), " ");
+							?>
+						</div>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("CmsManagePlugin.index.field_content", true), "content");
+						$this->Form->fieldTextarea("content", $this->Html->ifSet($vars->content), array('id' => "content", 'class'=>"wysiwyg"));
+						?>
+					</li>
+				</ul>
+				<div class="button_row">
+					<a class="btn_right submit" href="#"><?php $this->_("CmsManagePlugin.index.field_submit");?></a>
+				</div>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		/*
+		if ($.isFunction($('textarea.wysiwyg').ckeditor)) {
+			CKEDITOR.config.autoParagraph = false;
+			$('textarea.wysiwyg').ckeditor(function() {}, {language: '<?php echo substr(Configure::get("Blesta.language"), 0, 2);?>'});
+		}
+		*/
+	});
+</script>

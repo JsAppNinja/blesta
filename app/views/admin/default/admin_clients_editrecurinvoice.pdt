@@ -1,0 +1,242 @@
+		<?php
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminClients.editrecurinvoice.boxtitle_editinvoice", true, $this->Html->_($vars->id, true)), array('id'=>"admin_clients_editrecurinvoice"));
+		?>
+		<div class="inner">
+			<?php $this->Form->create();?>
+			<table class="table invoice">
+				<thead>
+					<th>
+						<tr class="heading_row">
+							<td><?php $this->_("AdminClients.editinvoice.heading_description");?></td>
+							<td><?php $this->_("AdminClients.editinvoice.heading_quantity");?></td>
+							<td><?php $this->_("AdminClients.editinvoice.heading_unitcost");?></td>
+							<td><?php $this->_("AdminClients.editinvoice.heading_tax");?></td>
+							<td><?php $this->_("AdminClients.editinvoice.heading_options");?></td>
+							<td class="icon last">&nbsp;</td>
+						</tr>
+					</th>
+				</thead>
+				<tbody>
+					<?php
+					$num_rows = max(1,count($this->Html->ifSet($vars->line_items)));
+					for ($i=0; $i<$num_rows; $i++) {
+					?>
+					<tr class="line_row">
+						<?php $this->Form->fieldHidden("lines[id][]", $this->Html->ifSet($vars->line_items[$i]->id), array('class'=>'line_id'));?>
+						<td><?php $this->Form->fieldText("lines[description][]", $this->Html->ifSet($vars->line_items[$i]->description), array('class'=>"stretch"));?></td>
+						<td class="small"><?php $this->Form->fieldText("lines[qty][]", $this->CurrencyFormat->truncateDecimal($this->Html->ifSet($vars->line_items[$i]->qty), 0), array('class'=>"stretch"));?></td>
+						<td class="small"><?php $this->Form->fieldText("lines[amount][]", $this->CurrencyFormat->format($this->Html->ifSet($vars->line_items[$i]->amount), $vars->currency, array('prefix'=>false,'suffix'=>false,'with_separator'=>false,'code'=>false,'decimals'=>4)), array('class'=>"stretch"));?></td>
+						<td class="extra_small"><?php $this->Form->fieldHidden("lines[tax][]", $this->Html->ifSet($vars->line_items[$i]->taxable) ? "true" : "false");?> <?php $this->Form->fieldCheckbox("tax[]", "true", $this->Html->ifSet($vars->line_items[$i]->taxable));?></td>
+						<td class="medium"><a class="line_row_add" href="#"><?php $this->_("AdminClients.editinvoice.option_add");?></a>, <a href="#" class="manage line_row_delete"><?php $this->_("AdminClients.editinvoice.option_delete");?></a></td>
+						<td class="last center"><div class="handle"></div></td>
+					</tr>
+					<?php
+					}
+					?>
+				</tbody>
+			</table>
+			<div class="pad">
+				<div class="date_section">
+					<div class="row">
+						<?php
+						$this->Form->label($this->_("AdminClients.editinvoice.field_currency", true), "currency");
+						$this->Form->fieldSelect("currency", $this->Html->ifSet($currencies), $this->Html->ifSet($vars->currency), array('id'=>"currency"));
+						?>
+					</div>
+					<?php
+					if ($this->Html->ifSet($delivery_methods)) {
+					?>
+					<div class="row">
+						<ul>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminClients.editinvoice.field_invoicedelivery", true), "delivery");
+								foreach ($delivery_methods as $method => $name) {
+									$this->Form->fieldCheckbox("delivery[]", $method, in_array($method, (array)$this->Html->ifSet($vars->delivery)), array("id"=>"delivery[" . $method . "]", "class"=>"inline"));
+									$this->Form->label($name, "delivery[" . $method . "]", array("class"=>"inline"));									
+								}
+								?>
+							</li>
+						</ul>
+					</div>
+					<?php
+					}
+					?>
+				</div>
+			</div>
+			<div class="sub_total_box">
+				<div class="row totals_subtotal">
+					<span><?php $this->_("AdminClients.editinvoice.price_subtotal");?></span><em><?php echo $this->CurrencyFormat->format($this->Html->ifSet($vars->subtotal), $this->Html->ifSet($vars->currency));?></em>
+				</div>
+				<?php
+				for ($i=0; $i<2; $i++) {
+				?>
+				<div class="row totals_tax"<?php echo !isset($vars->taxes[$i]) ? " style=\"display: none;\"" : "";?>>
+					<span><?php $this->Html->_($vars->taxes[$i]->name);?></span><em><?php echo $this->CurrencyFormat->format($this->Html->ifSet($vars->taxes[$i]->tax_total), $this->Html->ifSet($vars->currency));?></em>
+				</div>
+				<?php
+				}
+				?>
+				<div class="row total totals_total">
+					<span></span><strong><em><?php echo $this->CurrencyFormat->format($this->Html->ifSet($vars->total), $this->Html->ifSet($vars->currency));?></em></strong>
+				</div>
+			</div>
+			
+			<h4></h4>
+			<div id="recurring_invoice">
+				<div class="pad reverse">
+					<table class="table">
+						<tr class="heading_row">
+							<td><?php $this->Form->label($this->_("AdminClients.editinvoice.heading_term", true), "term");?></td>
+							<td><?php $this->Form->label($this->_("AdminClients.editinvoice.heading_period", true), "period");?></td>
+							<td><?php $this->Form->label($this->_("AdminClients.editinvoice.heading_duration", true), "duration");?></td>
+							<td class="last"><?php $this->Form->label($this->_("AdminClients.editinvoice.heading_nextbilldate", true), "recur_date_billed");?></td>
+						</tr>
+						<tr>
+							<td class="small"><?php $this->Form->fieldText("term", $this->Html->ifSet($vars->term), array("id"=>"term", "class"=>"stretch"));?></td>
+							<td class="small"><?php $this->Form->fieldSelect("period", $this->Html->ifSet($periods), $this->Html->ifSet($vars->period, "month"), array("id"=>"period"));?></td>
+							<td>
+								<?php
+								$this->Form->fieldRadio("duration", "indefinitely", ($this->Html->ifSet($vars->duration, "indefinitely") == "indefinitely"), array("id"=>"indefinitely"));
+								$this->Form->label($this->_("AdminClients.editinvoice.field_duration_indefinitely", true), "indefinitely", array('class'=>"inline"));
+								$this->Form->fieldRadio("duration", "times", ($this->Html->ifSet($vars->duration) == "times"), array('id'=>"duration"));
+								$this->Form->fieldText("duration_time", $this->Html->ifSet($vars->duration_time), array("id"=>"duration_time", "class"=>"small"));
+								$this->Form->label($this->_("AdminClients.editinvoice.field_duration_times", true), "duration_time", array('class'=>"inline"));
+								?>
+							</td>
+							<td class="last medium">
+								<?php $this->Form->fieldText("date_renews", $this->Html->ifSet($vars->date_renews), array("id"=>"date_renews", "class"=>"date"));?>
+								<a href="#" class="calender"></a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			
+			<h4><a id="notes" href="#" class="show_content"><?php $this->_("AdminClients.editinvoice.section_notes");?></a></h4>
+			<div id="notes_section">
+				<div class="pad reverse">
+					<ul>
+						<li>
+							<?php
+							$this->Form->label($this->_("AdminClients.editinvoice.field_notepublic", true), "note_public");
+							$this->Form->fieldTextarea("note_public", $this->Html->ifSet($vars->note_public), array("id"=>"note_public"));
+							?>
+						<li>
+						<li>
+							<?php
+							$this->Form->label($this->_("AdminClients.editinvoice.field_noteprivate", true), "note_private");
+							$this->Form->fieldTextarea("note_private", $this->Html->ifSet($vars->note_private), array("id"=>"note_private"));
+							?>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<?php
+			/*
+			<div class="textarea_section">
+				<div class="row">
+					<?php
+					$this->Form->label($this->_("AdminClients.editinvoice.field_notepublic", true), "note_public");
+					$this->Form->fieldTextarea("note_public", $this->Html->ifSet($vars->note_public), array("id"=>"note_public"));
+					?>
+				</div>
+				<div class="row">
+					<?php
+					$this->Form->label($this->_("AdminClients.editinvoice.field_noteprivate", true), "note_private");
+					$this->Form->fieldTextarea("note_private", $this->Html->ifSet($vars->note_private), array("id"=>"note_private"));
+					?>
+				</div>
+			</div>
+			*/
+			?>
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("AdminClients.editinvoice.field_invoicesubmit");?></a><a class="btn_right" href="<?php echo $this->base_uri . "clients/deleterecurinvoice/" . $vars->id . "/";?>" rel="<?php echo $this->Html->safe($this->_("AdminClients.editinvoice.confirm_deleterecur", true));?>"><?php $this->_("AdminClients.editinvoice.field_invoicedelete");?></a>
+			</div>
+			<?php $this->Form->end();?>
+		</div>
+		
+		<?php
+		$this->Widget->end();
+		?>
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	// Handle confirmation
+	$('#admin_clients_editrecurinvoice a.btn_right[rel]').blestaModalConfirm({base_url: '" . $this->base_uri . "', close: '" . $this->_("AppController.modal.text_close", true) . "'});
+	
+	var totals_uri = '" . $this->Html->_($this->base_uri, true) . "clients/calcLineTotals/" . $this->Html->_($client->id, true) . "';
+	
+	// Ensure the position of the recurring date billed calendar is within the view frame
+	$('#date_renews').dpSetPosition($.dpConst.POS_TOP, $.dpConst.POS_RIGHT);
+	
+	// Whenever the tax box is checked, we need to set the line tax to update
+	$('input[name=\"tax[]\"]').change(function() {
+		$('input[name=\"lines[tax][]\"]', $(this).parent()).val($(this).attr('checked') ? 'true' : 'false');
+		$(this).blestaSetInvTotals(totals_uri);
+	});
+
+	// Set invoice totals when amount quanity or tax status changes
+	$('input[name=\"lines[amount][]\"], input[name=\"lines[qty][]\"]').change(function() {
+		$(this).blestaSetInvTotals(totals_uri);
+	});
+
+	// Allow sort of invoice lines
+	$('table.table.invoice tbody').blestaSortable();
+	$('table.table.invoice tbody tr').hover(
+		function() {
+			$('.handle', this).show();
+		},
+		function() {
+			$('.handle', this).hide();
+		}
+	);
+
+	$('#notes_section').hide();
+	
+	// Toggle notes and recurring sections
+	$(this).blestaBindToggleEvent('#notes', '#notes_section');
+	
+	// Check the 'number of times' field
+	$('#duration_time').focus(function() {
+		$('#duration').attr('checked', 'checked');
+	});
+	
+	$('.line_row_add').click(function() {
+		var fields = $('tr.line_row:first').clone(true);
+		// Remove input text/hidden and textarea data
+		fields.find('input:text,input:hidden,textarea').val('');
+		// Remove checkbox/radio data
+		fields.find('input:checkbox,input:radio').removeAttr('checked');
+		// Unselect options
+		fields.find('option:selected').removeAttr('selected');
+		
+		// Append the row below this row, assign the new row
+		var line = $(this).closest('tr').after(fields).next();
+		
+		// Remove line item ID field from duplicated row
+		$('.line_id', line).remove();
+		
+		
+		return false;
+	});
+	
+	$('.line_row_delete').click(function() {
+		if ($('tr.line_row').length > 1) {
+			var form = $(this).closest('form');
+			
+			// Move the line item ID field, then delete the row
+			var line_item = $(this).closest('tr').find('.line_id').clone(true);
+			$('tr.line_row:last').after(line_item);
+			
+			$(this).closest('tr').remove();
+			
+			// Update totals
+			$(form).blestaSetInvTotals(totals_uri);
+		}
+		return false;
+	});
+});
+");
+?>		

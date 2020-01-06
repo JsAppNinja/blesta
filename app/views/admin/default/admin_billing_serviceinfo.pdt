@@ -1,0 +1,12 @@
+		<?php
+		if ($this->Html->ifSet($content)) {
+			echo $content;
+		}
+		else {
+		?>
+		<div class="empty_section">
+			<div class="empty_box"><?php $this->_("AdminBilling.serviceinfo.no_results");?></div>
+		</div>
+		<?php
+		}
+		?>

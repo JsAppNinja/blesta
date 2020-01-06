@@ -1,0 +1,31 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemGeneral.maintenance.boxtitle_maintenance", true));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->fieldCheckbox("maintenance_mode", "true", ($this->Html->ifSet($vars['maintenance_mode']) == "true"), array("id"=>"maintenance_mode"));?>
+								<?php $this->Form->label($this->_("AdminSystemGeneral.maintenance.field_maintenancemode", true), "maintenance_mode", array('class'=>"inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemGeneral.maintenance.field_maintenancereason", true), "maintenance_reason");?>
+								<?php $this->Form->fieldTextarea("maintenance_reason", $this->Html->ifSet($vars['maintenance_reason']), array("id"=>"maintenance_reason"));?>
+							</li>
+						</ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminSystemGeneral.maintenance.field_maintenancesubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

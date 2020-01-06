@@ -1,0 +1,47 @@
+        <?php
+		$this->Widget->clear();
+		$this->Widget->setLinkButtons(array());
+		$this->Widget->create($this->_("BuycPanel.add_row.box_title", true));
+		?>
+		<div class="inner">
+			<?php
+			$this->Form->create();
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("BuycPanel.add_row.basic_title");?></h3>
+			</div>
+			<div class="pad">
+                <ul>
+                    <li>
+                        <?php
+						$this->Form->label($this->_("BuycPanel.row_meta.email", true), "email");
+						$this->Form->fieldText("email", $this->Html->ifSet($vars->email), array('id' => "email"));
+						?>
+                        <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("BuycPanel.row_meta.tooltip.email");?></div></span>
+                    </li>
+                    <li>
+                        <?php
+						$this->Form->label($this->_("BuycPanel.row_meta.key", true), "key");
+						$this->Form->fieldText("key", $this->Html->ifSet($vars->key), array('id' => "key"));
+						?>
+                        <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("BuycPanel.row_meta.tooltip.key");?></div></span>
+                    </li>
+                    <li>
+						<?php
+						$this->Form->fieldCheckbox("test_mode", "true", ($this->Html->ifSet($vars->test_mode) == "true"), array('id' => "test_mode"));
+						$this->Form->label($this->_("BuycPanel.row_meta.test_mode", true), "test_mode", array('class' => "inline"));
+						?>
+					</li>
+                </ul>
+            </div>
+
+            <div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("BuycPanel.add_row.add_btn");?></a>
+			</div>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

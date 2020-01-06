@@ -1,0 +1,19 @@
+	<div class="wrapper">
+		<h3>Blesta Installer</h3>
+		<div class="contents">
+			<h4>Install via Web Browser</h4>
+			<p>
+				<a href="<?php echo $this->Html->safe(WEBDIR . "install/process/");?>">Continue with Installation</a>
+			</p>
+			
+			<h4>Install via CLI</h4>
+			<p>
+				To install via the command line, run:
+			</p>
+			<div>
+				<code>
+					php <?php echo ROOTWEBDIR;?>index.php install
+				</code>
+			</div>
+		</div>
+	</div>

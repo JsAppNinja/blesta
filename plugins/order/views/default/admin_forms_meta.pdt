@@ -1,0 +1,132 @@
+			<?php
+			echo $this->Html->ifSet($meta_fields);
+			?>
+			
+			<?php
+			if ($this->Html->ifSet($multi_group)) {
+			?>
+			<div class="title_row">
+				<h3><?php $this->_("AdminForms.meta.heading_package_groups");?></h3>
+			</div>
+			
+			<div class="pad">
+				<table>
+					<tr>
+						<td><?php $this->Form->label($this->_("AdminForms.meta.text_membergroups", true), "assigned");?></td>
+						<td></td>
+						<td><?php $this->Form->label($this->_("AdminForms.meta.text_availablegroups", true), "available");?></td>
+					</tr>
+					<tr>
+						<td>
+							<?php $this->Form->fieldMultiSelect("groups[]", $this->Html->ifSet($vars->groups), array(), array('id' => "assigned"));?>
+						</td>
+						<td><a href="#" class="move_left">&nbsp;</a> &nbsp; <a href="#" class="move_right">&nbsp;</a></td>
+						<td>
+							<?php $this->Form->fieldMultiSelect("available[]", $this->Html->ifSet($package_groups), array(), array('id' => "available"));?>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<?php
+			}
+			elseif ($this->Html->ifSet($multi_group) === false) {
+				$group_id = null;
+				$groups = array_keys($this->Html->ifSet($vars->groups, array()));
+				if (isset($groups[0]))
+					$group_id = $groups[0];
+				
+			?>
+			<div class="title_row">
+				<h3><?php $this->_("AdminForms.meta.heading_package_group");?></h3>
+			</div>
+			
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldSelect("groups[]", array('' => $this->_("AppController.select.please", true)) + (array)$this->Html->ifSet($package_groups), $group_id, array('id' => "form_groups"));
+						?>
+					</li>
+				</ul>
+			</div>
+			<?php
+			}
+			?>
+			
+			<?php
+			if ($this->Html->ifSet($currencies)) {
+			?>
+			<div class="title_row">
+				<h3><?php $this->_("AdminForms.meta.heading_currencies");?></h3>
+			</div>
+			<div class="pad">
+				<dl>
+					<?php
+					foreach ($currencies as $currency) {
+					?>
+					<dd>
+						<?php
+						$this->Form->fieldCheckbox("currencies[]", $this->Html->ifSet($currency->code), in_array($currency->code, (array)$this->Html->ifSet($vars->currencies)), array('id' => "currency_" . $currency->code));
+						$this->Form->label($currency->code, "currency_" . $currency->code, array('class' => "inline"));
+						?>
+					</dd>
+					<?php
+					}
+					?>
+				</dl>
+			</div>
+			<?php
+			}
+			?>
+			
+			<?php
+			if ($this->Html->ifSet($gateways)) {
+			?>
+			<div class="title_row">
+				<h3><?php $this->_("AdminForms.meta.heading_gateways");?></h3>
+			</div>
+			<div class="pad">
+				<?php
+				if (isset($gateways['nonmerchant'])) {
+				?>
+				<dl>
+					<?php
+					foreach ($gateways['nonmerchant'] as $gateway) {
+					?>
+					<dd>
+						<?php
+						$this->Form->fieldCheckbox("gateways[]", $this->Html->ifSet($gateway->id), in_array($gateway->id, (array)$this->Html->ifSet($vars->gateways)), array('id' => "gateway_" . $gateway->id));
+						$this->Form->label($gateway->name, "gateway_" . $gateway->id, array('class' => "inline"));
+						?>
+					</dd>
+					<?php
+					}
+					?>
+				</dl>
+				<?php
+				}
+				?>
+				<?php
+				if (isset($gateways['merchant'])) {
+				?>
+				<dl>
+					<?php
+					foreach ($gateways['merchant'] as $gateway) {
+					?>
+					<dd>
+						<?php
+						$this->Form->fieldCheckbox("gateways[]", $this->Html->ifSet($gateway->id), in_array($gateway->id, (array)$this->Html->ifSet($vars->gateways)), array('id' => "gateway_" . $gateway->id));
+						$this->Form->label($gateway->name, "gateway_" . $gateway->id, array('class' => "inline"));
+						?>
+					</dd>
+					<?php
+					}
+					?>
+				</dl>
+				<?php
+				}
+				?>
+			</div>
+			<?php
+			}
+			?>

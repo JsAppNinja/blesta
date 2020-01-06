@@ -1,0 +1,46 @@
+
+		<div class="title_row">
+			<h3><?php $this->_("AdminSearch.clients.heading");?></h3>
+		</div>
+		<?php
+		if ($this->Html->ifSet($clients, false) && ($num_clients = count($clients)) > 0) {
+		?>
+		<table class="table">
+			<tr class="heading_row">
+				<td><span><?php $this->_("AdminSearch.clients.heading_client_id");?></span></td>
+				<td><span><?php $this->_("AdminSearch.clients.heading_group");?></span></td>
+				<td><span><?php $this->_("AdminSearch.clients.heading_name");?></span></td>
+				<td><span><?php $this->_("AdminSearch.clients.heading_company");?></span></td>
+				<td><span><?php $this->_("AdminSearch.clients.heading_address");?></span></td>
+				<td class="last"><span><?php $this->_("AdminSearch.clients.heading_email");?></span></td>
+			</tr>
+			<?php
+			// Display all clients			
+			for ($i=0; $i<$num_clients; $i++) {
+			?>
+			<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : "";?>>				
+				<td><a href="<?php echo $this->base_uri . "clients/view/" . $this->Html->_($clients[$i]->id, true) . "/";?>"><?php echo $this->Html->_($clients[$i]->id_code, true);?></a></td>
+				<td><span class="buff" style="background-color:<?php echo $this->Color->hex($this->Html->ifSet($clients[$i]->group->color))->asHtml();?>; color:<?php echo $this->Color->hex($this->Html->ifSet($clients[$i]->group->color))->contrastYiq()->asHtml();?>;"><?php $this->Html->_($clients[$i]->group->name);?></span></td>
+				<td><?php echo $this->Html->_($clients[$i]->first_name, true) . " " . $this->Html->_($clients[$i]->last_name, true);?></td>
+				<td><?php $this->Html->_($clients[$i]->company);?></td>
+				<td><?php $this->Html->_($clients[$i]->address1);?></td>
+				<td><a href="mailto:<?php $this->Html->_($clients[$i]->email);?>"><?php $this->Html->_($clients[$i]->email);?></a></td>
+			</tr>
+			<?php
+			}
+			?>
+		</table>
+		<?php
+			if (isset($this->Pagination))
+				$this->Pagination->build();
+		}
+		else {
+		?>
+		<div class="empty_section">
+			<div class="empty_box">
+				<?php $this->_("AdminSearch.clients.no_results");?>
+			</div>
+		</div>
+		<?php
+		}
+		?>

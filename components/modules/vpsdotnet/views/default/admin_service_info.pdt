@@ -1,0 +1,12 @@
+	<table class="table">
+		<tr class="heading_row">
+			<td class="fixed_small center border_none"><span class="paymnt_arrow"></span></td>
+			<td class="border_left last"><?php $this->_("Vpsdotnet.service_info.vpsdotnet_primary_ip_address");?></td>
+			<td class="border_left last"><?php $this->_("Vpsdotnet.service_info.vpsdotnet_password");?></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php $this->Html->_($service_fields->vpsdotnet_primary_ip_address);?></td>
+			<td><?php $this->Html->_($service_fields->vpsdotnet_password);?></td>
+		</tr>
+	</table>

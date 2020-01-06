@@ -1,0 +1,28 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemHelp.boxtitle_help", true));
+				?>
+				<div class="settings">
+					<div class="section user_manual">
+						<h1><a href="http://docs.blesta.com/display/user/Overview" target="_blank"><?php $this->_("AdminSystemHelp.index.heading_user_manual");?></a></h1>
+						<p><?php $this->_("AdminSystemHelp.index.text_user_manual");?></p>
+					</div>
+					
+					<div class="section dev_manual">
+						<h1><a href="http://docs.blesta.com/display/dev/Overview" target="_blank"><?php $this->_("AdminSystemHelp.index.heading_dev_manual");?></a></h1>
+						<p><?php $this->_("AdminSystemHelp.index.text_dev_manual");?></p>
+					</div>
+					
+					<div class="section forums">
+						<h1><a href="http://www.blesta.com/forums/" target="_blank"><?php $this->_("AdminSystemHelp.index.heading_forums");?></a></h1>
+						<p><?php $this->_("AdminSystemHelp.index.text_forums");?></p>
+					</div>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>

@@ -1,0 +1,24 @@
+
+	<ul>
+        <li>
+            <?php
+            $this->Form->label($this->_("Payza.merchant_id", true), "merchant_id");
+            $this->Form->fieldText("merchant_id", $this->Html->ifSet($meta['merchant_id']), array('id'=>"merchant_id"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Payza.merchant_id_note");?></div></span>
+        </li>
+		<li>
+            <?php
+            $this->Form->label($this->_("Payza.api_security_code", true), "api_security_code");
+            $this->Form->fieldText("api_security_code", $this->Html->ifSet($meta['api_security_code']), array('id'=>"api_security_code"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Payza.api_password_note");?></div></span>
+		</li>
+		<li>
+            <?php
+            $this->Form->fieldCheckbox("test_mode", "true", ($this->Html->ifSet($meta['test_mode'], "false") == "true"), array('id'=>"test_mode"));
+            $this->Form->label($this->_("Payza.test_mode", true), "test_mode", array('class'=>"inline"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Payza.test_mode_note"); ?></div></span>
+        </li>
+	</ul>

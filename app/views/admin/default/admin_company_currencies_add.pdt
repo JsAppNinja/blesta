@@ -1,0 +1,62 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				
+				$this->Widget->create($this->_("AdminCompanyCurrencies.add.boxtitle_add", true));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">			
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.add.field_code", true), "code");?>
+								<?php $this->Form->fieldText("code", $this->Html->ifSet($vars->code), array("id"=>"code", "class"=>"small"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.add.field_format", true), "format");?>
+								<?php $this->Form->fieldSelect("format", $this->Html->ifSet($formats), $this->Html->ifSet($vars->format), array("id"=>"format"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.add.field_precision", true), "precision");?>
+								<?php $this->Form->fieldText("precision", $this->Html->ifSet($vars->precision, 4), array("id"=>"precision", "class"=>"small", "maxLength"=>"1"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyCurrencies.!tooltip.precision");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.add.field_prefix", true), "prefix");?>
+								<?php $this->Form->fieldText("prefix", $this->Html->ifSet($vars->prefix), array("id"=>"prefix", "class"=>"small"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.add.field_suffix", true), "suffix");?>
+								<?php $this->Form->fieldText("suffix", $this->Html->ifSet($vars->suffix), array("id"=>"suffix", "class"=>"small"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyCurrencies.add.field_exchange_rate", true), "exchange_rate");?>
+								<?php $this->Form->fieldText("exchange_rate", $this->Html->ifSet($vars->exchange_rate), array("id"=>"exchange_rate", "class"=>"small"));?>
+							</li>
+						</ul>
+						<div class="button_row">
+							<a class="btn_right submit" href="#" rel="<?php echo ($this->Html->_($exchange_rates_auto_update, true) == "true") ? $this->Html->safe($this->_("AdminCompanyCurrencies.add.confirm_add", true)) : "";?>"><?php $this->_("AdminCompanyCurrencies.add.field_addsubmit");?></a>
+							<a class="btn_right" href="<?php echo $this->base_uri;?>settings/company/currencies/active/"><?php $this->_("AdminCompanyCurrencies.!cancel.field_cancel");?></a>
+						</div>
+					</div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>
+<?php
+// Setup confirmation if exchange rates automatically update
+if ($this->Html->_($exchange_rates_auto_update, true) == "true") {
+	$this->Javascript->setInline("
+	$(document).ready(function() {
+		$('.button_row .submit[rel]').blestaModalConfirm({submit: true, base_url: '" . $this->base_uri . "', close: '" . $this->Html->safe($this->_("AppController.modal.text_close", true)) . "'});
+	});
+	");
+}
+?>

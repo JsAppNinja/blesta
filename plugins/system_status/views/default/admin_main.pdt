@@ -1,0 +1,73 @@
+		<?php
+		$this->Widget->clear();
+		$this->Widget->setStyleSheet($this->view_dir . "css/styles.css");
+		$this->Widget->setStyleSheet(VENDORWEBDIR . "jqplot/jquery.jqplot.min.css");
+		$this->Widget->setWidgetButton("arrow");
+		$this->Widget->create($this->_("AdminMain.index.boxtitle_feed", true), array('id'=>"widget_system_status_admin_main"), $this->Html->ifSet($render_section, null));
+		?>
+		
+		<div class="system_status">
+			<div id="status_chart" style="width:120px; height:80px;"></div>
+			<div class="status_box">
+				<p><?php $this->Html->_($health_status);?></p>
+			</div>
+			<div class="link_area">
+				<ul>
+					<?php
+					// Show any status messages
+					foreach ($errors as $error) {
+						if (!$error)
+							continue;
+					?>
+					<li><span class="icon <?php $this->Html->_($error['icon']);?>"></span><?php $this->Html->_($error['message']);?> <a class="override" href="<?php $this->Html->_($error['link']);?>"><?php $this->Html->_($error['link_text']);?></a></li>
+					<?php
+					}
+					?>
+				</ul>
+			</div>
+		</div>
+
+<!--[if lt IE 9]><script type="text/javascript" src="<?php echo VENDORWEBDIR . "jqplot/excanvas.min.js";?>"></script><![endif]-->
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		systemStatusInitialize();
+	 });
+	
+	function systemStatusInitialize() {
+		if (typeof $.jqplot !== "function") {
+			$.getScript('<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/jquery.jqplot.min.js");?>', function(data, textStatus, jqxhr) {
+				systemStatusInitialize();
+			});
+		}
+		else if (typeof $.jqplot.MeterGaugeRenderer !== "function") {
+			$.getScript('<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/plugins/jqplot.meterGaugeRenderer.min.js");?>', function(data, textStatus, jqxhr) {
+				systemStatusInitialize();
+			});
+		}
+		else {
+			var needle_pos = [<?php echo ($this->Html->_($system_status, true)/100)*4;?>];
+			
+			plot1 = $.jqplot('status_chart',[needle_pos],{
+				gridPadding: { top:0, right:0, bottom:0, left:0},
+				seriesDefaults: {
+					renderer: $.jqplot.MeterGaugeRenderer,
+					rendererOptions: {
+						showTickLabels: false,
+						ringColor:'#ffffff',
+						ringWidth:1,
+						intervals:[2,3.3,4],
+						intervalColors:['#cb3d3d', '#f4fa8e', '#6fcb56'],
+						background:'#34363b',
+						intervalInnerRadius:3,
+						intervalOuterRadius:34
+					}
+				}
+			});
+		}
+	}
+</script>
+
+		<?php
+		$this->Widget->end();
+		?>

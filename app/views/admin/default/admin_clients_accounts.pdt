@@ -1,0 +1,102 @@
+
+		<?php
+		$link_buttons = array(
+			array('name'=>$this->_("AdminClients.accounts.categorylink_cc", true), 'attributes'=>array('href'=>$this->base_uri . "clients/addccaccount/" . $this->Html->_($client->id, true) . "/")),
+			array('name'=>$this->_("AdminClients.accounts.categorylink_ach", true), 'attributes'=>array('href'=>$this->base_uri . "clients/addachaccount/" . $this->Html->_($client->id, true) . "/"))
+		);
+		
+		$this->Widget->clear();
+		$this->Widget->setLinkButtons($link_buttons);
+		
+		$this->Widget->create($this->_("AdminClients.accounts.boxtitle_accounts", true));
+		
+		$this->Form->create();
+		
+		if ($this->Html->ifSet($accounts, false) && (($num_accounts = count($accounts)) > 0)) {
+		?>
+		<table class="table" id="accounts">
+			<tr class="heading_row">
+				<td class="fixed_small center"><?php $this->Form->fieldRadio("account_id", "none", ($this->Html->_($vars->account_id, true) == "none"));?></td>
+				<td><span><?php $this->_("AdminClients.accounts.text_name");?></span></td>
+				<td><span><?php $this->_("AdminClients.accounts.text_type");?></span></td>
+				<td><span><?php $this->_("AdminClients.accounts.text_last4");?></span></td>
+				<td class="last"><span><?php $this->_("AdminClients.accounts.text_options");?></span></td>
+			</tr>
+			<?php
+			// Save the account type of the account that is checked
+			$account_type = "cc";
+			
+			// Loop through all invoices
+			for ($i=0; $i<$num_accounts; $i++) {
+			?>
+			<tr<?php echo $this->Html->concat(" ", ($i%2 == 1) ? " class=\"odd_row\"" : "", "");?>>
+				<?php
+				// Radio is checked if both account ID and account type match
+				$radio_checked = false;
+				
+				if (($this->Html->_($vars->account_id, true) == $this->Html->ifSet($accounts[$i]->id)) &&
+					($this->Html->_($vars->type, true) == $this->Html->ifSet($accounts[$i]->account_type))) {
+					$radio_checked = true;
+					$account_type = $this->Html->ifSet($accounts[$i]->account_type);
+				}
+				?>
+				<td class="fixed_small center">
+					<?php
+					$this->Form->fieldRadio("account_id", $this->Html->ifSet($accounts[$i]->id), $radio_checked);
+					$this->Form->fieldHidden("account_type", $this->Html->ifSet($accounts[$i]->account_type));
+					?>
+				</td>
+				<td><?php echo $this->Html->_($accounts[$i]->first_name, true) . " " . $this->Html->_($accounts[$i]->last_name, true);?></td>
+				<td class="account_type">
+					<?php
+					if ($this->Html->ifSet($accounts[$i]->account_type) == "cc") {
+						$expiration = substr($this->Html->ifSet($accounts[$i]->expiration), 0, 4) . "-" . substr($this->Html->ifSet($accounts[$i]->expiration), 4, 6);
+						$this->_("AdminClients.accounts.type_cc", false, $this->Html->ifSet($account_types['cc']), $this->Html->ifSet($cc_types[$accounts[$i]->type]), date("F Y", strtotime($expiration)));
+					}
+					else
+						$this->_("AdminClients.accounts.type_ach", false, $this->Html->ifSet($account_types['ach']), $this->Html->ifSet($ach_types[$accounts[$i]->type]));
+					?>
+				</td>
+				<td><?php $this->Html->_($accounts[$i]->last4);?></td>
+				<td>
+					<a href="<?php echo $this->base_uri . "clients/" . ($this->Html->ifSet($accounts[$i]->account_type) == "cc" ? "editccaccount" : "editachaccount") . "/" . $this->Html->_($client->id, true) . "/" . $this->Html->_($accounts[$i]->id, true) . "/";?>"><?php $this->_("AdminClients.accounts.option_edit");?></a>,
+					<a href="<?php echo $this->base_uri . "clients/" . ($this->Html->ifSet($accounts[$i]->account_type) == "cc" ? "deleteccaccount" : "deleteachaccount") . "/" . $this->Html->_($client->id, true) . "/" . $this->Html->_($accounts[$i]->id, true) . "/";?>" rel="<?php echo $this->Html->safe($this->_("AdminClients.accounts.confirm_delete", true));?>" class="manage"><?php $this->_("AdminClients.accounts.option_delete");?></a>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+		</table>
+		<?php
+		$this->Form->fieldHidden("type", $this->Html->_($account_type, true), array('id'=>"account_type"));
+		?>
+		<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminClients.accounts.field_accountsubmit");?></a></div>
+		<?php
+		}
+		else {
+		?>
+		<div class="inner">
+			<div class="empty_section">
+				<div class="empty_box">
+					<?php $this->_("AdminClients.accounts.no_results");?>
+				</div>
+			</div>
+		</div>
+		<?php
+		}
+		
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+<?php
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		$('#accounts input[name=\'account_id\']').click(function() {
+			$('#account_type').val($('input[name=\'account_type\']', $(this).parent()).val());
+		});
+		
+		// Handle confirmation on delete action
+		$('#accounts a.manage[rel]').blestaModalConfirm({base_url: '" . $this->base_uri . "', close: '" . $this->_("AppController.modal.text_close", true) . "'});
+	});
+");
+?>

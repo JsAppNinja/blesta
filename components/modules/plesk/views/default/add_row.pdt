@@ -1,0 +1,71 @@
+		<?php
+		$this->Widget->clear();
+		$this->Widget->setLinkButtons(array());
+		$this->Widget->create($this->_("Plesk.add_row.box_title", true));
+		?>
+		<div class="inner">
+			<?php
+			$this->Form->create();
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("Plesk.add_row.basic_title");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("Plesk.row_meta.server_name", true), "server_name");
+						$this->Form->fieldText("server_name", $this->Html->ifSet($vars->server_name), array('id' => "server_name"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Plesk.row_meta.ip_address", true), "ip_address");
+						$this->Form->fieldText("ip_address", $this->Html->ifSet($vars->ip_address), array('id' => "ip_address"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Plesk.row_meta.port", true), "port");
+						$this->Form->fieldText("port", $this->Html->ifSet($vars->port), array('id' => "port"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Plesk.row_meta.username", true), "username");
+						$this->Form->fieldText("username", $this->Html->ifSet($vars->username), array('id' => "username"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Plesk.row_meta.password", true), "password");
+						$this->Form->fieldPassword("password", array('id' => "password", 'value' => $this->Html->ifSet($vars->password)));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("reseller", "true", ($this->Html->ifSet($vars->reseller) == "true"), array('id' => "reseller"));
+						$this->Form->label($this->_("Plesk.row_meta.reseller", true), "reseller", array('class' => "inline"));
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Plesk.row_meta.tooltip.reseller");?></div></span>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Plesk.row_meta.panel_version", true), "panel_version");
+						$this->Form->fieldSelect("panel_version", $this->Html->ifSet($panel_versions), $this->Html->ifSet($vars->panel_version), array('id' => "panel_version"));
+						?>
+					</li>
+				</ul>
+			</div>
+				
+			
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("Plesk.add_row.add_btn");?></a>
+			</div>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

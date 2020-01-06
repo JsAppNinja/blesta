@@ -1,0 +1,70 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyModules.editgroup.boxtitle_edit", true, $module->getName(), $module->moduleRowName()));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyModules.editgroup.text_name", true), "name");?>
+								<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array("id"=>"name"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyModules.editgroup.text_order", true), "add_order");?>
+								<?php $this->Form->fieldSelect("add_order", $this->Html->ifSet($module_add_order), $this->Html->ifSet($vars->add_order), array('id'=>"add_order"));?>
+							</li>
+						</ul>
+						
+						<table>
+							<tr>
+								<td><?php $this->Form->label($this->_("AdminCompanyModules.editgroup.assigned", true, $module->moduleRowNamePlural()), "assigned");?></td>
+								<td></td>
+								<td><?php $this->Form->label($this->_("AdminCompanyModules.editgroup.available", true, $module->moduleRowNamePlural()), "available");?></td>
+							</tr>
+							<tr>
+								<td>
+									<?php $this->Form->fieldMultiSelect("module_rows[]", $this->Html->ifSet($vars->module_rows), array_keys($this->Html->ifSet($vars->module_rows, array())), array("id"=>"assigned"));?>
+								</td>
+								<td><a href="#" class="move_left">&nbsp;</a> &nbsp; <a href="#" class="move_right">&nbsp;</a></td>
+								<td>
+									<?php $this->Form->fieldMultiSelect("available[]", $this->Html->ifSet($module_rows), array(), array("id"=>"available"));?>
+								</td>
+							</tr>
+						</table>
+						
+						<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyModules.editgroup.btn_edit");?></a></div>
+					</div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>
+		
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	// Move module row from right to left
+	$('.move_left').click(function() {
+		$('#available option:selected').appendTo($('#assigned'));
+		return false;
+	});
+	// Move module row from left to right
+	$('.move_right').click(function() {
+		$('#assigned option:selected').appendTo($('#available'));
+		return false;
+	});
+	
+	// Select all assigned value on submit
+	$('.btn_right.submit').click(function() {
+		$('#assigned option').attr('selected', 'selected');
+	});
+});
+");

@@ -1,0 +1,31 @@
+<div class="sub_total_box">
+	<div class="row totals_subtotal">
+		<span><?php $this->_("AdminClientsService.totals.subtotal");?></span>
+		<em><?php echo $this->CurrencyFormat->format($this->Html->_($items['totals']->subtotal, true), $this->Html->ifSet($currency));?></em>
+	</div>
+	<?php
+	foreach ($this->Html->ifSet($items['discounts'], array()) as $discount) {
+		// Show discount as negative
+		$amount = $this->Html->ifSet($discount->total, 0) * -1;
+	?>
+	<div class="row totals_discount">
+		<span><?php $this->Html->_($discount->description);?></span>
+		<em><?php echo $this->CurrencyFormat->format($this->Html->_($amount, true), $this->Html->ifSet($currency));?></em>
+	</div>
+	<?php
+	}
+	
+	foreach ($this->Html->ifSet($items['taxes'], array()) as $tax) {
+	?>
+	<div class="row totals_tax">
+		<span><?php $this->Html->_($tax->description);?></span>
+		<em><?php echo $this->CurrencyFormat->format($this->Html->_($tax->total, true), $this->Html->ifSet($currency));?></em>
+	</div>
+	<?php
+	}
+	?>
+	
+	<div class="row total totals_total">
+		<strong><em><?php echo $this->CurrencyFormat->format($this->Html->_($items['totals']->total, true), $this->Html->ifSet($currency));?></em></strong>
+	</div>
+</div>

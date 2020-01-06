@@ -1,0 +1,26 @@
+
+		<?php
+		$this->Widget->clear();
+		$this->Widget->create($this->_("FeedReaderManagePlugin.add.boxtitle_feed", true));
+		
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->label($this->_("FeedReaderPlugin.add.field_url", true));?>
+						<?php $this->Form->fieldText("url");?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("FeedReaderPlugin.add.submit_add");?></a>
+				<a class="btn_right" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id));?>/"><?php $this->_("FeedReaderPlugin.add.submit_cancel");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>

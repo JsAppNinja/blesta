@@ -1,0 +1,45 @@
+	<div class="table-responsive">
+		<table class="table table-curved table-striped">
+			<thead>
+				<tr>
+					<th><i class="fa fa-share fa-flip-vertical"></i></th>
+					<th><?php $this->_("Multicraft.service_info.options");?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td>
+						<?php
+                        $have_login = (!empty($service_fields->multicraft_login_username) && !empty($service_fields->multicraft_login_password));
+                        $panel_url = rtrim($this->Html->ifSet($module_row->meta->panel_url), "/");
+                        $href = $panel_url . "/index.php?r=site/login";
+                        if ($have_login) {
+                            $this->Form->create($this->Html->ifSet($href), array('target' => "_blank"));
+                            $this->Form->fieldHidden("LoginForm[name]", $this->Html->ifSet($service_fields->multicraft_login_username));
+                            $this->Form->fieldHidden("LoginForm[password]", $this->Html->ifSet($service_fields->multicraft_login_password));
+                            $href = "#";
+                        }
+						?>
+                        <a id="multicraft_login<?php $this->Html->_($service->id);?>"<?php echo !$have_login ? " class=\"redirect\"" : "";?> href="<?php $this->Html->_($href);?>"><?php $this->_("Multicraft.service_info.option_login");?></a>
+                        <?php
+                        if ($have_login) {
+                            $this->Form->end();
+                        }
+                        ?>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#multicraft_login<?php $this->Html->_($service->id);?>').click(function(e) {
+                if (!$(this).hasClass('redirect')) {
+                    e.preventDefault();
+                    
+                    $(this).closest('form').submit();
+                }
+			});
+		});
+	</script>

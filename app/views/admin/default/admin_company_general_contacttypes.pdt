@@ -1,0 +1,78 @@
+		
+		<?php
+		if (!$this->Html->ifSet($is_ajax, false)) {
+			echo $this->Html->ifSet($left_nav);
+		?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+		<?php
+		}
+		?>
+				<?php
+				$link_buttons = array(
+					array('name'=>$this->_("AdminCompanyGeneral.contacttypes.categorylink_addtype", true), 'attributes'=>array("href"=>$this->base_uri . "settings/company/general/addcontacttype/"))
+				);
+				
+				$this->Widget->clear();
+				$this->Widget->setLinkButtons($link_buttons);
+				$this->Widget->create($this->_("AdminCompanyGeneral.contacttypes.boxtitle_types", true), array('id'=>"admin_company_general_contacttypes"), $this->Html->ifSet($render_section, null));
+				
+				if ($this->Html->ifSet($contact_types, false) && ($num_types = count($contact_types)) > 0) {
+				?>
+				<table class="table">
+					<tr class="heading_row">
+						<td><span><?php $this->_("AdminCompanyGeneral.contacttypes.heading_name");?></span></td>
+						<td><span><?php $this->_("AdminCompanyGeneral.contacttypes.heading_define");?></span></td>
+						<td class="last"><span><?php $this->_("AdminCompanyGeneral.contacttypes.heading_options");?></span></td>
+					</tr>
+					<?php
+					// Display each contact type
+					for ($i=0; $i<$num_types; $i++) {
+					?>
+					<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : "";?>>
+						<td><?php $this->Html->_($contact_types[$i]->real_name);?></td>
+						<td><?php echo ($this->Html->_($contact_types[$i]->is_lang, true) == "1" ? $this->_("AdminCompanyGeneral.contacttypes.text_yes", true) : $this->_("AdminCompanyGeneral.contacttypes.text_no", true));?></td>
+						<td class="last">
+							<a href="<?php echo $this->base_uri . "settings/company/general/editcontacttype/" . $this->Html->_($contact_types[$i]->id, true) . "/";?>"><?php $this->_("AdminCompanyGeneral.contacttypes.option_edit");?></a>,
+							<?php
+							$this->Form->create($this->base_uri . "settings/company/general/deletecontacttype/");
+							$this->Form->fieldHidden("id", $this->Html->_($contact_types[$i]->id, true));
+							?>
+							<a class="manage" href="<?php echo $this->base_uri . "settings/company/general/deletecontacttype/" . $this->Html->_($contact_types[$i]->id, true) . "/";?>" rel="<?php echo $this->Html->safe($this->_("AdminCompanyGeneral.contacttypes.modal_delete", true));?>"><?php $this->_("AdminCompanyGeneral.contacttypes.option_delete");?></a>
+							<?php
+							$this->Form->end();
+							?>
+						</td>
+					</tr>
+					<?php
+					}
+					?>
+				</table>
+				<?php
+				}
+				else {
+				?>
+				<div class="empty_section">
+					<div class="empty_box">
+						<?php $this->_("AdminCompanyGeneral.contacttypes.no_results");?>
+					</div>
+				</div>
+				<?php
+				}
+				$this->Widget->end();
+				?>
+		<?php
+		if (!$this->Html->ifSet($is_ajax, false)) {
+		?>
+			</section>
+		</div>
+		<?php
+		}
+		?>
+		
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#admin_company_general_contacttypes a.manage[rel]').blestaModalConfirm({base_url: '<?php echo $this->base_uri;?>', close: '<?php $this->_("AppController.modal.text_close");?>', submit: true});
+			});
+		</script>

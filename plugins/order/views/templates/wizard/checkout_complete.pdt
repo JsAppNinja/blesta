@@ -1,0 +1,132 @@
+			<div class="navfix"></div>
+			<div class="col-md-12">
+				<?php
+				echo $this->Html->ifSet($message);
+				?>
+				<div class="section-title">
+					<h3><i class="fa fa-thumbs-o-up"></i> <?php $this->_("Checkout.complete.order_number", false, $this->Html->safe($order->order_number));?></h3>
+					<p><?php $this->_((!$this->Html->ifSet($gateway_buttons) ? "Checkout.complete.complete_description" : "Checkout.complete.almost_complete_description"));?></p>
+				</div>
+
+				<?php
+				// If gateway button set, display pay button for the nonmerchant gateway
+				if ($this->Html->ifSet($gateway_buttons)) {
+				?>
+				<div class="well well-sm well-order well-form">
+					<div class="payment_buttons">
+						<div>
+						<?php
+						foreach ($this->Html->ifSet($gateway_buttons, array()) as $buttons) {
+							foreach ($buttons as $gateway_button) {
+							?>
+							<div class="clearfix">
+								<?php echo $gateway_button;?>
+							</div>
+							<?php
+							}
+						}
+						?>
+						</div>
+					</div>
+				</div>
+				<?php
+				}
+				?>
+				<div class="well well-sm well-order">
+					<div class="table-responsive">
+						<table class="table table-curved">
+							<thead>
+								<tr>
+									<th><?php $this->_("Checkout.complete.table_description");?></th>
+									<th><?php $this->_("Checkout.complete.table_qty");?></th>
+									<th><?php $this->_("Checkout.complete.table_price");?></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								$num_lines = count($invoice->line_items);
+								$j=0;
+								foreach ($invoice->line_items as $line) {
+								?>
+								<tr>
+									<td>
+										<?php $this->Html->_($line->description);?>
+									</td>
+									<td>
+										<?php $this->_("Checkout.complete.quantity", false, $this->CurrencyFormat->truncateDecimal($line->qty, 0));?>
+									</td>
+									<td>
+										<span class="price-col pull-right"><strong><?php echo $this->Html->safe($this->CurrencyFormat->format($line->amount, $invoice->currency));?></strong></span>
+									</td>
+								</tr>
+								<?php
+								}
+								?>
+							</tbody>
+						</table>
+						
+						<hr />
+						
+						<table class="table table-curved">
+							<tbody>
+								<tr>
+									<td><?php $this->_("Checkout.complete.totals.subtotal");?></td>
+									<td></td>
+									<td><span class="price-col pull-right"><strong><?php echo $this->Html->safe($this->CurrencyFormat->format($invoice->subtotal, $invoice->currency));?></strong></span></td>
+								</tr>
+								<?php
+								if ($this->Html->ifSet($invoice->taxes)) {
+									foreach ($invoice->taxes as $tax) {
+								?>
+									<tr>
+										<td><?php $this->_("Checkout.complete.totals.tax", false, $tax->name, $tax->amount);?></td>
+										<td></td>
+										<td><span class="price-col pull-right"><strong><?php echo $this->Html->safe($this->CurrencyFormat->format($tax->tax_total, $invoice->currency));?></strong></span></td>
+									</tr>
+								<?php
+									}
+								}
+                                if (!empty($invoice->paid) && empty($invoice->date_closed)) {
+                                ?>
+                                    <tr>
+                                        <td><?php $this->_("Checkout.complete.totals.total_paid");?></td>
+										<td></td>
+										<td><span class="price-col pull-right"><strong><?php echo $this->Html->safe($this->CurrencyFormat->format(-$invoice->paid, $invoice->currency));?></strong></span></td>
+                                    </tr>
+                                <?php
+                                }
+								?>
+							</tbody>
+						</table>
+					</div>
+				
+					<hr />
+				
+					<div class="col-md-6">
+						<?php
+						if ($invoice->date_closed != null) {
+						?>
+						<h4><strong><?php $this->_("Checkout.complete.invoice_paid");?></strong></h4>
+						<?php
+						}
+						?>
+					</div>
+					<div class="col-md-6 total-due">
+						<small><?php $this->_($invoice->date_closed != null ? "Checkout.complete.totals.total_paid" : "Checkout.complete.totals.total");?></small>
+						<h4><strong><?php echo $this->Html->safe($this->CurrencyFormat->format(($invoice->date_closed != null ? $invoice->total : $invoice->due), $invoice->currency));?></strong></h4>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<?php
+			if (!$this->Html->ifSet($gateway_buttons)) {
+			?>
+			<div class="col-md-12">
+				<div class="btn-group pull-right">
+					<a href="<?php echo $this->Html->safe($this->base_uri . "order/main/index/" . $this->Html->ifSet($order_form->label));?>" class="btn btn-plain btn-sm"><i class="fa fa-arrow-left"></i> <?php $this->_("Checkout.complete.order_more_btn");?></a>
+				</div>
+			</div>
+			<?php
+			}
+			?>
+<script type="text/javascript" src="<?php echo $this->Html->safe($this->view_dir . "javascript/checkout_complete.js");?>"></script>

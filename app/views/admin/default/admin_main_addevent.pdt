@@ -1,0 +1,46 @@
+
+		<div class="common_box slim">
+			<div class="content_section">
+				<?php
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<ul>
+						<li>
+							<?php $this->Form->label($this->_("AdminMain.addevent.field_title", true), "title");?>
+							<?php $this->Form->fieldText("title", $this->Html->ifSet($vars->title), array('id'=>"title"));?>
+						</li>
+						<li>
+							<?php $this->Form->fieldCheckbox("all_day", "1", ($this->Html->ifSet($vars->all_day, "0") == "1"), array('id'=>"all_day"));?>
+							<?php $this->Form->label($this->_("AdminMain.addevent.field_all_day", true), "all_day", array('class'=>"inline"));?>
+						</li>
+						<li>
+							<?php $this->Form->label($this->_("AdminMain.addevent.field_start_date", true), "start_date");?>
+							<?php $this->Form->fieldText("start_date",$this->Html->ifSet($vars->start_date), array('id'=>"start_date", 'class'=>"date"));?>
+							<?php $this->Form->fieldSelect("start_time", $this->Html->ifSet($date_times), $this->Html->ifSet($vars->start_time), array('id'=>"start_time"));?>
+						</li>
+						<li>
+							<?php $this->Form->label($this->_("AdminMain.addevent.field_end_date", true), "end_date");?>
+							<?php $this->Form->fieldText("end_date", $this->Html->ifSet($vars->end_date), array('id'=>"end_date", 'class'=>"date"));?>
+							<?php $this->Form->fieldSelect("end_time", $this->Html->ifSet($date_times), $this->Html->ifSet($vars->end_time), array('id'=>"end_time"));?>
+						</li>
+						<li>
+							<?php $this->Form->fieldCheckbox("shared", "1", ($this->Html->ifSet($vars->shared, "0") == "1"), array('id'=>"shared"));?>
+							<?php $this->Form->label($this->_("AdminMain.addevent.field_shared", true), "shared", array('class'=>"inline"));?>
+						</li>
+					</ul>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminMain.addevent.field_addeventsubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				?>
+			</div>
+		</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('input.date').datePicker({
+			startDate:'1996-01-01',
+			firstDayOfWeek:'<?php $this->Html->_($calendar_begins);?>'
+		});
+	});
+</script>

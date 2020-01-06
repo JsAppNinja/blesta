@@ -1,0 +1,35 @@
+
+	<ul>
+		<li>
+			<?php
+			$this->Form->label($this->_("Payflow.vendor", true), "vendor");
+			$this->Form->fieldText("vendor", $this->Html->ifSet($meta['vendor']), array('id'=>"vendor"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Payflow.password", true), "password");
+			$this->Form->fieldText("password", $this->Html->ifSet($meta['password']), array('id'=>"password"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Payflow.user", true), "user");
+			$this->Form->fieldText("user", $this->Html->ifSet($meta['user']), array('id'=>"user"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Payflow.tooltip_user");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Payflow.partner", true), "partner");
+			$this->Form->fieldText("partner", $this->Html->ifSet($meta['partner'], "PayPal"), array('id'=>"partner"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Payflow.tooltip_partner");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("test_mode", "true", ($this->Html->ifSet($meta['test_mode'], "false") == "true"), array('id'=>"test_mode"));
+			$this->Form->label($this->_("Payflow.test_mode", true), "test_mode", array('class'=>"inline"));
+			?>
+		</li>
+	</ul>

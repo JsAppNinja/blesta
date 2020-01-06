@@ -1,0 +1,82 @@
+
+		<?php
+		$links = array(
+			array('name'=>$this->_("AdminClients.transactions.category_approved", true) . " <span>(" . $this->Html->_($status_count['approved'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "approved" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "clients/transactions/" . $client->id . "/approved/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminClients.transactions.category_declined", true) . " <span>(" . $this->Html->_($status_count['declined'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "declined" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "clients/transactions/" . $client->id . "/declined/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminClients.transactions.category_voided", true) . " <span>(" . $this->Html->_($status_count['void'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "void" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "clients/transactions/" . $client->id . "/void/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminClients.transactions.category_error", true) . " <span>(" . $this->Html->_($status_count['error'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "error" ? true : false), 'highlight'=>true, 'attributes'=>array('href'=>$this->base_uri . "clients/transactions/" . $client->id . "/error/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminClients.transactions.category_pending", true) . " <span>(" . $this->Html->_($status_count['pending'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "pending" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "clients/transactions/" . $client->id . "/pending/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminClients.transactions.category_refunded", true) . " <span>(" . $this->Html->_($status_count['refunded'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "refunded" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "clients/transactions/" . $client->id . "/refunded/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminClients.transactions.category_returned", true) . " <span>(" . $this->Html->_($status_count['returned'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "returned" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "clients/transactions/" . $client->id . "/returned/", 'class'=>"ajax"))
+		);
+		
+		$this->Widget->clear();
+		$this->Widget->setLinks($links);
+		$this->Widget->setBadgeUri($this->base_uri . "clients/transactionCount/" . $this->Html->_($client->id, true) . "/" . $this->Html->_($status, true));
+		$this->Widget->setWidgetButton("arrow");
+		
+		$this->Widget->create($this->_("AdminClients.transactions.boxtitle_transactions", true), array('id'=>"admin_clients_transactions"), $this->Html->ifSet($render_section, null));
+		
+		if ($this->Html->ifSet($transactions, false) && ($num_transactions = count($transactions)) > 0) {
+		?>
+		<table class="table">
+			<tr class="heading_row">
+				<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "clients/transactions/" . $this->Html->ifSet($client->id) . "/" . $this->Html->ifSet($status) . "/?sort=type&order=" . ($sort == "type" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "type" ? " " . $order : "");?>"><?php $this->_("AdminClients.transactions.heading_type");?></a></span></td>
+				<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "clients/transactions/" . $this->Html->ifSet($client->id) . "/" . $this->Html->ifSet($status) . "/?sort=amount&order=" . ($sort == "amount" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "amount" ? " " . $order : "");?>"><?php $this->_("AdminClients.transactions.heading_amount");?></a></span></td>
+				<td><span><?php $this->_("AdminClients.transactions.heading_credited");?></span></td>
+				<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "clients/transactions/" . $this->Html->ifSet($client->id) . "/" . $this->Html->ifSet($status) . "/?sort=applied_amount&order=" . ($sort == "applied_amount" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "applied_amount" ? " " . $order : "");?>"><?php $this->_("AdminClients.transactions.heading_applied");?></a></span></td>
+				<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "clients/transactions/" . $this->Html->ifSet($client->id) . "/" . $this->Html->ifSet($status) . "/?sort=transaction_id&order=" . ($sort == "transaction_id" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "transaction_id" ? " " . $order : "");?>"><?php $this->_("AdminClients.transactions.heading_number");?></a></span></td>
+				<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "clients/transactions/" . $this->Html->ifSet($client->id) . "/" . $this->Html->ifSet($status) . "/?sort=status&order=" . ($sort == "status" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "status" ? " " . $order : "");?>"><?php $this->_("AdminClients.transactions.heading_status");?></a></span></td>
+				<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "clients/transactions/" . $this->Html->ifSet($client->id) . "/" . $this->Html->ifSet($status) . "/?sort=date_added&order=" . ($sort == "date_added" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_added" ? " " . $order : "");?>"><?php $this->_("AdminClients.transactions.heading_date");?></a></span></td>
+				<td class="last"><span><?php $this->_("AdminClients.transactions.heading_options");?></span></td>
+			</tr>
+			<?php
+			// Display all transactions			
+			for ($i=0; $i<$num_transactions; $i++) {
+				if ($this->Html->ifSet($transactions[$i]->type) == "other" && $this->Html->ifSet($transactions[$i]->gateway_type) == "nonmerchant")
+					$trans_type = $transactions[$i]->gateway_name;
+				else
+					$trans_type = $this->Html->ifSet($transaction_types[($transactions[$i]->type_name != "" ? $transactions[$i]->type_name : $transactions[$i]->type)]);
+			?>
+			<tr class="<?php echo $this->Html->concat(" ", ($i%2 == 1) ? "odd_row" : "", "expand", "transaction_applied");?>">
+				<td><?php $this->Html->_($trans_type);?></td>
+				<td><?php echo $this->CurrencyFormat->format($this->Html->_($transactions[$i]->amount, true), $this->Html->_($transactions[$i]->currency, true), array('html_code'=>true));?></td>
+				<td><?php echo $this->CurrencyFormat->format($this->Html->_($transactions[$i]->credited_amount, true), $this->Html->_($transactions[$i]->currency, true), array('html_code'=>true));?></td>
+				<td><?php echo $this->CurrencyFormat->format($this->Html->_($transactions[$i]->applied_amount, true), $this->Html->_($transactions[$i]->currency, true), array('html_code'=>true));?></td>
+				<td><?php $this->Html->_($transactions[$i]->transaction_id);?></td>
+				<td><?php $this->Html->_($transaction_status[$transactions[$i]->status]);?></td>
+				<td><?php echo $this->Date->cast($this->Html->_($transactions[$i]->date_added, true), "date_time");?></td>
+				<td><a href="<?php echo $this->Html->safe($this->base_uri . "clients/edittransaction/" . $this->Html->ifSet($client->id) . "/" . $this->Html->ifSet($transactions[$i]->id) . "/");?>"><?php $this->_("AdminClients.transactions.option_edit");?></a></td>
+			</tr>
+			<tr class="expand_details" id="transactions_<?php $this->Html->_($transactions[$i]->id);?>">
+				<td colspan="8" class="subtable">
+				</td>
+			</tr>					
+			<?php
+			}
+			?>
+		</table>
+		<?php
+			$this->Pagination->build();
+		}
+		else {
+		?>
+		<div class="empty_section">
+			<div class="empty_box">
+				<?php $this->_("AdminClients.transactions.no_results");?>
+			</div>
+		</div>
+		<?php
+		}
+		
+		$this->Widget->end();
+		?>
+		
+<script type="text/javascript">
+$(document).ready(function() {
+	// Fetch all invoices the given transaction has been applied to
+	$(".transaction_applied").click(function() {
+		$(this).blestaUpdateRow("<?php echo $this->Html->_($this->base_uri, true) . "clients/transactionapplied/" . $this->Html->_($client->id, true);?>/" + $(this).next("tr").attr("id").split("_")[1], ".subtable");
+	});
+});
+</script>

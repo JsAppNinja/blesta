@@ -1,0 +1,55 @@
+
+			<div class="title_row">
+				<h3><?php $this->_("AdminClients.accountachinfo.heading_account");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminClients.accountachinfo.field_type", true), "type");
+						$this->Form->fieldSelect("type", $this->Html->ifSet($types), $this->Html->ifSet($vars->type), array("id"=>"type"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminClients.accountachinfo.field_accountnum", true), "account");
+						$this->Form->fieldText("account", isset($vars->last4) ? str_pad($vars->last4, 9, "*", STR_PAD_LEFT) : $this->Html->ifSet($vars->account), array("id"=>"account"));
+						?>
+						<?php
+						if ($this->Html->ifSet($edit, false) && !$this->Html->ifSet($vars->gateway_id)) {
+						?>
+						<a href="<?php echo $this->base_uri . "clients/showaccount/" . $this->Html->_($client->id, true) . "/" . $this->Html->_($vars->id, true);?>" class="show_account"><?php $this->_("AdminClients.accountachinfo.text_showaccount");?></a>
+						<?php
+						}
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminClients.accountachinfo.field_routingnum", true), "routing");
+						$this->Form->fieldText("routing", isset($vars->last4) ? str_pad(null, 9, "*", STR_PAD_LEFT) : $this->Html->ifSet($vars->routing), array("id"=>"routing"));
+						?>
+					</li>
+					<?php
+					if (isset($save_account) && $save_account) {
+					?>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("save_details", "true", isset($vars->save_details), array('id'=>"save_details_ach"));
+						$this->Form->label($this->_("AdminClients.accountachinfo.field_savedetails", true), "save_details_ach", array('class'=>"inline"));
+						?>
+					</li>
+					<?php
+					}
+					?>
+				</ul>
+			</div>
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	var options = {
+		close: '" . $this->_("AppController.modal.text_close", true) . "'
+	};
+	$('a.show_account').blestaModal(options);
+});
+");
+?>

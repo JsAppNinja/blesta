@@ -1,0 +1,113 @@
+
+				<?php
+				// Don't show this container when only rendering the widget section
+				if (!$this->Html->ifSet($render_section)) {
+				?>
+			<div class="col-md-12">
+				<?php
+				}
+				echo $this->Html->ifSet($message);
+				
+				$this->WidgetClient->clear();
+				$this->WidgetClient->setStyleSheet($this->view_dir . "css/styles.css");
+				$this->WidgetClient->create($this->_("ClientMain.index.boxtitle_downloads", true), array('id'=>"download_manager_client_main"), $this->Html->ifSet($render_section, null));
+				$this->WidgetClient->startBody();
+				?>
+				<div class="downloads">
+					<ol class="breadcrumb">
+						<li>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/download_manager/client_main/index/");?>">
+								<?php $this->_("ClientMain.!text.root_directory");?>
+							</a>
+						</li>
+						<?php
+						if ($this->Html->ifSet($category_hierarchy)) {
+							$current_category = end($category_hierarchy);
+							foreach ($category_hierarchy as $index => $cat_item) {
+								$active = ($current_category->id == $cat_item->id);
+						?>
+						<li<?php echo ($active ? " class=\"active\"" : "");?>>
+							<?php
+							if (!$active) {
+							?>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/download_manager/client_main/index/" . $this->Html->ifSet($cat_item->id) . "/");?>">
+							<?php
+							}
+							
+							$this->Html->_($cat_item->name);
+							
+							if (!$active) {
+							?>
+							</a>
+							<?php
+							}
+							?>
+						</li>
+						<?php
+							}
+						}
+						?>
+					</ol>
+					<?php
+					if (!empty($category->description)) {
+					?>
+					<div class="col-md-12">
+						<?php echo $this->TextParser->encode("markdown", $category->description);?>
+					</div>
+					<div class="clearfix"></div>
+					<?php
+					}
+					
+					if (!empty($categories) || !empty($files)) {
+						$columns = 1;
+						foreach ($this->Html->ifSet($categories, array()) as $category) {
+						?>
+						<div class="col-md-4">
+							<i class="fa fa-folder fa-fw"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/download_manager/client_main/index/" . $this->Html->ifSet($category->id) . "/");?>">
+								<?php $this->Html->_($category->name);?>
+							</a>
+						</div>
+						<?php
+							if ($columns++%3 == 0) {
+							?>
+						<div class="clearfix"></div>
+							<?php
+							}
+						}
+						foreach ($this->Html->ifSet($files, array()) as $file) {
+						?>
+						<div class="col-md-4">
+							<i class="fa fa-file-o fa-fw"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/download_manager/client_main/download/" . $this->Html->ifSet($file->id) . "/" . rawurlencode($this->Html->ifSet($file->name) . $this->Html->ifSet($file->extension)));?>">
+								<?php echo $this->Html->safe($this->Html->ifSet($file->name) . $this->Html->ifSet($file->extension));?>
+							</a>
+						</div>
+						<?php
+							if ($columns++%3 == 0) {
+							?>
+						<div class="clearfix"></div>
+							<?php
+							}
+						}
+					}
+					else {
+					?>
+					<div class="alert alert-info">
+						<p><?php $this->_("ClientMain.index.no_downloads");?></p>
+					</div>
+					<?php
+					}
+					?>
+				</div>
+				<?php
+				$this->WidgetClient->endBody();
+				$this->WidgetClient->end();
+				
+				// Don't show this container when only rendering the widget section
+				if (!$this->Html->ifSet($render_section)) {
+				?>
+			</div>
+				<?php
+				}
+				?>

@@ -1,0 +1,43 @@
+	<div class="wrapper">
+		<h3>Blesta Web Upgrader</h3>
+		<div class="contents">
+			
+			<?php
+			echo $this->Html->ifSet($message);
+			?>
+			
+			<?php
+			$this->Form->create();
+			$this->Form->fieldHidden("process", "true");
+			?>
+			<div>
+				<div class="input">
+					<?php $this->Form->fieldSubmit("upgrade", "Upgrade");?> <span class="progress"></span>
+				</div>
+			</div>
+			
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+	</div>
+	
+	<script src="<?php echo $this->Html->safe($this->view_dir . "javascript/jquery-1.8.3.min.js");?>"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("form").submit(function(e) {
+				$("input[type='submit']").attr("disabled", "disabled");
+				
+				setInterval(animateProgress, 500);
+			});
+			
+			var progress_step = 0;
+			function animateProgress() {
+				progress_step = ++progress_step%4;
+				var extra = "";
+				for (var i=0; i<progress_step; i++)
+					extra += ".";
+				$("span.progress").text("Please wait" + extra);
+			}
+		});
+	</script>

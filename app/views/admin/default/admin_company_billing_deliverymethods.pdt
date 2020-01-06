@@ -1,0 +1,91 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				
+				$this->Widget->create($this->_("AdminCompanyBilling.deliverymethods.boxtitle_deliverymethods", true));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="title_row first">
+						<h3><?php $this->_("AdminCompanyBilling.deliverymethods.heading_basic");?></h3>
+					</div>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyBilling.deliverymethods.field_delivery_methods", true));
+								foreach ($delivery_methods as $method => $name) {
+									$disable = $method == "email";
+									$options = array('id'=>"delivery_method_" . $method);
+									if ($disable)
+										$options['disabled'] = "disabled";
+										
+									$this->Form->fieldCheckbox("delivery_methods[]", $method, $this->Html->ifSet($vars[$method], $disable), $options);
+									$this->Form->label($name, "delivery_method_" . $method, array('class'=>"inline"));
+								}
+								?>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="title_row">
+						<h3><?php $this->_("AdminCompanyBilling.deliverymethods.heading_interfax");?></h3>
+					</div>
+					<div class="pad">
+						<p><?php $this->_("AdminCompanyBilling.deliverymethods.interfax_desc");?></p>
+						<ul>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyBilling.deliverymethods.field_interfax_username", true), "interfax_username");
+								$this->Form->fieldText("interfax_username", $this->Html->ifSet($vars['interfax_username']), array('id'=>"interfax_username"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyBilling.deliverymethods.field_interfax_password", true), "interfax_password");
+								$this->Form->fieldPassword("interfax_password", array('id'=>"interfax_password", 'value'=>$this->Html->ifSet($vars['interfax_password'])));
+								?>
+							</li>
+						</ul>
+					</div>
+
+					<div class="title_row">
+						<h3><?php $this->_("AdminCompanyBilling.deliverymethods.heading_postalmethods");?></h3>
+					</div>
+					<div class="pad">
+						<p><?php $this->_("AdminCompanyBilling.deliverymethods.postalmethods_desc");?></p>
+						<ul>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyBilling.deliverymethods.field_postalmethods_apikey", true), "postalmethods_apikey");
+								$this->Form->fieldText("postalmethods_apikey", $this->Html->ifSet($vars['postalmethods_apikey']), array('id'=>"postalmethods_apikey"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->fieldCheckbox("postalmethods_testmode", "true", $this->Html->ifSet($vars['postalmethods_testmode']) == "true", array('id'=>"postalmethods_testmode"));
+								$this->Form->label($this->_("AdminCompanyBilling.deliverymethods.field_postalmethods_testmode", true), "postalmethods_testmode", array('class'=>"inline"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->fieldCheckbox("postalmethods_replyenvelope", "true", $this->Html->ifSet($vars['postalmethods_replyenvelope']) == "true", array('id'=>"postalmethods_replyenvelope"));
+								$this->Form->label($this->_("AdminCompanyBilling.deliverymethods.field_postalmethods_replyenvelope", true), "postalmethods_replyenvelope", array('class'=>"inline"));
+								?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyBilling.deliverymethods.note_replyenvelope");?></div></span>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyBilling.deliverymethods.field_submit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

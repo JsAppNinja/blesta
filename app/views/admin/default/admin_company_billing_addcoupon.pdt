@@ -1,0 +1,240 @@
+
+		<?php
+		echo $this->Html->ifSet($left_nav);
+		?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				
+				$this->Widget->create($this->_("AdminCompanyBilling.addcoupon.boxtitle_new", true));
+				?>
+				<div class="inner">
+					<?php $this->Form->create(null, array('id'=>"coupon"));?>
+					<div class="title_row first"><h3><?php $this->_("AdminCompanyBilling.addcoupon.heading_basic");?></h3></div>
+					<div class="pad">
+						<ul>
+							<li>								
+								<?php $this->Form->fieldCheckbox("status", "active", ($this->Html->ifSet($vars->status, "active") == "active"), array("id"=>"status"));?>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_status", true), "status", array("class"=>"inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldRadio("recurring", "0", $this->Html->ifSet($vars->recurring, "0") == "0", array('id'=>"recurring_no", 'class'=>"recurring inline"));?>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_recurring_no", true), "recurring_no", array('class'=>"inline"));?>
+								<?php $this->Form->fieldRadio("recurring", "1", $this->Html->ifSet($vars->recurring, "0") == "1", array('id'=>"recurring_yes", 'class'=>"recurring inline"));?>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_recurring_yes", true), "recurring_yes", array('class'=>"inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("apply_package_options", "1", $this->Html->ifSet($vars->apply_package_options, "1") == "1", array('id' => "apply_package_options", 'class' => "inline"));?>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.editcoupon.field_apply_package_options", true), "apply_package_options", array('class' => "inline"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_code", true), "code");?>
+								<?php $this->Form->fieldText("code", $this->Html->ifSet($vars->code), array("id"=>"code"));?>
+								<span class="icon"><a class="refresh" href="#"><?php $this->_("AdminCompanyBilling.addcoupon.text_generate_code");?></a></span>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="title_row"><h3><?php $this->_("AdminCompanyBilling.addcoupon.heading_limitations");?></h3></div>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_start_date", true), "start_date");?>
+								<?php $this->Form->fieldText("start_date", $this->Html->ifSet($vars->start_date), array("id"=>"start_date", "class"=>"date"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_end_date", true), "end_date");?>
+								<?php $this->Form->fieldText("end_date", $this->Html->ifSet($vars->end_date), array("id"=>"end_date", "class"=>"date"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_max_qty", true), "max_qty");?>
+								<?php $this->Form->fieldText("max_qty", $this->Html->ifSet($vars->max_qty), array("id"=>"max_qty", "class"=>"small"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyBilling.!tooltip.coupon_quantity");?></div></span>
+							</li>
+							<li id="renew_limitation" style="display:none;">
+								<?php $this->Form->fieldRadio("limit_recurring", "0", $this->Html->ifSet($vars->limit_recurring, "0") == "0", array('id'=>"limit_recurring_no", 'class'=>"inline"));?>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_limit_recurring_no", true), "limit_recurring_no", array('class'=>"inline"));?>
+								<?php $this->Form->fieldRadio("limit_recurring", "1", $this->Html->ifSet($vars->limit_recurring, "0") == "1", array('id'=>"limit_recurring_yes", 'class'=>"inline"));?>
+								<?php $this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_limit_recurring_yes", true), "limit_recurring_yes", array('class'=>"inline"));?>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="title_row"><h3><?php $this->_("AdminCompanyBilling.addcoupon.heading_discount");?></h3></div>
+					<div class="pad">
+						<div class="links_row">
+							<a class="btn_right currency_row_add" href="#"><span><?php $this->_("AdminCompanyBilling.addcoupon.categorylink_addcurrency");?></span></a>
+						</div>
+						<table class="table">
+							<thead>
+								<tr class="heading_row">
+									<td><?php $this->_("AdminCompanyBilling.addcoupon.text_currency");?></td>
+									<td><?php $this->_("AdminCompanyBilling.addcoupon.text_type");?></td>
+									<td><?php $this->_("AdminCompanyBilling.addcoupon.text_value");?></td>
+									<td class="last"></td>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								$num_amounts = count($this->Html->ifSet($vars->amounts['currency']));
+								for ($i=0; $i<$num_amounts; $i++) {
+								?>
+								<tr class="currency_row<?php echo ($i%2 == 1) ? " odd_row" : "";?>">
+									<td><?php $this->Form->fieldSelect("amounts[currency][]", $this->Html->ifSet($currencies), $this->Html->ifSet($vars->amounts['currency'][$i]));?></td>
+									<td><?php $this->Form->fieldSelect("amounts[type][]", $this->Html->ifSet($types), $this->Html->ifSet($vars->amounts['type'][$i]));?></td>
+									<td><?php $this->Form->fieldText("amounts[amount][]", $this->Html->ifSet($vars->amounts['amount'][$i]), array("class"=>"stretch"));?></td>
+									<td><a href="#" class="manage currency_row_remove"><?php $this->_("AdminCompanyBilling.addcoupon.option_remove");?></a></td>
+								</tr>
+								<?php
+								}
+								?>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="title_row"><h3>Packages</h3></div>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php
+								$this->Form->fieldRadio("type", "exclusive", ($this->Html->ifSet($vars->type, "exclusive") == "exclusive"), array('id'=>"coupon_type_exclusive", 'class'=>"inline"));
+								$this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_type_exclusive", true), "coupon_type_exclusive", array('class'=>"inline"));
+								
+								$this->Form->fieldRadio("type", "inclusive", ($this->Html->ifSet($vars->type, "exclusive") == "inclusive"), array('id'=>"coupon_type_inclusive", 'class'=>"inline"));
+								$this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_type_inclusive", true), "coupon_type_inclusive", array('class'=>"inline"));
+								?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyBilling.!tooltip.coupon_package_type");?></div></span>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyBilling.addcoupon.field_package_group_id", true), "package_group_id");
+								$this->Form->fieldSelect("package_group_id", $this->Html->ifSet($package_groups), $this->Html->ifSet($vars->package_group_id), array("id"=>"package_group_id"));
+								?>
+							</li>
+						</ul>
+						<table>
+							<tr>
+								<td><?php $this->_("AdminCompanyBilling.addcoupon.text_assigned_packages");?></td>
+								<td></td>
+								<td><?php $this->_("AdminCompanyBilling.addcoupon.text_available_packages");?></td>
+							</tr>
+							<tr>
+								<td>
+									<?php $this->Form->fieldMultiSelect("packages[]", $this->Html->ifSet($vars->packages), array(), array("id"=>"assigned"));?>
+								</td>
+								<td><a href="#" class="move_left">&nbsp;</a> &nbsp; <a href="#" class="move_right">&nbsp;</a></td>
+								<td>
+									<?php $this->Form->fieldMultiSelect("available[]", array(), array(), array("id"=>"available"));?>
+									<?php $this->Form->fieldMultiSelect("pool[]", $this->Html->ifSet($packages), array(), array('id'=>"pool", 'style'=>"display:none;"), $this->Html->ifSet($package_attributes, null));?>
+								</td>
+							</tr>
+						</table>
+					</div>
+						
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyBilling.addcoupon.field_couponsubmit");?></a></div>
+					
+					<?php $this->Form->end();?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+		
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	showRenewLimitation();
+
+	// Select all assigned packages on submit
+	$('#coupon').submit(function() {
+		$('#assigned option').attr('selected', 'selected');
+	});
+	
+	$('.currency_row_add').click(function() {
+		var fields = $('tr.currency_row:first').clone(true);
+		fields.find('select,input').each(function() {
+			$(this).val('');
+		});
+		$('tr.currency_row:last').after(fields);
+		
+		updateCurrencyRows();
+		return false;
+	});
+	
+	$('.currency_row_remove').click(function() {
+		if ($('tr.currency_row').length > 1)
+			$(this).closest('tr').remove();
+		
+		updateCurrencyRows();
+		return false;
+	});
+	
+	$('.refresh').click(function() {
+		$('#code').attr('value', $(this).blestaRandomString(8));
+		return false;
+	});
+	
+	// Show/hide renew limitation
+	$('.recurring').change(function() {
+		showRenewLimitation();
+	});
+	
+	setAvailablePackages();
+	
+	$('#package_group_id').change(function() {
+		// Remove all available packages
+		$('#pool').append($('#available option'));
+		
+		setAvailablePackages();
+	});
+	
+	// Move packages from right to left
+	$('.move_left').click(function() {
+		// Move right to left
+		$('#available option:selected').appendTo($('#assigned'));
+		return false;
+	});
+	// Move packages from left to right
+	$('.move_right').click(function() {
+		$('#assigned option:selected').appendTo($('#available'));
+		return false;
+	});	
+});
+
+// Shows/hides renew limitation options
+function showRenewLimitation() {
+	if ($('#recurring_yes').attr('checked'))
+		$('#renew_limitation').show();
+	else {
+		$('#renew_limitation').hide();
+		// Reset limit recurring value
+		$('#limit_recurring_no').attr('checked', 'checked');
+	}
+}
+
+// Set the available packages
+function setAvailablePackages() {
+	// Show the available items for this group
+	var selected_group_id = $('#package_group_id option:selected').val();
+	
+	// Select all packages
+	if (selected_group_id == '')
+		$('#available').append($('#pool option'));
+	// Select specific group packages
+	else
+		$('#available').append($('#pool option.group_' + selected_group_id));
+}
+
+// Zebra-stripe pricing rows
+function updateCurrencyRows() {
+	var i = 0;
+	$('tr.currency_row').each(function() {
+		if (i++%2 == 1)
+			$(this).addClass('odd_row');
+		else
+			$(this).removeClass('odd_row');
+	});
+}
+");
+?>

@@ -1,0 +1,152 @@
+		<div class="col-md-3">
+			<?php echo $this->Html->ifSet($tabs);?>
+		</div>
+		<div class="col-md-9">
+			<?php echo $this->Html->ifSet($message);?>
+			
+			<?php
+			$this->WidgetClient->clear();
+			$this->WidgetClient->create($this->_("ClientServices.review.boxtitle_review", true, $this->Html->ifSet($package->name), $this->Html->ifSet($service->name)), array('id'=>"client_review_options"), $this->Html->ifSet($render_section, null));
+			$this->WidgetClient->startBody();
+			
+			$this->Form->create();
+			$this->Form->fieldHidden("update", 1);
+			?>
+			
+			<?php
+			if ($this->Html->ifSet($review->packages->current) && $this->Html->ifSet($review->packages->new)) {
+			?>
+			<div class="panel-pad">
+				<div class="row">
+					<div class="col-md-6 col-border">
+						<h4><em><?php $this->_("ClientServices.review.heading_current_service");?></em></h4>
+						
+						<?php $this->Form->label($this->_("ClientServices.manage.heading_package", true));?>
+						<h4><?php $this->Html->_($review->packages->current->name);?></h4>
+						
+						<label><?php $this->_("ClientServices.manage.heading_package_term");?></label>
+						<?php
+						$package_term = "";
+						if ($this->Html->ifSet($review->packages->current->pricing->period) == "onetime")
+							$package_term = $this->Html->ifSet($periods[$review->packages->current->pricing->period]);
+						else {
+							$term = $this->Html->_($review->packages->current->pricing->term, true);
+							$package_term = $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$review->packages->current->pricing->period]) : $this->Html->ifSet($periods[$review->packages->current->pricing->period . "_plural"])));
+						}
+						?>
+						<h4><?php $this->Html->_($package_term);?></h4>
+						
+						<label><?php $this->_("ClientServices.manage.heading_price");?></label>
+						<h4>
+							<?php
+							$price = $this->Html->ifSet($service->override_price, $this->Html->ifSet($review->packages->current->pricing->price));
+							$currency = $this->Html->ifSet($service->override_currency, $this->Html->ifSet($service->package_pricing->currency));
+							$this->_("ClientServices.manage.text_price", false, $this->CurrencyFormat->truncateDecimal($this->Html->ifSet($service->qty, 1), 0), $this->CurrencyFormat->format($price, $currency));
+							?>
+						</h4>
+					</div>
+					<div class="col-md-6">
+						<h4><em><?php $this->_("ClientServices.review.heading_updated_service");?></em></h4>
+						
+						<?php $this->Form->label($this->_("ClientServices.manage.heading_package", true));?>
+						<h4><?php $this->Html->_($review->packages->new->name);?></h4>
+						
+						<label><?php $this->_("ClientServices.manage.heading_package_term");?></label>
+						<?php
+						$package_term = "";
+						if ($this->Html->ifSet($review->packages->new->pricing->period) == "onetime")
+							$package_term = $this->Html->ifSet($periods[$review->packages->new->pricing->period]);
+						else {
+							$term = $this->Html->_($review->packages->new->pricing->term, true);
+							$package_term = $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$review->packages->new->pricing->period]) : $this->Html->ifSet($periods[$review->packages->new->pricing->period . "_plural"])));
+						}
+						?>
+						<h4><?php $this->Html->_($package_term);?></h4>
+						
+						<label><?php $this->_("ClientServices.manage.heading_price");?></label>
+						<h4>
+							<?php
+							$price = $this->Html->ifSet($review->packages->new->pricing->price);
+							$currency = $this->Html->ifSet($review->packages->new->pricing->currency);
+							$this->_("ClientServices.manage.text_price", false, 1, $this->CurrencyFormat->format($price, $currency));
+							?>
+						</h4>
+					</div>
+				</div>
+			</div>
+			<?php
+			}
+			
+			if (!empty($review->config_options)) {
+				if ($this->Html->ifSet($review->packages->current) && $this->Html->ifSet($review->packages->new)) {
+			?>
+			<hr />
+			<?php
+				}
+			?>
+			<h4><?php $this->_("ClientServices.manage.heading_config_options");?></h4>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th><?php $this->_("ClientServices.review.heading_label");?></th>
+							<th><?php $this->_("ClientServices.review.heading_old_value");?></th>
+							<th><?php $this->_("ClientServices.review.heading_new_value");?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						foreach ($this->Html->ifSet($review->config_options, array()) as $option) {
+							$quantity_type = ($this->Html->ifSet($option->type) == "quantity");
+						?>
+						<tr>
+							<td><?php $this->Html->_($option->label);?></td>
+							<td>
+								<?php
+								if ($this->Html->ifSet($option->current_value)) {
+									$quantity = $this->CurrencyFormat->truncateDecimal(($quantity_type ? $this->Html->ifSet($option->current_value->selected_value, 0) : 1), 0);
+									$price = $this->CurrencyFormat->format($this->Html->ifSet($option->current_value->pricing->price, 0), $this->Html->ifSet($option->current_value->pricing->currency));
+									$this->_("ClientServices.review.value", false, $this->Html->ifSet($option->current_value->name), $quantity, $price);
+								}
+								else {
+									$this->_("ClientServices.review.none");
+								}
+								?>
+							</td>
+							<td>
+								<?php
+								if ($this->Html->ifSet($option->new_value)) {
+									$quantity = $this->CurrencyFormat->truncateDecimal(($quantity_type ? $this->Html->ifSet($option->new_value->selected_value, 0) : 1), 0);
+									$price = $this->CurrencyFormat->format($this->Html->ifSet($option->new_value->pricing->price, 0), $this->Html->ifSet($option->new_value->pricing->currency));
+									$this->_("ClientServices.review.value", false, $this->Html->ifSet($option->new_value->name), $quantity, $price);
+								}
+								else {
+									$this->_("ClientServices.review.none");
+								}
+								?>
+							</td>
+						</tr>
+						<?php
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+			<?php
+			}
+			
+			echo $this->Html->ifSet($totals);
+			?>
+			<div class="pull-right">
+				<a href="<?php echo $this->Html->safe($this->base_uri . "services/manage/" . $this->Html->ifSet($service->id) . "/");?>" class="btn btn-danger">
+					<i class="fa fa-ban fa-fw"></i> <?php $this->_("ClientServices.review.cancel");?>
+				</a>
+				<button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-right"></i> <?php $this->_("ClientServices.review.update");?></button>
+			</div>
+			<?php
+			$this->Form->end();
+			
+			$this->WidgetClient->endBody();
+			$this->WidgetClient->end();
+			?>
+		</div>

@@ -1,0 +1,16 @@
+
+	<?php
+    // Disable CSRF
+    $this->Form->setCsrfOptions(array('set_on_create' => false));
+	$this->Form->create($this->Html->ifSet($post_url));
+
+    if ($this->Html->ifSet($fields)) {
+		foreach ($fields as $key => $value) {
+			$this->Form->fieldHidden($key, $value);
+		}
+	}
+	$this->Form->fieldImage("submit", $this->_("Skrill.buildprocess.submit", true),
+        array('src' => $this->view_dir."images/pay_button.png", 'alt' => $this->_("Skrill.buildprocess.submit", true), 'title' => $this->_("Skrill.buildprocess.submit", true))
+    );
+	$this->Form->end();
+	?>

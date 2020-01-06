@@ -1,0 +1,15 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemMarketplace.listing.boxtitle_listing", true, $this->Html->ifSet($extension->name)));
+				?>
+				
+				<?php
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

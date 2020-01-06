@@ -1,0 +1,105 @@
+
+		<?php
+        echo $this->Html->ifSet($message);
+
+		$this->Widget->clear();
+		$this->Widget->create($this->_("AdminMain.service.boxtitle_pricing", true, $this->Html->ifSet($service->package->name), $this->Html->ifSet($service->name)), array('id'=>"reassign_pricing"), $this->Html->ifSet($render_section, null));
+		?>
+		<div class="inner">
+            <?php
+			$this->Form->create(null, array('id' => "reassign_pricing_service"));
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("AdminMain.service.heading_information");?></h3>
+			</div>
+            <div class="pad">
+                <ul>
+                    <li>
+                        <?php $this->_("AdminMain.service.text_package_name");?>
+                        <?php $this->Html->_($service->package->name);?>
+                    </li>
+                    <li>
+                        <?php $this->_("AdminMain.service.text_label");?>
+                        <?php $this->Html->_($service->name);?>
+                    </li>
+                    <li>
+                        <?php $this->_("AdminMain.service.text_qty");?>
+                        <?php $this->Html->_($service->qty);?>
+                    </li>
+                    <li>
+                        <?php $this->_("AdminMain.service.text_term");?>
+                        <?php
+                        if ($this->Html->ifSet($service->package_pricing->period) == "onetime")
+                            $this->Html->_($periods[$service->package_pricing->period]);
+                        else {
+                            $term = $this->Html->_($service->package_pricing->term, true);
+                            echo $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$service->package_pricing->period]) : $this->Html->ifSet($periods[$service->package_pricing->period . "_plural"]))));
+                        }
+                        ?>
+                    </li>
+                    <li>
+                        <?php $this->_("AdminMain.service.text_status");?>
+                        <?php echo $this->Html->safe($this->Html->ifSet($statuses[$service->status]));?>
+                    </li>
+                    <li>
+                        <?php $this->_("AdminMain.service.text_date_added");?>
+                        <?php echo (!empty($service->date_added) ? $this->Date->cast($service->date_added) : "");?>
+                    </li>
+                    <li>
+                        <?php $this->_("AdminMain.service.text_date_renews");?>
+                        <?php echo (!empty($service->date_renews) ? $this->Date->cast($service->date_renews) : $this->_("AdminMain.index.text_never", true));?>
+                    </li>
+                    <?php
+                    // Display the coupon that should apply when the service renews
+                    if ($this->Html->ifSet($recurring_coupon) && $this->Html->ifSet($recurring_coupon->type) == "exclusive") {
+                    ?>
+                    <li>
+                        <?php $this->_("AdminMain.service.text_recurring_coupon");?>
+                        <?php
+                        if ($this->Html->ifSet($recurring_coupon->recurring_amount->type) == "percent") {
+                            $this->_("AdminMain.service.text_coupon_percent", false, $this->Html->safe($this->Html->ifSet($recurring_coupon->code)), $this->CurrencyFormat->cast($this->Html->ifSet($recurring_coupon->recurring_amount->amount), $this->Html->ifSet($recurring_coupon->recurring_amount->currency)));
+                        }
+                        else {
+                            $this->_("AdminMain.service.text_coupon_amount", false, $this->Html->safe($this->Html->ifSet($recurring_coupon->code)), $this->CurrencyFormat->format($this->Html->ifSet($recurring_coupon->recurring_amount->amount), $this->Html->ifSet($recurring_coupon->recurring_amount->currency)));
+                        }
+                        ?>
+                    </li>
+                    <?php
+                    }
+
+                    if ($this->Html->ifSet($service->package_pricing->period) != "onetime") {
+                    ?>
+                    <li>
+                        <?php $this->_("AdminMain.service.text_renewal_price");?>
+                        <?php echo $this->CurrencyFormat->format($this->Html->ifSet($service->renewal_price), $this->Html->ifSet($service->override_currency, $this->Html->ifSet($service->package_pricing->currency)));?>
+                    </li>
+                    <?php
+                    }
+                    ?>
+                </ul>
+            </div>
+
+            <div class="title_row">
+                <h3><?php $this->_("AdminMain.service.heading_pricing");?></h3>
+            </div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminMain.service.field_pricing", true), "pricing_id");
+						$this->Form->fieldSelect("pricing_id", $this->Html->ifSet($terms, array()), $this->Html->ifSet($vars->pricing_id), array('id' => "pricing_id"));
+						?>
+					</li>
+                </ul>
+            </div>
+            <div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("AdminMain.service.field_submit");?></a>
+                <a class="btn_right" href="<?php echo $this->Html->safe($this->base_uri . "plugin/reassign_pricing/admin_main/index/" . $this->Html->ifSet($client->id));?>"><?php $this->_("AdminMain.service.field_cancel");?></a>
+			</div>
+            <?php
+            $this->Form->end();
+            ?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

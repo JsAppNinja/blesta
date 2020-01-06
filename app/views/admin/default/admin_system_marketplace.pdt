@@ -1,0 +1,74 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$links = array(
+					array('name'=>$this->_("AdminSystem.marketplace.category_all", true), 'current'=>($this->Html->ifSet($category) == "all" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "system/marketplace/", 'class'=>"ajax"))
+				);
+				
+				$this->Widget->clear();
+				$this->Widget->setLinks($links);
+				$this->Widget->create($this->_("AdminSystemMarketplace.index.boxtitle_marketplace", true, $this->Html->ifSet($extension->name)), array('id'=>"admin_system_marketplace"), $this->Html->ifSet($render_section, null));
+				
+				if ($this->Html->ifSet($marketplace, false) && !empty($marketplace->extensions)) {
+				?>
+				<div id="marketplace">
+					<?php
+					foreach ($marketplace->extensions as $i=>$extension) {
+					?>
+					<a href="<?php echo $this->Html->safe($this->base_uri . "settings/system/marketplace/listing/" . $this->Html->ifSet($extension->id) . "/");?>">
+						<div class="itemlist<?php echo !isset($marketplace->extensions[$i+1]) ? " last" : "";?>">
+							<div class="logo" style="background:url('<?php echo $this->Html->safe($this->Html->ifSet($extension->home) . $this->Html->ifSet($extension->icon));?>');?> no-repeat 0 0; background-position: 0% 50%;"></div>
+							<ul>
+								<li><strong><?php $this->Html->_($extension->name);?></strong> (ver <?php $this->Html->_($extension->version);?>)</li>
+								<li>Author: <?php $this->Html->_($extension->author->name);?></li>
+								<li>Last Updated: <?php echo $this->Date->cast($extension->updated);?></li>
+								<li id="<?php echo $this->Html->concat("_", $this->Html->_($extension->rating), $this->Html->_($extension->id, true));?>" class="rating"></li>
+								<li>Type: <?php $this->Html->_($extension->type);?> <?php $this->Html->_($extension->price);?></li>
+								<li class="description"><?php $this->Html->_($extension->desc);?></li>
+							</ul>
+						</div>
+					</a>
+					<?php
+						if (($i > 0 && ($i%2==1)) || !isset($marketplace->extensions[$i+1])) {
+						?>
+					<div class="clear"></div>
+						<?php
+						}
+					}
+					?>
+				</div>
+				<?php
+				}
+				else {
+				?>
+				<div class="empty_section">
+					<div class="empty_box">
+						<?php $this->_("AdminSystemMarketplace.index.text_unavailable");?>
+					</div>
+				</div>
+				<?php
+				}
+				
+				$this->Widget->end();
+				?>
+			</section>
+		</div>
+
+<?php
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		$('#marketplace .rating').jRating({
+			step:true,
+			type:'big',
+			bigStarsPath:'" . $this->Html->safe($this->view_dir . "images/jrating/stars.png") . "',
+			length:5,
+			showRateInfo:false,
+			rateMax:5,
+			phpPath:''
+		});
+	});
+");
+?>

@@ -1,0 +1,185 @@
+			
+			<div class="title_row first">
+				<h3><?php $this->Html->_($package_group->name);?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<label><?php $this->_("AdminClients.addservice_confirm.field_invoice_method");?></label>
+						<?php $this->_("AdminClients.addservice_confirm.field_invoice_method_" . $vars->invoice_method, false, $this->Html->ifSet($invoice->id_code));?>
+					</li>
+					<li>
+						<label><?php $this->_("AdminClients.addservice_confirm.field_notify_order");?></label>
+						<?php $this->_("AdminClients.addservice_confirm.field_notify_order_" . $this->Html->ifSet($vars->notify_order, "false"));?>
+					</li>
+					<li>
+						<label><?php $this->_("AdminClients.addservice_confirm.field_status");?></label>
+						<?php $this->Html->_($status[$vars->status]);?>
+					</li>
+				</ul>
+			</div>
+			<table class="table">
+				<tbody>
+					<tr class="heading_row">
+						<td><?php $this->_("AdminClients.addservice_confirm.package");?></td>
+						<td><?php $this->_("AdminClients.addservice_confirm.qty");?></td>
+						<td><?php $this->_("AdminClients.addservice_confirm.term");?></td>
+					</tr>
+					<?php
+					$i = 0;
+					foreach ($this->Html->ifSet($items) as $item) {
+					?>
+					<tr<?php echo $i%2==1 ? " class=\"odd_row\"" : "";?>>
+						<td><?php $this->Html->_($item->package->name);?></td>
+						<td><?php echo $this->Html->ifSet($item->qty, 1);?></td>
+						<td><?php $this->Html->_($item->term);?></td>
+					</tr>
+					<?php
+						$i++;
+						
+						if ($this->Html->ifSet($item->config_options)) {
+							foreach ($item->config_options as $option) {
+								if (array_key_exists($this->Html->ifSet($option->option->id), $item->item->configoptions)) {
+									$qty = $option->option->type == "quantity" ? $item->item->configoptions[$option->option->id] : 1;
+							?>
+								<tr<?php echo $i%2==1 ? " class=\"odd_row\"" : "";?>>
+									<td><?php $this->Html->_($option->option->label);?></td>
+									<td><?php $this->Html->_($qty);?></td>
+									<td><?php $this->Html->_($option->term);?></td>
+								</tr>
+							<?php
+									$i++;
+								}
+							}
+						}
+					}
+					unset($i);
+					?>
+				</tbody>
+			</table>
+	
+			<?php
+			// Add-ons
+			if ($this->Html->ifSet($addons)) {
+				foreach ($addons as $addon) {
+			?>
+				<div class="title_row">
+					<h3><?php $this->Html->_($addon->package_group->name);?></h3>
+				</div>
+				<table class="table">
+					<tbody>
+						<tr class="heading_row">
+							<td><?php $this->_("AdminClients.addservice_confirm.package");?></td>
+							<td><?php $this->_("AdminClients.addservice_confirm.qty");?></td>
+							<td><?php $this->_("AdminClients.addservice_confirm.term");?></td>
+						</tr>
+						<tr>
+							<td><?php $this->Html->_($addon->package->name);?></td>
+							<td><?php echo $this->Html->ifSet($addon->item->qty, 1);?></td>
+							<td><?php $this->Html->_($addon->term);?></td>
+						</tr>
+						<?php
+						if ($this->Html->ifSet($addon->config_options) && $this->Html->ifSet($addon->item->configoptions)) {
+							$i = 0;
+							foreach ($addon->config_options as $option) {
+								if (array_key_exists($option->option->id, $addon->item->configoptions)) {
+									$qty = $option->option->type == "quantity" ? $addon->item->configoptions[$option->option->id] : 1;
+									$i++;
+							?>
+								<tr<?php echo $i%2==1 ? " class=\"odd_row\"" : "";?>>
+									<td><?php $this->Html->_($option->option->label);?></td>
+									<td><?php $this->Html->_($qty);?></td>
+									<td><?php $this->Html->_($option->term);?></td>
+								</tr>
+							<?php
+								}
+							}
+							unset($i);
+						}
+						?>
+					</tbody>
+				</table>
+			<?php
+				}
+			}
+			?>
+
+			<?php
+			$this->Form->create();
+			$this->Form->fieldHidden("order_info", $this->Html->ifSet($order_info));
+			$this->Form->fieldHidden("set_coupon", "true");
+			?>				
+				<div class="pad reverse">
+					<div class="date_section">
+						<div class="row">
+							<?php
+							$this->Form->label($this->_("AdminClients.addservice_confirm.field_coupon_code", true), "coupon_code");
+							$this->Form->fieldText("coupon_code", $this->Html->ifSet($vars->coupon_code), array('id' => "coupon_code", 'class' => "medium"));
+							?>
+							<a class="btn_right submit pad_even" href="#"><?php $this->_("AdminClients.addservice_confirm.field_update_coupon");?></a>
+						</div>
+					</div>
+				</div>
+			<?php
+			$this->Form->end();
+			?>
+			
+			<?php
+			$this->Form->create();
+			$this->Form->fieldHidden("order_info", $this->Html->ifSet($order_info));
+			?>
+				<div class="sub_total_box">
+					<div class="row">
+						<span><?php $this->_("AdminClients.addservice_confirm.subtotal");?></span>
+						<em><?php $this->Html->_($line_totals['subtotal']['amount_formatted']);?></em>
+					</div>
+					<?php
+					if ($this->Html->ifSet($line_totals['fees']['setup'])) {
+					?>
+					<div class="row">
+						<span><?php $this->_("AdminClients.addservice_confirm.setup_fee");?></span>
+						<em><?php $this->Html->_($line_totals['fees']['setup']['amount_formatted']);?></em>
+					</div>
+					<?php
+					}
+					if ($this->Html->ifSet($line_totals['discount']['amount']) < 0) {
+					?>
+					<div class="row">
+						<span><?php $this->_("AdminClients.addservice_confirm.discount");?></span>
+						<em><?php $this->Html->_($line_totals['discount']['amount_formatted']);?></em>
+					</div>					
+					<?php
+					}
+					if ($this->Html->ifSet($line_totals['tax'])) {
+						foreach ($line_totals['tax'] as $tax) {
+					?>
+						<div class="row">
+							<span><?php $this->Html->_($tax['name']);?> (<?php echo $this->Html->concat("", $this->Html->_($tax['percentage'], true), "%");?>)</span>
+							<em><?php $this->Html->_($tax['amount_formatted']);?></em>
+						</div>
+					<?php
+						}
+					}
+					?>
+					<div class="row total">
+						<span></span>
+						<strong><em><?php $this->Html->_($line_totals['total_w_tax']['amount_formatted']);?></em></strong>
+					</div>
+				</div>
+				
+				<div class="button_row">
+					<a class="btn_right submit" href="#"><?php $this->_("AdminClients.addservice_confirm.field_add");?></a>
+					<a class="btn_right submit edit" href="#"><?php $this->_("AdminClients.addservice_confirm.field_edit");?></a>
+					<?php $this->Form->fieldHidden("step", "edit", array('disabled' => "disabled", 'id' => "service_step"));?>
+				</div>
+			<?php
+			$this->Form->end();
+			?>
+			
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$(".button_row a.edit").click(function() {
+						$("#service_step").removeAttr("disabled");
+					});
+				});
+			</script>

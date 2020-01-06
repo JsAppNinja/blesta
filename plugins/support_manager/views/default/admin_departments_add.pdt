@@ -1,0 +1,246 @@
+
+				<?php
+				echo $this->Html->ifSet($message);
+				
+				$this->Widget->clear();
+				$this->Widget->setStyleSheet($this->view_dir . "css/styles.css", array('id' => "support_manager_styles"));
+				$this->Widget->create($this->_("AdminDepartments.add.boxtitle_adddepartment", true));
+				?>
+				<div class="inner">
+					<?php $this->Form->create(null, array('id'=>"department"));?>
+					
+					<div class="pad">
+						<ul>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_name", true), "name");
+								$this->Form->fieldText("name", $this->Html->ifSet($vars->name), array('id' => "name"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_description", true), "description");
+								$this->Form->fieldTextarea("description", $this->Html->ifSet($vars->description), array('id' => "description"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->fieldCheckbox("clients_only", "1", $this->Html->ifSet($vars->clients_only) == "1", array('id' => "clients_only"));
+								$this->Form->label($this->_("AdminDepartments.add.field_clients_only", true), "clients_only", array('class' => "inline"));
+								?>								
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_email", true), "email");
+								$this->Form->fieldText("email", $this->Html->ifSet($vars->email), array('id' => "email"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->fieldCheckbox("override_from_email", "1", $this->Html->ifSet($vars->override_from_email) == "1", array('id' => "override_from_email"));
+								$this->Form->label($this->_("AdminDepartments.add.field_override_from_email", true), "override_from_email", array('class' => "inline"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_default_priority", true), "default_priority");
+								$this->Form->fieldSelect("default_priority", $this->Html->ifSet($priorities), $this->Html->ifSet($vars->default_priority), array('id' => "default_priority"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_method", true), "method");
+								$this->Form->fieldSelect("method", $this->Html->ifSet($methods), $this->Html->ifSet($vars->method), array('id' => "method"));
+								?>
+							</li>
+							<li id="piping" style="display:none;">
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_piping_config", true), "piping_config");
+								$this->Form->fieldText("piping_config", $this->Html->ifSet($piping_config), array('id'=>"piping_config", 'readonly'=>"readonly"));
+								?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminDepartments.!tooltip.piping_config");?></div></span>
+							</li>
+						</ul>
+						<ul id="pop3_fields">
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_security", true), "security");
+								$this->Form->fieldSelect("security", $this->Html->ifSet($security_types), $this->Html->ifSet($vars->security), array('id' => "security"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_box_name", true), "box_name");
+								$this->Form->fieldText("box_name", $this->Html->ifSet($vars->box_name), array('id' => "box_name"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_mark_messages", true), "mark_messages");
+								$this->Form->fieldSelect("mark_messages", $this->Html->ifSet($message_types), $this->Html->ifSet($vars->mark_messages), array('id' => "mark_messages"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_host", true), "host");
+								$this->Form->fieldText("host", $this->Html->ifSet($vars->host), array('id' => "host"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_user", true), "user");
+								$this->Form->fieldText("user", $this->Html->ifSet($vars->user), array('id' => "user"));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_pass", true), "pass");
+								$this->Form->fieldPassword("pass", array('id' => "pass", 'value' => $this->Html->ifSet($vars->pass)));
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_port", true), "port");
+								$this->Form->fieldText("port", $this->Html->ifSet($vars->port), array('id' => "port", 'maxlength' => "6", 'class' => "small"));
+								?>
+							</li>
+						</ul>
+						<ul>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_close_ticket_interval", true), "close_ticket_interval");
+								$this->Form->fieldSelect("close_ticket_interval", $this->Html->ifSet($close_ticket_intervals, array()), $this->Html->ifSet($vars->close_ticket_interval), array('id' => "close_ticket_interval"));
+								?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminDepartments.!tooltip.close_ticket_interval", false, $this->Html->ifSet($ticket_statuses['in_progress']));?></div></span>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_response_id", true), "response_id");
+								$this->Form->fieldHidden("response_id", $this->Html->ifSet($vars->response_id), array('id'=>"response_id"));
+								?>
+								<div class="box_left">
+									<div id="selected_response"><?php $this->Html->_($response->name);?></div>
+								</div>
+								<div class="box_left" id="remove_response">
+									&nbsp; <a href="#" class="remove_link"><?php $this->_("AdminDepartments.!text.remove_response");?></a>
+								</div>
+								<div class="clear"></div>
+								<div id="no_selected_response" style="display:none;">
+									<em><?php $this->_("AdminDepartments.!text.no_selected_response");?></em>
+								</div>
+								<h4><a id="add_predefined_response" class="show_content" href="#"><?php $this->_("AdminDepartments.!text.add_response");?></a></h4>
+							</li>
+						</ul>
+					</div>
+					<div id="predefined_responses" style="display:none;">
+						<?php echo $this->Html->ifSet($predefined_responses);?>
+					</div>
+					<div class="clear"></div>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminDepartments.add.field_status", true), "status");
+								$this->Form->fieldSelect("status", $this->Html->ifSet($statuses), $this->Html->ifSet($vars->status), array('id' => "status"));
+								?>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminDepartments.add.field_addsubmit");?></a></div>
+					<?php $this->Form->end();?>	
+				</div>
+				<?php $this->Widget->end();?>
+
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	if ($('#selected_response').text() == '') {
+		$('#no_selected_response').show();
+		$('#remove_response').hide();
+	}
+	
+	showPop3Fields();
+	$('#method').change(function() {
+		showPop3Fields();
+	});
+	
+	// Select piping command
+	$('#piping_config').focusin(function() {
+		$(this).select();
+	});
+	
+	// Toggle predefined responses
+	$(this).blestaBindToggleEvent('#add_predefined_response', '#predefined_responses');
+	$('#add_predefined_response').click(function() {
+		if ($(this).hasClass('show_content')) {
+			setPredefinedResponses(null);
+		}
+	});
+	
+	// Switch between response categories
+	$('#responses .category a.text_link, #responses .up_level a.text_link').live('click', function() {
+		var match = $(this).attr('id').match(/(\d+)$/);
+		var cat_id = match ? parseInt(match[0], 10) : null;
+		setPredefinedResponses(cat_id);
+		return false;
+	});
+	
+	// Add the predefined response
+	$('#responses .response_item a.text_link').live('click', function() {
+		var match = $(this).attr('id').match(/(\d+)$/);
+		var response_id = match ? parseInt(match[0], 10) : null;
+		setPredefinedResponse(response_id);
+		return false;
+	});
+	
+	$('#remove_response').click(function() {
+		$('#remove_response').hide();
+		$('#no_selected_response').show();
+		$('#selected_response').text('');
+		$('#response_id').val('');
+		return false;
+	});
+});
+
+function showPop3Fields() {
+	if ($('#method').val() != 'pipe' && $('#method').val() != 'none')
+		$('#pop3_fields').show();
+	else
+		$('#pop3_fields').hide();
+	
+	if ($('#method').val() == 'pipe')
+		$('#piping').show();
+	else
+		$('#piping').hide();
+	return false;
+}
+
+function setPredefinedResponse(response_id) {
+	$(document).blestaRequest('GET', '" . $this->Html->safe($this->base_uri . "plugin/support_manager/admin_departments/getresponse/") . "' + response_id, {},
+		function(data) {
+			if (data) {
+				$('#response_id').val(data.id);
+				$('#selected_response').text(data.name);
+				$('#no_selected_response').hide();
+				$('#remove_response').show();
+			}
+		},
+		null,
+		{dataType:'json'}
+	);
+}
+
+function setPredefinedResponses(category_id) {
+	$(document).blestaRequest('GET', '" . $this->Html->safe($this->base_uri . "plugin/support_manager/admin_departments/getresponselisting/") . "' + category_id, {},
+		function(data) {
+			if (data) {
+				$('#predefined_responses').html(data);
+			}
+		},
+		null,
+		{dataType:'json'}
+	);
+}
+");
+?>

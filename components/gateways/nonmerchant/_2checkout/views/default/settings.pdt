@@ -1,0 +1,34 @@
+
+	<ul>
+		<li>
+			<?php
+			$this->Form->label($this->_("_2Checkout.vendor_id", true), "_2Checkout_vendor_id");
+			$this->Form->fieldText("vendor_id", $this->Html->ifSet($meta['vendor_id']), array('id'=>"_2Checkout_vendor_id"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("_2Checkout.secret_word", true), "_2Checkout_secret_word");
+			$this->Form->fieldText("secret_word", $this->Html->ifSet($meta['secret_word']), array('id'=>"_2Checkout_secret_word"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("_2Checkout.api_username", true), "_2Checkout_api_username");
+			$this->Form->fieldText("api_username", $this->Html->ifSet($meta['api_username']), array('id'=>"_2Checkout_api_username"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?> <div><?php $this->_("_2Checkout.api_username_note");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("_2Checkout.api_password", true), "_2Checkout_api_password");
+			$this->Form->fieldText("api_password", $this->Html->ifSet($meta['api_password']), array('id'=>"_2Checkout_api_password"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("test_mode", "true", ($this->Html->ifSet($meta['test_mode'], "false") == "true"), array('id'=>"test_mode"));
+			$this->Form->label($this->_("_2Checkout.test_mode", true), "test_mode", array('class'=>"inline"));
+			?>
+		</li>
+	</ul>

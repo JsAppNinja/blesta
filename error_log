@@ -1,0 +1,2 @@
+[31-Jul-2017 12:46:36 America/Toronto] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE), expecting function (T_FUNCTION) in /home/jdgtest/public_html/blesta3/app/controllers/client_logout.php on line 22
+[31-Jul-2017 12:48:31 America/Toronto] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE), expecting function (T_FUNCTION) in /home/jdgtest/public_html/blesta3/app/controllers/client_logout.php on line 22

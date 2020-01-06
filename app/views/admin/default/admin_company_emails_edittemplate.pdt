@@ -1,0 +1,108 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">				
+				<?php
+				$tabs = array();
+				
+				// Set tab language
+				if (is_array($this->Html->ifSet($templates)) && ($num_templates = count($templates)) > 0) {
+					for ($i=0; $i<$num_templates; $i++) {
+						$tabs[$i]['name'] = $this->Html->_($templates[$i]->lang_name, true);
+						$tabs[$i]['current'] = ($this->Html->_($vars->lang, true) == $this->Html->_($templates[$i]->lang, true) ? true : false);
+						$tabs[$i]['attributes'] = array('href'=>$this->base_uri . "settings/company/emails/edittemplate/" . $templates[$i]->email_group_id . "/" . $templates[$i]->id . "/");
+					}
+				}
+
+				$this->Widget->clear();
+				$this->Widget->setTabs($tabs);
+				$this->Widget->create($this->_("AdminCompanyEmails.edittemplate.boxtitle_edittemplate", true, $this->Html->ifSet($template_name)));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.edittemplate.field_from_name", true), "from_name");?>
+								<?php $this->Form->fieldText("from_name", $this->Html->ifSet($vars->from_name), array("id"=>"from_name"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.edittemplate.field_from", true), "from");?>
+								<?php $this->Form->fieldText("from", $this->Html->ifSet($vars->from), array("id"=>"from"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.edittemplate.field_subject", true), "subject");?>
+								<?php $this->Form->fieldText("subject", $this->Html->ifSet($vars->subject), array("id"=>"subject"));?>
+							</li>
+							<li>
+								<?php
+								$this->Form->label($this->_("AdminCompanyEmails.edittemplate.field_tags", true), "tags");
+								
+								if (is_array($template->tags)) {
+								?>
+									<div class="accent_box">
+									<?php
+									for ($i=0, $num_tags=count($template->tags); $i<$num_tags; $i++) {
+									?>
+									<?php $this->Html->_($template->tags[$i]);?>
+									<?php
+									}
+									?>
+									</div>
+								<?php
+								}
+								?>
+							</li>							
+							<li>
+								<div class="tab_content">
+									<ul class="tabs">
+										<li class="current">
+											<a href="#"><?php $this->Form->label($this->_("AdminCompanyEmails.edittemplate.field_html", true), "html");?></a>
+										</li>
+										<li>
+											<a href="#"><?php $this->Form->label($this->_("AdminCompanyEmails.edittemplate.field_text", true), "text");?></a>
+										</li>
+									</ul>
+									<div class="inner_content">
+										<div><?php $this->Form->fieldTextarea("html", $this->Html->ifSet($vars->html), array('id'=>"html"));?></div>
+										<div><?php $this->Form->fieldTextarea("text", $this->Html->ifSet($vars->text), array('id'=>"text"));?></div>
+									</div>
+								</div>
+							</li>
+							<li>	
+								<?php $this->Form->label($this->_("AdminCompanyEmails.edittemplate.field_email_signature_id", true), "email_signature_id");?>
+								<?php $this->Form->fieldSelect("email_signature_id", $this->Html->ifSet($signatures), $this->Html->ifSet($vars->email_signature_id), array('id'=>"email_signature_id"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("include_attachments", "1", ($this->Html->ifSet($vars->include_attachments, "0") == "1"), array('id'=>"include_attachments"));?>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.edittemplate.field_include_attachments", true), "include_attachments", array("class"=>"inline"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyEmails.edittemplate.note_include_attachments");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("status", "active", (isset($vars->status) && $vars->status == "active" ? true : false), array("id"=>"status"));?>
+								<?php $this->Form->label($this->_("AdminCompanyEmails.edittemplate.field_status", true), "status", array("class"=>"inline"));?>
+							</li>
+						</ul>
+						<div class="button_row">
+							<a class="btn_right submit" href="#"><?php $this->_("AdminCompanyEmails.edittemplate.field_edittemplatesubmit");?></a>
+							<a class="btn_right" href="<?php echo $this->base_uri;?>settings/company/emails/templates/"><?php $this->_("AdminCompanyEmails.!cancel.field_cancel");?></a>
+						</div>
+					</div>
+				</div>
+				<?php
+				$this->Form->fieldHidden("lang", $this->Html->ifSet($vars->lang));
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	$('#html').ckeditor(function() {}, {language: '" . substr(Configure::get("Blesta.language"), 0, 2) . "'});
+	
+	$('div.tab_content').blestaTabbedContent();
+});
+");
+?>

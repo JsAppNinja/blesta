@@ -1,0 +1,13 @@
+			<div class="title_row first">
+				<h3><?php $this->_("OrderTypeDomain.settings.domain_group_title");?></h3>
+			</div>
+			
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldSelect("meta[domain_group]", $this->Html->ifSet($package_groups), $this->Html->ifSet($vars->meta['domain_group']));
+						?>
+					</li>
+				</ul>
+			</div>

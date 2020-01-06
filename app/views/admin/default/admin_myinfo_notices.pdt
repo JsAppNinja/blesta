@@ -1,0 +1,111 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$tabs = array();
+		foreach ($this->Html->ifSet($link_tabs, array()) as $tab) {
+			$tabs[] = array(
+				'name'=>$tab['name'],
+				'current'=>($tab['uri'] == "notices"),
+				'attributes'=>array(
+					'href'=>$this->base_uri . "myinfo/" . $tab['uri'] . "/",
+					'class'=>"ajax"
+				)
+			);
+		}
+		
+		$this->Widget->clear();
+		$this->Widget->setTabs($tabs);
+		$this->Widget->create($this->_("AdminMyinfo.index.boxtitle_myinfo", true), array('id'=>"admin_myinfo_notices"), $this->Html->ifSet($render_section, null));
+		$this->Form->create();
+		$this->Form->fieldHidden("empty", "0");
+		?>
+		<div class="inner">
+			<div class="title_row first">
+				<h3><?php $this->_("AdminMyinfo.notices.heading_notices");?></h3>
+			</div>
+			
+			<?php
+			if (!empty($bcc_notices)) {
+			?>
+			<div class="pad">
+				<dl>
+					<?php
+					foreach ($this->Html->ifSet($bcc_notices, array()) as $notice) {
+					?>
+					<dd>
+						<?php $this->Form->fieldCheckbox("notices[]", $this->Html->_($notice->action, true), in_array($this->Html->_($notice->action, true), (array)$this->Html->ifSet($vars->notices)), array('id'=>"notice_" . $this->Html->_($notice->id, true)));?>
+						<?php $this->Form->label($notice->lang, "notice_" . $this->Html->_($notice->id, true), array('class'=>"inline"));?>
+						<?php
+						if (!empty($notice->lang_description)) {
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->Html->_($notice->lang_description);?></div></span>
+						<?php
+						}
+						?>
+					</dd>
+					<?php
+					}
+					unset($notice);
+					?>
+				</dl>
+			</div>
+			<?php
+			}
+			else {
+			?>
+			<div class="empty_section">
+				<div class="empty_box">
+					<?php $this->_("AdminMyinfo.notices.no_bcc_results");?>
+				</div>
+			</div>
+			<?php
+			}
+			?>
+			
+			<div class="title_row">
+				<h3><?php $this->_("AdminMyinfo.notices.heading_subscription_notices");?></h3>
+			</div>
+			
+			<?php
+			if (!empty($subscription_notices)) {
+			?>
+			<div class="pad">
+				<dl>
+					<?php
+					foreach ($this->Html->ifSet($subscription_notices, array()) as $notice) {
+					?>
+					<dd>
+						<?php $this->Form->fieldCheckbox("notices[]", $this->Html->_($notice->action, true), in_array($this->Html->_($notice->action, true), (array)$this->Html->ifSet($vars->notices)), array('id'=>"notice_" . $this->Html->_($notice->id, true)));?>
+						<?php $this->Form->label($notice->lang, "notice_" . $this->Html->_($notice->id, true), array('class'=>"inline"));?>
+						<?php
+						if (!empty($notice->lang_description)) {
+						?>
+						<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->Html->_($notice->lang_description);?></div></span>
+						<?php
+						}
+						?>
+					</dd>
+					<?php
+					}
+					?>
+				</dl>
+			</div>
+			<?php
+			}
+			else {
+			?>
+			<div class="empty_section">
+				<div class="empty_box">
+					<?php $this->_("AdminMyinfo.notices.no_subscription_results");?>
+				</div>
+			</div>
+			<?php
+			}
+			?>
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminMyinfo.notices.field_noticesubmit");?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>

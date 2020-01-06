@@ -1,0 +1,57 @@
+	
+	<div class="title_row first">
+		<h3><?php $this->_("Solusvm.tab_ips.heading_ips");?></h3>
+	</div>
+	<div class="pad">
+		<p><?php $this->_("Solusvm.tab_ips.primary_ip", false, $this->Html->_($ips->main, true));?></p>
+	</div>
+	
+	<?php
+	if (!empty($ips->extra)) {
+	?>
+	<div class="title_row">
+		<h3><?php $this->_("Solusvm.tab_ips.heading_extra_ips");?></h3>
+	</div>
+	<div id="solusvm-ips" class="pad">
+		<table class="table">
+			<thead>
+				<tr class="heading_row">
+					<td><span><?php $this->_("Solusvm.tab_ips.heading_ip");?></span></td>
+					<td><span><?php $this->_("Solusvm.tab_ips.heading_options");?></span></td>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				foreach ($this->Html->ifSet($ips->extra) as $i=>$ip) {
+				?>
+				<tr<?php echo $i%2 == 1 ? " class=\"odd_row\"" : "";?>>
+					<td><?php $this->Html->_($ip);?></td>
+					<td>
+						<?php
+						$this->Form->create($this->base_uri . "clients/servicetab/" . $this->Html->ifSet($client_id) . "/" . $this->Html->ifSet($service_id) . "/tabIps/");
+						$this->Form->fieldHidden("ip_address", $this->Html->ifSet($ip));
+						?>
+						<a class="manage" href="#" rel="<?php $this->_("Solusvm.tab_ips.confirm_remove");?>">
+							<?php $this->_("Solusvm.tab_ips.option_remove");?>
+						</a>
+						<?php
+						$this->Form->end();
+						?>
+					</td>
+				</tr>
+				<?php
+				}
+				?>
+			</tbody>
+		</table>
+	</div>
+	<?php
+	}
+	?>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Handle confirmation
+		$('#solusvm-ips a.manage[rel]').blestaModalConfirm({base_url: '<?php echo $this->base_uri;?>', close: '<?php $this->_("AppController.modal.text_close");?>', submit: true});
+	});
+</script>

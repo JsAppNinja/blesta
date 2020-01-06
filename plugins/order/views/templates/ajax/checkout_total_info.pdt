@@ -1,0 +1,62 @@
+                    <div class="well well-sm well-order">
+						<?php
+						if ($this->Html->ifSet($totals)) {
+						?>
+						<div class="table-responsive">
+							<table class="table table-curved">
+								<tbody>
+									<tr>
+										<td><?php $this->_("Checkout.index.totals.subtotal");?></td>
+										<td><span class="price-col pull-right"><strong><?php $this->Html->_($totals['subtotal']['amount_formatted']);?></strong></span></td>
+									</tr>
+									<?php
+									if ($this->Html->ifSet($totals['fees']['setup'])) {
+									?>
+									<tr>
+										<td><?php $this->_("Checkout.index.totals.setup_fee");?></td>
+										<td><span class="price-col pull-right"><strong><?php $this->Html->_($totals['fees']['setup']['amount_formatted']);?></strong></span></td>
+									</tr>
+									<?php
+									}
+									if ($this->Html->ifSet($totals['discount']['amount'])) {
+									?>
+									<tr>
+										<td><?php $this->_("Checkout.index.totals.discount");?></td>
+										<td><span class="price-col pull-right"><strong><?php $this->Html->_($totals['discount']['amount_formatted']);?></strong></span></td>
+									</tr>
+									<?php
+									}
+									if ($this->Html->ifSet($totals['tax'])) {
+										foreach ($totals['tax'] as $tax) {
+									?>
+										<tr>
+											<td><?php $this->_("Checkout.index.totals.tax", false, $tax['name'], $tax['percentage']);?></td>
+											<td><span class="price-col pull-right"><strong><?php $this->Html->_($tax['amount_formatted']);?></strong></span></td>
+										</tr>
+									<?php
+										}
+									}
+									?>
+								</tbody>
+							</table>
+						</div>
+						<hr>
+						<?php
+						}
+						?>
+						
+						<div class="col-md-6">
+							
+						</div>
+						<div class="col-md-6 total-due">
+							<?php
+							if ($this->Html->ifSet($totals)) {
+							?>
+								<small><?php $this->_("Checkout.index.totals.total");?></small>
+								<h4><strong><?php $this->Html->_($totals['total_w_tax']['amount_formatted']);?></strong></h4>
+							<?php
+							}
+							?>
+						</div>
+						<div class="clearfix"></div>
+					</div>

@@ -1,0 +1,44 @@
+	
+	<div class="table-responsive">
+		<table class="table table-curved table-striped">
+			<thead>
+				<tr>
+					<th><i class="fa fa-share fa-flip-vertical"></i></th>
+					<th><?php $this->_("Plesk.service_info.username");?></th>
+					<th><?php $this->_("Plesk.service_info.password");?></th>
+					<th><?php $this->_("Plesk.service_info.server");?></th>
+					<th><?php $this->_("Plesk.service_info.options");?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td><?php $this->Html->_($service_fields->plesk_username);?></td>
+					<td><?php $this->Html->_($service_fields->plesk_password);?></td>
+					<td><?php $this->Html->_($module_row->meta->ip_address);?></td>
+					<td>
+						<?php
+						$this->Form->setCsrfOptions(array('set_on_create' => false));
+						$this->Form->create($this->Html->safe("https://" . $this->Html->ifSet($module_row->meta->ip_address) . ":8443/login_up.php3"), array('target' => "_blank"));
+						$this->Form->fieldHidden("login_name", $this->Html->ifSet($service_fields->plesk_username));
+						$this->Form->fieldHidden("passwd", $this->Html->ifSet($service_fields->plesk_password));
+						?>
+						<a id="plesk_login<?php $this->Html->_($service->id);?>" href="#"><?php $this->_("Plesk.service_info.option_login");?></a>
+						<?php
+						$this->Form->end();
+						$this->Form->setCsrfOptions(array('set_on_create' => true));
+						?>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#plesk_login<?php $this->Html->_($service->id);?>').click(function(e) {
+				e.preventDefault();
+				
+				$(this).closest('form').submit();
+			});
+		});
+	</script>

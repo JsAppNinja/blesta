@@ -1,0 +1,32 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->Widget->clear();
+		$this->Widget->create($this->_("DownloadManagerManagePlugin.editcategory.boxtitle_editcategory", true, $this->Html->ifSet($category->name)));
+		
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->label($this->_("DownloadManagerManagePlugin.editcategory.field_name", true));?>
+						<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array('id'=>"name"));?>
+					</li>
+					<li>
+						<?php $this->Form->label($this->_("DownloadManagerManagePlugin.editcategory.field_description", true));?>
+						<?php $this->Form->fieldTextarea("description", $this->Html->ifSet($vars->description), array('id'=>"description", 'class'=>"small"));?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("DownloadManagerManagePlugin.editcategory.submit_edit");?></a>
+				<a class="btn_right" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($category->id));?>"><?php $this->_("DownloadManagerManagePlugin.editcategory.submit_cancel");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>

@@ -1,0 +1,38 @@
+	<div class="login-box">
+		<h2><?php $this->_("AdminLogin.otp.title_adminarea", false, $this->Html->_($system_company->name, true));?></h2>
+		<div class="box">
+			<div class="t"></div>
+			<div class="c">
+				<?php echo $this->Html->ifSet($message);?>
+				<?php $this->Form->create();?>
+					<fieldset>
+						<div class="row">
+							<?php $this->Form->label($this->_("AdminLogin.otp.field_password", true), "otp");?>
+							<span class="text-item"><?php $this->Form->fieldText("otp", null, array("id"=>"otp"));?></span>
+						</div><!-- /row end -->
+						<div class="btn-holder">
+							<a href="#" class="btn"><span><?php $this->_("AdminLogin.otp.field_loginsubmit");?></span></a><!-- /btn end -->
+							<p><strong><em><a href="<?php echo $this->base_uri . "logout/";?>" id="reset"><?php $this->_("AdminLogin.otp.link_login");?></a></em></strong></p>
+						</div><!-- /btn-holder end -->
+					</fieldset>
+				<?php
+				// Allow form to be submitted on "enter"
+				$this->Form->fieldSubmit("login", "", array('class'=>"hide_submit", 'hidefocus'=>"true"));
+				$this->Form->end();
+				?>
+			</div>
+			<div class="b"></div>
+		</div><!-- /box end -->
+	</div><!-- /login-box end -->
+<?php
+$this->Javascript->setInline('
+	$(document).ready(function() {
+		$(".login-box").blestaVerticalAlign({container:window, offset:2.3});
+		$(window).resize(function() {
+			$(".login-box").blestaVerticalAlign({container:window, offset:2.3});
+		});
+		$("#otp").focus();
+		$("a.btn").blestaSubmitOnClick();
+	});
+');
+?>

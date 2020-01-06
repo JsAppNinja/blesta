@@ -1,0 +1,49 @@
+
+		<div class="title_row">
+			<h3><?php $this->_("AdminSearch.transactions.heading");?></h3>
+		</div>
+		<?php
+		if ($this->Html->ifSet($transactions, false) && ($num_transactions = count($transactions)) > 0) {
+		?>
+		<table class="table">
+			<tr class="heading_row">
+				<td><span><?php $this->_("AdminSearch.transactions.heading_client_id");?></span></td>
+				<td><span><?php $this->_("AdminSearch.transactions.heading_type");?></span></td>
+				<td><span><?php $this->_("AdminSearch.transactions.heading_amount");?></span></td>
+				<td><span><?php $this->_("AdminSearch.transactions.heading_credited");?></span></td>
+				<td><span><?php $this->_("AdminSearch.transactions.heading_applied");?></span></td>
+				<td><span><?php $this->_("AdminSearch.transactions.heading_number");?></span></td>
+				<td><span><?php $this->_("AdminSearch.transactions.heading_status");?></span></td>
+				<td><span><?php $this->_("AdminSearch.transactions.heading_date");?></span></td>
+				<td class="last"><span><?php $this->_("AdminSearch.transactions.heading_options");?></span></td>
+			</tr>
+			<?php
+			for ($i=0; $i<$num_transactions; $i++) {
+			?>
+			<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : "";?>>
+				<td><a href="<?php echo $this->Html->safe($this->base_uri . "clients/view/" . $this->Html->_($transactions[$i]->client_id, true) . "/");?>"><?php $this->Html->_($transactions[$i]->client_id_code);?></a></td>
+				<td><?php $this->Html->_($transaction_types[($transactions[$i]->type_name != "" ? $transactions[$i]->type_name : $transactions[$i]->type)]);?></td>
+				<td><?php echo $this->CurrencyFormat->format($this->Html->_($transactions[$i]->amount, true), $this->Html->_($transactions[$i]->currency, true), array('html_code'=>true));?></td>
+				<td><?php echo $this->CurrencyFormat->format($this->Html->_($transactions[$i]->credited_amount, true), $this->Html->_($transactions[$i]->currency, true), array('html_code'=>true));?></td>
+				<td><?php echo $this->CurrencyFormat->format($this->Html->_($transactions[$i]->applied_amount, true), $this->Html->_($transactions[$i]->currency, true), array('html_code'=>true));?></td>
+				<td><?php $this->Html->_($transactions[$i]->transaction_id);?></td>
+				<td><?php $this->Html->_($transaction_status[$transactions[$i]->status]);?></td>
+				<td><?php echo $this->Date->cast($this->Html->_($transactions[$i]->date_added, true));?></td>
+				<td><a href="<?php echo $this->Html->safe($this->base_uri . "clients/edittransaction/" . $this->Html->ifSet($transactions[$i]->client_id) . "/" . $this->Html->ifSet($transactions[$i]->id));?>"><?php $this->_("AdminSearch.transactions.option_edit");?></a></td>
+			</tr>
+			<?php
+			}
+			?>
+		</table>
+		<?php
+		}
+		else {
+		?>
+		<div class="empty_section">
+			<div class="empty_box">
+				<?php $this->_("AdminSearch.transactions.no_results");?>
+			</div>
+		</div>
+		<?php
+		}
+		?>

@@ -1,0 +1,16 @@
+	<table class="table">
+		<tr class="heading_row">
+			<td class="fixed_small center border_none"><span class="paymnt_arrow"></span></td>
+			<td class="border_left"><?php $this->_("DirectAdmin.service_info.username");?></td>
+			<td><?php $this->_("DirectAdmin.service_info.password");?></td>
+			<td><?php $this->_("DirectAdmin.service_info.server");?></td>
+			<td class="last"><?php $this->_("DirectAdmin.service_info.options");?></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php $this->Html->_($service_fields->direct_admin_username);?></td>
+			<td><?php $this->Html->_($service_fields->direct_admin_password);?></td>
+			<td><?php $this->Html->_($module_row->meta->host_name);?></td>
+			<td><a href="<?php echo $this->Html->safe("http://" . $this->Html->ifSet($module_row->meta->host_name) . ":2222");?>" target="_blank"><?php $this->_("DirectAdmin.service_info.option_login");?></a></td>
+		</tr>
+	</table>

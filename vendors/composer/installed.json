@@ -1,0 +1,1444 @@
+[
+    {
+        "name": "blesta/composer-installer",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/blesta/composer-installer.git",
+            "reference": "11672a7cbe9c74a6d5bc602ce8148ae92781ba2e"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-composer-installer-11672a7cbe9c74a6d5bc602ce8148ae92781ba2e-zip-fdb69b.tar",
+            "reference": "11672a7cbe9c74a6d5bc602ce8148ae92781ba2e",
+            "shasum": "2ef0cdcedfdd17fd83b16dad82522413821d8d01"
+        },
+        "require": {
+            "composer/installers": "~1.0",
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "~4.6",
+            "satooshi/php-coveralls": "dev-master",
+            "squizlabs/php_codesniffer": "~2.2"
+        },
+        "time": "2015-09-10 17:19:30",
+        "type": "composer-installer",
+        "extra": {
+            "class": "Blesta\\Composer\\Installer\\Installer"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Blesta\\Composer\\Installer\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ]
+    },
+    {
+        "name": "blesta/_2checkout",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/2checkout.git",
+            "reference": "f6e28c16c8c5bde6f7f46741154bcd814b4a8374"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-_2checkout-1.1.1-e9a00c.tar",
+            "reference": "f6e28c16c8c5bde6f7f46741154bcd814b4a8374",
+            "shasum": "19872c9c9fbbbac3ae2d3963cbe6f19150083acb"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:50:08",
+        "type": "blesta-gateway-nonmerchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "2Checkout"
+    },
+    {
+        "name": "blesta/authorize_net",
+        "version": "1.3.1",
+        "version_normalized": "1.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/authorize-net.git",
+            "reference": "bb9e9042cfab80277a3c55e10053e3e3eecb6504"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-authorize_net-1.3.1-9cabbf.tar",
+            "reference": "bb9e9042cfab80277a3c55e10053e3e3eecb6504",
+            "shasum": "fc1b2f813ecc581814d7783242d4619c92654d5c"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:28:45",
+        "type": "blesta-gateway-merchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Authorize.net"
+    },
+    {
+        "name": "blesta/auto_cancel",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/auto-cancel.git",
+            "reference": "6bbaa4e46a4dda256821bdbdee4c7c092e27b307"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-auto_cancel-1.0.2-8379cd.tar",
+            "reference": "6bbaa4e46a4dda256821bdbdee4c7c092e27b307",
+            "shasum": "1c6b9124e2d68b1feca5ed7ff5d345af2d81da69"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:13:24",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Automatically Cancel Services"
+    },
+    {
+        "name": "blesta/billing_overview",
+        "version": "1.3.2",
+        "version_normalized": "1.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/billing-overview.git",
+            "reference": "3efa3f0357742213273e55044fea9c21a2ef593a"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-billing_overview-1.3.2-0fe5cf.tar",
+            "reference": "3efa3f0357742213273e55044fea9c21a2ef593a",
+            "shasum": "a9170ca22589262f88b644db03c81346af043aa0"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:14:44",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Billing Overview"
+    },
+    {
+        "name": "blesta/bitpay",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/bitpay.git",
+            "reference": "c1be7c13072b0ec83c32b1dd349dafbd67c04fa2"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-bitpay-1.0.2-14fe15.tar",
+            "reference": "c1be7c13072b0ec83c32b1dd349dafbd67c04fa2",
+            "shasum": "b20c15f6b0f4b84c105a6cb45c270b434992bb85"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:51:47",
+        "type": "blesta-gateway-nonmerchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Bitpay"
+    },
+    {
+        "name": "blesta/blue_pay",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/blue-pay.git",
+            "reference": "a5eac2880bb24b2b9333dd00e858abafddab3478"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-blue_pay-1.0.1-6c6cfc.tar",
+            "reference": "a5eac2880bb24b2b9333dd00e858abafddab3478",
+            "shasum": "76d6dea349db834cd30dba9b2bd13b3de47ed24c"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:34:46",
+        "type": "blesta-gateway-merchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Blue Pay"
+    },
+    {
+        "name": "blesta/braintree",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/braintree.git",
+            "reference": "29e8e63ed529d18f31141b895a9fbaf7207f2408"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-braintree-1.0.1-5ebbcf.tar",
+            "reference": "29e8e63ed529d18f31141b895a9fbaf7207f2408",
+            "shasum": "8cfe1586b7d487dbdaccbc71d3b7b3981e19b935"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:36:12",
+        "type": "blesta-gateway-merchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Braintree"
+    },
+    {
+        "name": "blesta/buycpanel",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/buycpanel.git",
+            "reference": "0533232a0f9c6477d37070ae0c82dbe991eeefb1"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-buycpanel-1.1.1-524c3b.tar",
+            "reference": "0533232a0f9c6477d37070ae0c82dbe991eeefb1",
+            "shasum": "1fb07fba2c60ba6d28f9e3ab2e42554c97a5fa2e"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:02:43",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "BuycPanel"
+    },
+    {
+        "name": "blesta/ccavenue",
+        "version": "2.0.1",
+        "version_normalized": "2.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/ccavenue.git",
+            "reference": "86643727b3c1e2c98120418833cd001ac9c62dc0"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-ccavenue-2.0.1-bd0a1c.tar",
+            "reference": "86643727b3c1e2c98120418833cd001ac9c62dc0",
+            "shasum": "df728476dfdf51af3e0cd0145f17471dd1e0c227"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:53:04",
+        "type": "blesta-gateway-nonmerchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "CCAvenue"
+    },
+    {
+        "name": "blesta/client_documents",
+        "version": "2.0.1",
+        "version_normalized": "2.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/client-documents.git",
+            "reference": "32f0db725ef45b8551586ddb6f7947481b542159"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-client_documents-2.0.1-9c6a24.tar",
+            "reference": "32f0db725ef45b8551586ddb6f7947481b542159",
+            "shasum": "9ae37a8426e668ff5567686511e3bc922de46b79"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:15:57",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Client Documents"
+    },
+    {
+        "name": "blesta/cms",
+        "version": "2.2.1",
+        "version_normalized": "2.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/cms.git",
+            "reference": "72357af988824e156a7b27f32f862a6053be3836"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-cms-2.2.1-5f223a.tar",
+            "reference": "72357af988824e156a7b27f32f862a6053be3836",
+            "shasum": "33d8597776ff844a03158febad17975092a88a2c"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:17:09",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "CMS"
+    },
+    {
+        "name": "blesta/converge",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/converge.git",
+            "reference": "c38c0487423c5a7dd42ec9fbac60cbb6c4d85c3b"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-converge-1.0.1-647ca2.tar",
+            "reference": "c38c0487423c5a7dd42ec9fbac60cbb6c4d85c3b",
+            "shasum": "6e2cae223e9a44857c825faa03572f07579c10ab"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:37:28",
+        "type": "blesta-gateway-merchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Converge"
+    },
+    {
+        "name": "blesta/cpanel",
+        "version": "2.3.1",
+        "version_normalized": "2.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/cpanel.git",
+            "reference": "6b36dc07e6d4eb0ead64e39f12a70fffdde8a8d1"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-cpanel-2.3.1-b500dd.tar",
+            "reference": "6b36dc07e6d4eb0ead64e39f12a70fffdde8a8d1",
+            "shasum": "eae8bed3854221d5226045ddff901f263a9373a4"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:04:02",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "cPanel"
+    },
+    {
+        "name": "blesta/direct_admin",
+        "version": "2.2.1",
+        "version_normalized": "2.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/direct-admin.git",
+            "reference": "b20bcd0cefa891fabedac21daa71e43da504c185"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-direct_admin-2.2.1-c44fc9.tar",
+            "reference": "b20bcd0cefa891fabedac21daa71e43da504c185",
+            "shasum": "4900ffef991ef6f89fe80645819d3a912d9ad340"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:11:50",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "DirectAdmin"
+    },
+    {
+        "name": "blesta/download_manager",
+        "version": "2.0.2",
+        "version_normalized": "2.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/download-manager.git",
+            "reference": "12a36e19007d9be186b9aeea034b476906b504f5"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-download_manager-2.0.2-3bdba3.tar",
+            "reference": "12a36e19007d9be186b9aeea034b476906b504f5",
+            "shasum": "6beee6ef2238f7d5e36bc041f7d7a65a4aa86f28"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:18:11",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Download Manager"
+    },
+    {
+        "name": "blesta/enom",
+        "version": "2.2.1",
+        "version_normalized": "2.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/enom.git",
+            "reference": "0f01083b24d64633a96497df19819f3fe914a53c"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-enom-2.2.1-91a461.tar",
+            "reference": "0f01083b24d64633a96497df19819f3fe914a53c",
+            "shasum": "3dd2a0e69a8eac9e375a83786f620041d4c21e9e"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:13:29",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Enom"
+    },
+    {
+        "name": "blesta/eway",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/eway.git",
+            "reference": "731489aee74d9dc1dc24adf58ed9ee94d763a5de"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-eway-1.1.1-0c66c6.tar",
+            "reference": "731489aee74d9dc1dc24adf58ed9ee94d763a5de",
+            "shasum": "66a67487d6ed3e820b16e3113c978ced14963692"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:39:22",
+        "type": "blesta-gateway-merchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Eway"
+    },
+    {
+        "name": "blesta/feed_reader",
+        "version": "2.1.2",
+        "version_normalized": "2.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/feed-reader.git",
+            "reference": "ed3095b22c98d6fa00f69af9151de1f47ad6d647"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-feed_reader-2.1.2-f85d6b.tar",
+            "reference": "ed3095b22c98d6fa00f69af9151de1f47ad6d647",
+            "shasum": "3c8fa86c5b358ab559985373743902359bb9d5c6"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:19:26",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Feed Reader"
+    },
+    {
+        "name": "blesta/gogetssl",
+        "version": "2.1.1",
+        "version_normalized": "2.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/gogetssl.git",
+            "reference": "cdf46a93d966cb60116724ac2254f2fa2557c53e"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-gogetssl-2.1.1-958650.tar",
+            "reference": "cdf46a93d966cb60116724ac2254f2fa2557c53e",
+            "shasum": "c78404bc2886bbfe06100e2c18c960f8fca694ac"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:14:52",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "GoGetSSL"
+    },
+    {
+        "name": "blesta/import_manager",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/import-manager.git",
+            "reference": "8f9bf2c512ee5ec7e922c68616cc29c6e094b3de"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-import_manager-1.2.1-03c863.tar",
+            "reference": "8f9bf2c512ee5ec7e922c68616cc29c6e094b3de",
+            "shasum": "230351e048772263a283354ab9178868049d5dda"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:20:52",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Import Manager"
+    },
+    {
+        "name": "blesta/interworx",
+        "version": "2.3.3",
+        "version_normalized": "2.3.3.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/interworx.git",
+            "reference": "590451d3791b3e13f04f32a2d7ec7af94d8a37d3"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-interworx-2.3.3-1b554b.tar",
+            "reference": "590451d3791b3e13f04f32a2d7ec7af94d8a37d3",
+            "shasum": "ff8226726127569ce58629b640d20a4099e2611c"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-30 21:58:02",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Interworx"
+    },
+    {
+        "name": "blesta/logicboxes",
+        "version": "2.2.1",
+        "version_normalized": "2.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/logicboxes.git",
+            "reference": "cb42168524f4fe528aa5099f828584fdeee95675"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-logicboxes-2.2.1-ca0a1a.tar",
+            "reference": "cb42168524f4fe528aa5099f828584fdeee95675",
+            "shasum": "471533db6c14d30a9cc4dd2ced017b28638464f4"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:17:41",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Logicboxes"
+    },
+    {
+        "name": "blesta/multicraft",
+        "version": "1.2.4",
+        "version_normalized": "1.2.4.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/multicraft.git",
+            "reference": "3d09ccdfe190f78d0c5423e26a28366aab279963"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-multicraft-1.2.4-3c508a.tar",
+            "reference": "3d09ccdfe190f78d0c5423e26a28366aab279963",
+            "shasum": "433b5a2e4fd4c274d900ee5174bf8a5c9817ae79"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:20:06",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Multicraft"
+    },
+    {
+        "name": "blesta/namecheap",
+        "version": "2.1.2",
+        "version_normalized": "2.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/namecheap.git",
+            "reference": "c36b8ef0165f8f74cceadd15b3857c42415dfaad"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-namecheap-2.1.2-032caf.tar",
+            "reference": "c36b8ef0165f8f74cceadd15b3857c42415dfaad",
+            "shasum": "764a5e1d186be5ae5c36800becf642716449d1c6"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:21:46",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Namecheap"
+    },
+    {
+        "name": "blesta/offline",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/offline.git",
+            "reference": "f370d44410b758a34bfbf95e7ba1508ca5599788"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-offline-1.0.1-7a6787.tar",
+            "reference": "f370d44410b758a34bfbf95e7ba1508ca5599788",
+            "shasum": "54b69a25fe56ccca622dd5102ed7ea5744c54fc6"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:54:25",
+        "type": "blesta-gateway-nonmerchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Offline"
+    },
+    {
+        "name": "blesta/order",
+        "version": "2.8.4",
+        "version_normalized": "2.8.4.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/order.git",
+            "reference": "84a8ce8d6c3d35eaec10726dd8c87e7a78b6f761"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-order-2.8.4-fcf0fd.tar",
+            "reference": "84a8ce8d6c3d35eaec10726dd8c87e7a78b6f761",
+            "shasum": "9b2ddf71e6d531ff84e5145f324ee23a18b9428b"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:23:01",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Order"
+    },
+    {
+        "name": "blesta/pagseguro",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/pagseguro.git",
+            "reference": "99f5eccc077e753af6a9cc0a04744d282fe79a34"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-pagseguro-1.0.2-6a7b6f.tar",
+            "reference": "99f5eccc077e753af6a9cc0a04744d282fe79a34",
+            "shasum": "7929ca3b4492adaadd5a1332899d4d3c31cf27be"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:55:56",
+        "type": "blesta-gateway-nonmerchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Pagseguro"
+    },
+    {
+        "name": "blesta/payflow",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/payflow.git",
+            "reference": "22ee0e8e987613db49797afbc329c54138f76185"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-payflow-1.0.2-07e4e0.tar",
+            "reference": "22ee0e8e987613db49797afbc329c54138f76185",
+            "shasum": "8feaee1000ed54081db2345b6eebfc8d0d022153"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:40:52",
+        "type": "blesta-gateway-merchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Payflow Pro"
+    },
+    {
+        "name": "blesta/payjunction",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/payjunction.git",
+            "reference": "b1fd111d9bed30eac90d840a94b6ef0d44f93041"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-payjunction-1.0.2-8c5cfb.tar",
+            "reference": "b1fd111d9bed30eac90d840a94b6ef0d44f93041",
+            "shasum": "d8aae154273a229f4c6a7bcef45d1ff1026de8c1"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:43:21",
+        "type": "blesta-gateway-merchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Payjunction"
+    },
+    {
+        "name": "blesta/paypal_payments_standard",
+        "version": "1.2.3",
+        "version_normalized": "1.2.3.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/paypal-payments-standard.git",
+            "reference": "d866681bab87830956ac61c00d2ac635e136299d"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-paypal_payments_standard-1.2.3-06a3f1.tar",
+            "reference": "d866681bab87830956ac61c00d2ac635e136299d",
+            "shasum": "9d85fbc5bfd53d35d151080676fba7ac39e4b373"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:57:17",
+        "type": "blesta-gateway-nonmerchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "PayPal Payments Standard"
+    },
+    {
+        "name": "blesta/payza",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/payza.git",
+            "reference": "b05a2f2408e590029080dc58bf26efe1d2b2dda3"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-payza-1.0.2-a029b7.tar",
+            "reference": "b05a2f2408e590029080dc58bf26efe1d2b2dda3",
+            "shasum": "928f52a0ce2f39ab4cd3ee2a57793ea04803c586"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:59:23",
+        "type": "blesta-gateway-nonmerchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Payza"
+    },
+    {
+        "name": "blesta/phpids",
+        "version": "1.1.2",
+        "version_normalized": "1.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/phpids.git",
+            "reference": "8de74b1b47a9c487a4421a3ec0b11400552a8c76"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-phpids-1.1.2-420a85.tar",
+            "reference": "8de74b1b47a9c487a4421a3ec0b11400552a8c76",
+            "shasum": "5c89bf5661af0f9a82a3d2076a402a3b0fe86ca0"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:24:02",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "PHPIDS"
+    },
+    {
+        "name": "blesta/plesk",
+        "version": "2.1.2",
+        "version_normalized": "2.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/plesk.git",
+            "reference": "eb6d002ca84ed2713b4dbde7d8cdddad8c8eb57f"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-plesk-2.1.2-f071ba.tar",
+            "reference": "eb6d002ca84ed2713b4dbde7d8cdddad8c8eb57f",
+            "shasum": "545d92ffc7ff7a6b406ed00284bed438eae3aeb1"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:27:47",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Plesk"
+    },
+    {
+        "name": "blesta/pricing",
+        "version": "1.2.2",
+        "version_normalized": "1.2.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/blesta/pricing.git",
+            "reference": "5a1ac99a26de6b539866fcc5e97b948c280df732"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-pricing-5a1ac99a26de6b539866fcc5e97b948c280df732-zip-cbe751.tar",
+            "reference": "5a1ac99a26de6b539866fcc5e97b948c280df732",
+            "shasum": "0a954a6687db664de05d067142e75bba6766b5c5"
+        },
+        "require": {
+            "php": ">=5.1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.6",
+            "squizlabs/php_codesniffer": "~2.3"
+        },
+        "time": "2015-08-31 17:59:02",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Cody Phillips",
+                "email": "therealclphillips@gmail.com"
+            },
+            {
+                "name": "Tyson Phillips"
+            }
+        ],
+        "description": "A library for handling pricing and pricing modifiers",
+        "homepage": "http://github.com/blesta/pricing",
+        "keywords": [
+            "discount",
+            "pricing",
+            "tax",
+            "totals"
+        ]
+    },
+    {
+        "name": "blesta/proration",
+        "version": "1.3.1",
+        "version_normalized": "1.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/blesta/proration.git",
+            "reference": "79b31db59f91d16eeaef7400997a81cafa283784"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-proration-79b31db59f91d16eeaef7400997a81cafa283784-zip-71cd0a.tar",
+            "reference": "79b31db59f91d16eeaef7400997a81cafa283784",
+            "shasum": "7f786e283bee32a9a567001890eb628dc718aea4"
+        },
+        "require": {
+            "php": ">=5.1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.6",
+            "squizlabs/php_codesniffer": "~2.3"
+        },
+        "time": "2015-07-08 22:22:48",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Cody Phillips",
+                "email": "therealclphillips@gmail.com"
+            },
+            {
+                "name": "Tyson Phillips"
+            }
+        ],
+        "description": "A proration calculator",
+        "homepage": "http://github.com/blesta/proration",
+        "keywords": [
+            "billing",
+            "prorata",
+            "proration"
+        ]
+    },
+    {
+        "name": "blesta/proxmox",
+        "version": "2.1.2",
+        "version_normalized": "2.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/proxmox.git",
+            "reference": "7cd69f187b5cd74aeac95251d4c904c2566fc24b"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-proxmox-2.1.2-b72d55.tar",
+            "reference": "7cd69f187b5cd74aeac95251d4c904c2566fc24b",
+            "shasum": "6b9fa3f41d951837b35cda56886fe1e9e5e9f978"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:30:02",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Proxmox"
+    },
+    {
+        "name": "blesta/quantum_gateway",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/quantum-gateway.git",
+            "reference": "1c971ac746fa079d9c41d29f6df09f4bab1c0927"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-quantum_gateway-1.0.1-9fee68.tar",
+            "reference": "1c971ac746fa079d9c41d29f6df09f4bab1c0927",
+            "shasum": "b94a358aa04686731346e82ada0aa382fda6e533"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 22:46:18",
+        "type": "blesta-gateway-merchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Quantum Gateway"
+    },
+    {
+        "name": "blesta/reassign_pricing",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/reassign-pricing.git",
+            "reference": "402b5dcab4e1764cfffa6c5fc570205f66e95570"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-reassign_pricing-1.0.1-2842d3.tar",
+            "reference": "402b5dcab4e1764cfffa6c5fc570205f66e95570",
+            "shasum": "8a719146f73a7ac7fb28978fd75908eb486f7f74"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:26:47",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Reassign Pricing"
+    },
+    {
+        "name": "blesta/shared_login",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/shared-login.git",
+            "reference": "c7aa183c26adc33d5587daa367e2cbae7c6d7c87"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-shared_login-1.0.1-fdbb56.tar",
+            "reference": "c7aa183c26adc33d5587daa367e2cbae7c6d7c87",
+            "shasum": "30047128902c510e4b82c4986c424692cfe65a50"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:27:54",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Shared Login"
+    },
+    {
+        "name": "blesta/skrill",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/skrill.git",
+            "reference": "1bd71b2929b718e9c3006fa314c4e31cc0dcc5e2"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-skrill-1.1.1-578896.tar",
+            "reference": "1bd71b2929b718e9c3006fa314c4e31cc0dcc5e2",
+            "shasum": "be2c17fa41467c72bb3f9c29c77c3c137f40242b"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:00:41",
+        "type": "blesta-gateway-nonmerchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Skrill"
+    },
+    {
+        "name": "blesta/solusvm",
+        "version": "3.4.2",
+        "version_normalized": "3.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/solusvm.git",
+            "reference": "5743383bb0074e1ca18128872f3cab93780a5919"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-solusvm-3.4.2-269f99.tar",
+            "reference": "5743383bb0074e1ca18128872f3cab93780a5919",
+            "shasum": "d755094eac20fde997ecd8a220b938a98c03ac25"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-11-06 17:44:09",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "SolusVM"
+    },
+    {
+        "name": "blesta/stripe_gateway",
+        "version": "1.3.2",
+        "version_normalized": "1.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/gw/stripe.git",
+            "reference": "649d3934ed36c46c237ba13793692a6bb252964b"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-stripe_gateway-1.3.2-13ce50.tar",
+            "reference": "649d3934ed36c46c237ba13793692a6bb252964b",
+            "shasum": "ed9493a31640bbe3a1154d521f57896aef2b3f02"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 21:31:20",
+        "type": "blesta-gateway-merchant",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Stripe"
+    },
+    {
+        "name": "blesta/support_manager",
+        "version": "2.10.1",
+        "version_normalized": "2.10.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/support-manager.git",
+            "reference": "208cff4a435e112b26b9e742ac65ab2bf1996682"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-support_manager-2.10.1-5246b0.tar",
+            "reference": "208cff4a435e112b26b9e742ac65ab2bf1996682",
+            "shasum": "d0d7c2307e21c1fa0cab629648157dc5342d5576"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:29:11",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Support Manager"
+    },
+    {
+        "name": "blesta/system_overview",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/system-overview.git",
+            "reference": "113d452d973f933c18991c77bca7a4475607d8f9"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-system_overview-1.2.1-dbab15.tar",
+            "reference": "113d452d973f933c18991c77bca7a4475607d8f9",
+            "shasum": "e27a039baeceb57f717167f4d6face6983c2538c"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:30:27",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "System Overview"
+    },
+    {
+        "name": "blesta/system_status",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/plug/system-status.git",
+            "reference": "beecc3a4f587d0046f108c78b919ec462a0c58b5"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-system_status-1.2.1-0232c4.tar",
+            "reference": "beecc3a4f587d0046f108c78b919ec462a0c58b5",
+            "shasum": "5f5c467cb0aaec1c1da40e753fff73b2d899ee00"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-29 17:31:32",
+        "type": "blesta-plugin",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "System Status"
+    },
+    {
+        "name": "blesta/thesslstore",
+        "version": "2.0.2",
+        "version_normalized": "2.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/thesslstore.git",
+            "reference": "b1007faad5b14abdb9ea02e9845d5032d86a2f80"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-thesslstore-2.0.2-4e131e.tar",
+            "reference": "b1007faad5b14abdb9ea02e9845d5032d86a2f80",
+            "shasum": "b06d829e8c0bce1d0a722630e9df948f6bdc1241"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:34:46",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "TheSSLStore"
+    },
+    {
+        "name": "blesta/universal_module",
+        "version": "1.3.1",
+        "version_normalized": "1.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/universal.git",
+            "reference": "04313f63020f714a2461ddabc08f709d94903900"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-universal_module-1.3.1-9cec54.tar",
+            "reference": "04313f63020f714a2461ddabc08f709d94903900",
+            "shasum": "97503d11f1790e45b37e1d146da946b6d5d5ba58"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:36:03",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "Universal"
+    },
+    {
+        "name": "blesta/vpsdotnet",
+        "version": "2.1.3",
+        "version_normalized": "2.1.3.0",
+        "source": {
+            "type": "git",
+            "url": "ssh://git@code.blesta.com:7999/mod/vpsdotnet.git",
+            "reference": "202d9669d90808be522462fa039d9bbb9112f071"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "http://composer.blesta.com:4680/dist/blesta-vpsdotnet-2.1.3-0b2a01.tar",
+            "reference": "202d9669d90808be522462fa039d9bbb9112f071",
+            "shasum": "ce7f9d7f99db64134f97d3e0c0e750bbbbcb4d68"
+        },
+        "require": {
+            "blesta/composer-installer": "~1.0"
+        },
+        "time": "2015-10-28 23:37:23",
+        "type": "blesta-module",
+        "installation-source": "dist",
+        "license": [
+            "proprietary"
+        ],
+        "description": "VPS.net"
+    },
+    {
+        "name": "composer/installers",
+        "version": "v1.0.25",
+        "version_normalized": "1.0.25.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/composer/installers.git",
+            "reference": "36e5b5843203d7f1cf6ffb0305a97e014387bd8e"
+        },
+        "dist": {
+            "type": "tar",
+            "url": "https://composer.blesta.com/dist/composer-installers-36e5b5843203d7f1cf6ffb0305a97e014387bd8e-zip-bb77f1.tar",
+            "reference": "36e5b5843203d7f1cf6ffb0305a97e014387bd8e",
+            "shasum": "c5c4e416b3f47eed44b20865bdde0f4f3427bc49"
+        },
+        "require": {
+            "composer-plugin-api": "^1.0"
+        },
+        "replace": {
+            "roundcube/plugin-installer": "*",
+            "shama/baton": "*"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2016-04-13 19:46:30",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "Composer\\Installers\\Plugin",
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Composer\\Installers\\": "src/Composer/Installers"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kyle Robinson Young",
+                "email": "kyle@dontkry.com",
+                "homepage": "https://github.com/shama"
+            }
+        ],
+        "description": "A multi-framework Composer library installer",
+        "homepage": "https://composer.github.io/installers/",
+        "keywords": [
+            "Craft",
+            "Dolibarr",
+            "Hurad",
+            "ImageCMS",
+            "MODX Evo",
+            "Mautic",
+            "OXID",
+            "SMF",
+            "Thelia",
+            "WolfCMS",
+            "agl",
+            "aimeos",
+            "annotatecms",
+            "bitrix",
+            "cakephp",
+            "chef",
+            "codeigniter",
+            "concrete5",
+            "croogo",
+            "dokuwiki",
+            "drupal",
+            "elgg",
+            "fuelphp",
+            "grav",
+            "installer",
+            "joomla",
+            "kohana",
+            "laravel",
+            "lithium",
+            "magento",
+            "mako",
+            "mediawiki",
+            "modulework",
+            "moodle",
+            "phpbb",
+            "piwik",
+            "ppi",
+            "puppet",
+            "roundcube",
+            "shopware",
+            "silverstripe",
+            "symfony",
+            "typo3",
+            "wordpress",
+            "zend",
+            "zikula"
+        ]
+    }
+]

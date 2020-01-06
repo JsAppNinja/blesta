@@ -1,0 +1,62 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->Widget->clear();
+		$this->Widget->create("Reports", array('id'=>"admin_billing_reports"), $this->Html->ifSet($render_section, null));
+		$this->Form->create(null, array('id' => "report_form"));
+		?>
+		
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminBilling.reports.field_format", true), "format");
+						$this->Form->fieldSelect("format", $this->Html->ifSet($formats), $this->Html->ifSet($vars->format), array('id' => "format"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminBilling.reports.field_report_type", true), "type");
+						$this->Form->fieldSelect("type", $this->Html->ifSet($types), $this->Html->ifSet($vars->type), array('id' => "type"));
+						?>
+					</li>
+				</ul>
+			</div>
+			<div id="report_options">
+				<?php echo $this->Html->ifSet($report_fields);?>
+			</div>
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("AdminBilling.reports.field_submit");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+
+$this->Javascript->setInline("
+$(document).ready(function() {
+	$('#type').change(function() {
+		getReportFields();
+		return false;
+	});
+});
+
+function getReportFields() {
+	if ($('#type').val() != '') {
+		$(this).blestaRequest(
+			'get',
+			'" .  $this->Html->safe($this->base_uri . "billing/getreportfields/") . "',
+			$('#report_form').serialize(),
+			function(data) {
+				if (data.fields)
+					$('#report_options').html(data.fields);
+			},
+			function(data) { },
+			{dataType:'json'}
+		);
+	}
+}
+");
+?>

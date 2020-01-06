@@ -1,0 +1,90 @@
+
+<section class="error_section">
+	<?php
+	// $success is an alias for $message
+	if (isset($success))
+		$message = $success;
+		
+	if (isset($message)) {
+	?>
+	<article class="error_box">
+		<?php
+		if ($this->Html->ifSet($show_close, true)) {
+		?>
+		<a href="#" class="close"><?php $this->_("AppController.message.close");?></a>
+		<?php
+		}
+		if (is_array($message)) {
+			foreach ($message as $field => $messages) {
+				foreach ($messages as $key => $message_text) {
+				?>
+				<p><?php $this->Html->_($message_text, false, $preserve_tags);?></p>
+				<?php
+				}
+			}
+		}
+		else {
+		?>
+		<p><?php $this->Html->_($message, false, $preserve_tags);?></p>
+		<?php
+		}
+		?>
+	</article>
+	<?php
+	}
+	if (isset($error)) {
+	?>
+	<article class="error_box error">
+		<?php
+		if ($this->Html->ifSet($show_close, true)) {
+		?>
+		<a href="#" class="close"><?php $this->_("AppController.message.close");?></a>
+		<?php
+		}
+		if (is_array($error)) {
+			foreach ($error as $field => $errors) {
+				foreach ($errors as $key => $message_text) {
+				?>
+				<p><?php $this->Html->_($message_text, false, $preserve_tags);?></p>
+				<?php
+				}
+			}
+		}
+		else {
+		?>
+		<p><?php $this->Html->_($error, false, $preserve_tags);?></p>
+		<?php
+		}
+		?>
+	</article>
+	<?php
+	}
+	if (isset($notice)) {
+	?>
+	<article class="error_box alert">
+		<?php
+		if ($this->Html->ifSet($show_close, true)) {
+		?>
+		<a href="#" class="close"><?php $this->_("AppController.message.close");?></a>
+		<?php
+		}
+		if (is_array($notice)) {
+			foreach ($notice as $field => $notices) {
+				foreach ($notices as $key => $message_text) {
+				?>
+				<p><?php $this->Html->_($message_text, false, $preserve_tags);?></p>
+				<?php
+				}
+			}
+		}
+		else {
+		?>
+		<p><?php $this->Html->_($notice, false, $preserve_tags);?></p>
+		<?php
+		}
+		?>
+	</article>
+	<?php
+	}
+	?>
+</section>

@@ -1,0 +1,19 @@
+
+		<?php
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminClients.addccaccount.boxtitle_addccaccount", true));
+		
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<?php
+			// Set partials
+			echo $this->Html->ifSet($contact_info);
+			echo $this->Html->ifSet($cc_info);
+			?>
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminClients.addccaccount.field_accountsubmit"); ?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>		

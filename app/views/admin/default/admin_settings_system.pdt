@@ -1,0 +1,58 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$tabs = array(
+			array('name'=>$this->_("AdminSettings.system.category_company", true), 'attributes'=>array('href'=>$this->base_uri . "settings/company/", 'class'=>"ajax")),
+			array('name'=>$this->_("AdminSettings.system.category_system", true), 'current'=>true, 'attributes'=>array('href'=>$this->base_uri . "settings/system/", 'class'=>"ajax"))			
+		);
+		
+		$this->Widget->clear();
+		$this->Widget->setTabs($tabs);		
+		$this->Widget->create($this->_("AdminSettings.system.boxtitle_settings", true), array('id'=>"admin_settings_system"), $this->Html->ifSet($render_section, null));
+		?>
+		<div class="settings">
+			<div class="left">
+				<div class="section general">
+					<h1><a href="<?php echo $this->base_uri;?>settings/system/general/"><?php $this->_("AdminSettings.system.heading_general");?></a></h1>
+					<p><?php $this->_("AdminSettings.system.text_general");?></p>
+				</div>
+				<div class="section companies">
+					<h1><a href="<?php echo $this->base_uri;?>settings/system/companies/"><?php $this->_("AdminSettings.system.heading_companies");?></a></h1>
+					<p><?php $this->_("AdminSettings.system.text_companies");?></p>
+				</div>
+				<div class="section backup">
+					<h1><a href="<?php echo $this->base_uri;?>settings/system/backup/"><?php $this->_("AdminSettings.system.heading_backup");?></a></h1>
+					<p><?php $this->_("AdminSettings.system.text_backup");?></p>
+				</div>
+				<div class="section api">
+					<h1><a href="<?php echo $this->base_uri;?>settings/system/api/"><?php $this->_("AdminSettings.system.heading_api");?></a></h1>
+					<p><?php $this->_("AdminSettings.system.text_api");?></p>
+				</div>
+				<div class="section marketplace">
+					<h1><a href="<?php echo $this->Html->safe(Configure::get("Blesta.marketplace_url"));?>" target="_blank"><?php $this->_("AdminSettings.system.heading_marketplace");?></a></h1>
+					<p><?php $this->_("AdminSettings.system.text_marketplace");?></p>
+				</div>
+			</div>
+			<div class="right">
+				<div class="section automation">
+					<h1><a href="<?php echo $this->base_uri;?>settings/system/automation/"><?php $this->_("AdminSettings.system.heading_automation");?></a></h1>
+					<p><?php $this->_("AdminSettings.system.text_automation");?></p>
+				</div>
+				<div class="section staff">
+					<h1><a href="<?php echo $this->base_uri;?>settings/system/staff/"><?php $this->_("AdminSettings.system.heading_staff");?></a></h1>
+					<p><?php $this->_("AdminSettings.system.text_staff");?></p>
+				</div>
+				<div class="section upgrade">
+					<h1><a href="<?php echo $this->base_uri;?>settings/system/upgrade/"><?php $this->_("AdminSettings.system.heading_upgrade");?></a></h1>
+					<p><?php $this->_("AdminSettings.system.text_upgrade");?></p>
+				</div>
+				<div class="section help">
+					<h1><a href="<?php echo $this->base_uri;?>settings/system/help/"><?php $this->_("AdminSettings.system.heading_help");?></a></h1>
+					<p><?php $this->_("AdminSettings.system.text_help");?></p>
+				</div>
+			</div>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

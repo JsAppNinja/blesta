@@ -1,0 +1,75 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyModules.available.boxtitle_module", true));
+				?>
+				<div class="inner pad">
+					<?php
+					$num_modules=count($this->Html->ifSet($modules));
+					if ($num_modules > 0) {
+						for ($i=0; $i<$num_modules; $i++) {
+						?>
+						<div class="itemlist<?php echo ($i==$num_modules-1) ? " last" : ""; ?>">
+							<div class="logo<?php echo ($this->Html->ifSet($modules[$i]->installed, false) ? " installed" : "");?>" style="background:url(<?php $this->Html->_($modules[$i]->logo);?>) no-repeat 0 0; background-position: 0% 50%;">&nbsp;</div>
+							<ul>
+								<li><strong><?php $this->Html->_($modules[$i]->name);?></strong> <?php $this->_("AdminCompanyModules.available.text_version", false, $this->Html->_($modules[$i]->version, true));?></li>
+								<li>
+									<?php $this->_("AdminCompanyModules.available.text_author");?>
+									<?php
+									foreach ((array)$modules[$i]->authors as $author) {
+									?>
+									<a href="<?php $this->Html->_($author['url']);?>"><?php $this->Html->_($author['name']);?></a>
+									<?php
+									}
+									?>
+								</li>
+								<li><?php echo nl2br($this->Html->_($modules[$i]->description, true))?></li>
+							</ul>
+							<?php
+							if (!$this->Html->ifSet($modules[$i]->installed, true)) {
+							?>
+							<div class="button_row_inline">
+								<?php
+								$this->Form->create($this->base_uri . "settings/company/modules/install/");
+								$this->Form->fieldHidden("id", $this->Html->ifSet($modules[$i]->class));
+								?>
+								<a class="btn_right submit" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/modules/install/" . $this->Html->ifSet($modules[$i]->class). "/");?>"><?php $this->_("AdminCompanyModules.available.btn_install");?></a>
+								<?php
+								$this->Form->end();
+								?>
+							</div>
+							<?php
+							}
+							?>
+							<div class="clear"></div>
+						</div>
+						<?php
+						}
+					}
+					else {
+						// No modules available
+						?>
+						<div class="empty_section">
+							<div class="empty_box">
+								<?php $this->_("AdminCompanyModules.available.text_none");?>
+							</div>
+						</div>
+						<?php
+					}
+					?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#right_container .itemlist .button_row_inline form').on('submit', function() {
+            $(this).find('a').css({"pointer-events":"none", "cursor":"default"});
+        });
+    });
+</script>

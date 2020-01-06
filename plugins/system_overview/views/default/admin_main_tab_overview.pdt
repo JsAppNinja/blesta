@@ -1,0 +1,120 @@
+		
+			<div class="tabs_content">
+				<div class="system_graph_area">
+					<div class="graphs">
+						<?php
+						// Create a section for each graph
+						foreach ($this->Html->ifSet($graphs['graphs'], array()) as $graph_type=>$graph) {
+						?>
+						<div class="graph_box">
+							<div id="<?php $this->Html->_($graph_type);?>" class="graph" style="height:150px; width:100%;"></div>
+						</div>
+						<div class="clear"></div>
+						<?php
+						}
+						?>
+					</div>
+				</div>
+			</div>
+
+<!--[if lt IE 9]><script type="text/javascript" src="<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/excanvas.min.js");?>"></script><![endif]-->
+<link rel="stylesheet" type="text/css" href="<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/jquery.jqplot.css");?>" />
+
+<script type="text/javascript">
+$(document).ready(function() {
+	systemOverviewInitialize();
+});
+
+/**
+ * Initalize the graphs
+ */
+function systemOverviewInitialize() {
+	if (typeof $.jqplot !== "function") {
+		$.getScript('<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/jquery.jqplot.min.js");?>', function(data, textStatus, jqxhr) {
+			systemOverviewInitialize();
+		});
+	}
+	else if (typeof $.jqplot.DateAxisRenderer !== "function") {
+		$.getScript('<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/plugins/jqplot.dateAxisRenderer.min.js");?>', function(data, textStatus, jqxhr) {
+			systemOverviewInitialize();
+		});
+	}
+	else if (typeof $.jqplot.Highlighter !== "function") {
+		$.getScript('<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/plugins/jqplot.highlighter.min.js");?>', function(data, textStatus, jqxhr) {
+			systemOverviewInitialize();
+		});
+	}
+	else {
+		setTimeout(function() {
+			loadSystemOverviewGraphs();
+		}, 100);
+	}
+}
+
+function loadSystemOverviewGraphs() {
+	// Set chart widths
+	var graph_width = $('.system_graph_area .graphs').width();
+
+	<?php
+	// Plot each graph
+	$num_line_colors = count($this->Html->ifSet($graphs['line_colors'], array()));
+	foreach ($this->Html->ifSet($graphs['graphs'], array()) as $graph_type=>$graph) {
+	?>
+	$('#<?php $this->Html->_($graph_type);?>').css('width', graph_width + "px");
+	var <?php $this->Html->_($graph_type);?> = <?php echo $this->Html->ifSet($graph['data']['points']);?>;
+	var <?php echo $this->Html->_($graph_type, true) . "_plot";?> = $.jqplot('<?php $this->Html->_($graph_type);?>', <?php $this->Html->_($graph_type);?>, {
+		title:'<?php echo $this->Html->ifSet($graph['name']);?>',
+		gridPadding:{right:15},
+		series: [
+		<?php
+		// Set each line name
+		foreach ($this->Html->ifSet($graph['data']['names'], array()) as $index=>$line_name) {
+			// Separate each line
+			echo ($index > 0) ? "," : "";
+		?>
+			{
+				label:'<?php $this->Html->_($line_name);?>',
+				neighborThreshold: -1,
+				color: '<?php echo $this->Html->ifSet($graphs['line_colors'][$index], $graphs['line_colors'][max(0, $index % $num_line_colors - 1)]);?>',
+				shadow: false,
+				fill: true,
+				fillColor: '<?php echo $this->Html->ifSet($graphs['line_colors'][$index], $graphs['line_colors'][max(0, $index % $num_line_colors - 1)]);?>',
+				fillAlpha: 0.5
+			}
+		<?php
+		}
+		?>
+		],
+		axes: { 
+			xaxis: { 
+				renderer:$.jqplot.DateAxisRenderer, 
+				tickOptions:{formatString:'%b %d'}
+			}, 
+			yaxis: { 
+				tickOptions:{formatString:'%.2f'},
+				min:0,
+				numberTicks:6
+			},
+		},
+		highlighter: {
+			show:true,
+			sizeAdjust:10
+		},
+		cursor: {
+			showVerticalLine:true,
+			showHorizontalLine:false,
+			showCursorLegend:true,
+			showTooltip: true,
+			zoom:true,
+			clickReset:true
+		},
+		stackSeries: true,
+		legend: {show: <?php echo (($this->Html->ifSet($graphs['settings']['show_legend'], 0) == 1) ? "true" : "false");?>, location:'sw', yoffset: 10, xoffset: 10},
+		grid:{background:'#fff', gridLineColor:'#dbe6e7', borderWidth:2, borderColor:'#ddd', shadow: true},
+		seriesDefaults: {}
+	});
+	<?php
+	}
+	?>
+}
+</script>

@@ -1,0 +1,36 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemGeneral.addtype.boxtitle_addtype", true));
+				?>
+				<div class="inner">
+					<?php $this->Form->create();?>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemGeneral.addtype.field_name", true), "name");?>
+								<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array('id'=>"name"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemGeneral.addtype.field_type", true), "type");?>
+								<?php $this->Form->fieldSelect("type", $this->Html->ifSet($types, array()), $this->Html->ifSet($vars->type), array('id'=>"type"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminSystemGeneral.!paymenttypes.type");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("is_lang", "1", ($this->Html->ifSet($vars->is_lang) == "1"), array('id'=>"is_lang"));?>
+								<?php $this->Form->label($this->_("AdminSystemGeneral.addtype.field_is_lang", true), "is_lang", array('class'=>"inline"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminSystemGeneral.!paymenttypes.is_lang");?></div></span>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminSystemGeneral.addtype.field_typesubmit");?></a></div>
+					<?php $this->Form->end();?>	
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>

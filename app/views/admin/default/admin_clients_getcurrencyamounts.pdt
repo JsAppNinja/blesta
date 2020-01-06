@@ -1,0 +1,32 @@
+
+	<div class="currencies">
+		<?php
+		foreach ($this->Html->ifSet($currencies, array()) as $currency) {
+		?>
+		<span>
+			<a id="<?php $this->Html->_($currency);?>"<?php echo ($currency == $this->Html->ifSet($selected_currency)) ? " class=\"current\"" : "";?> href="<?php echo $this->Html->safe($this->base_uri . "clients/getcurrencyamounts/" . $this->Html->ifSet($currency) . "/");?>"><?php $this->Html->_($currency);?></a>
+		</span>
+		<?php
+		}
+		?>
+	</div>
+	<div class="amounts">
+		<?php
+		if (!empty($amounts)) {
+		?>
+		<ul>
+			<?php
+			foreach ($amounts as $type => $item) {
+			?>
+			<li class="<?php $this->Html->_($type);?>">
+				<p><?php $this->Html->_($item['lang']);?></p>
+				<span><?php $this->Html->_($item['amount']);?></span>
+			</li>
+			<?php
+			}
+			?>
+		</ul>
+		<?php
+		}
+		?>
+	</div>

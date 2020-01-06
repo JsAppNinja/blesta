@@ -1,0 +1,113 @@
+		<?php
+		echo $this->Html->ifSet($message);
+		?>
+		
+		<?php
+		$tabs = array(
+			array('name' => $this->_("AdminForms.index.tab_forms", true), 'attributes' => array('href' => $this->base_uri . "plugin/order/admin_forms/")),
+			array('name' => $this->_("AdminForms.index.tab_settings", true), 'current' => true, 'attributes' => array('href' => $this->base_uri . "plugin/order/admin_forms/settings/"))
+		);
+		
+		$this->Widget->clear();
+		$this->Widget->setTabs($tabs);
+		$this->Widget->create($this->_("AdminForms.settings.boxtitle_order", true));
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="title_row first">
+				<h3><?php $this->_("AdminForms.settings.basic_heading");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.settings.field_default_form", true), "default_form");
+						$this->Form->fieldSelect("default_form", array('' => $this->_("AdminForms.settings.default_form.none", true)) + (array)$this->Form->collapseObjectArray($order_forms, array("name", "label"), "id", " - "), $this->Html->ifSet($vars['default_form']), array('id' => "default_form"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.settings.field_captcha", true), "captcha");
+						$this->Form->fieldSelect("captcha", array('' => $this->_("AdminForms.settings.field_captcha_none", true), 'recaptcha' => $this->_("AdminForms.settings.field_captcha_recaptcha", true), 'ayah' => $this->_("AdminForms.settings.field_captcha_ayah", true)), $this->Html->ifSet($vars['captcha']), array('id' => "captcha"));
+						?>
+					</li>
+					<li class="recaptcha">
+						<?php
+						$this->Form->label($this->_("AdminForms.settings.field_recaptcha_pub_key", true), "recaptcha_pub_key");
+						$this->Form->fieldText("recaptcha_pub_key", $this->Html->ifSet($vars['recaptcha_pub_key']), array('id' => "recaptcha_pub_key"));
+						?>
+					</li>
+					<li class="recaptcha">
+						<?php
+						$this->Form->label($this->_("AdminForms.settings.field_recaptcha_pri_key", true), "recaptcha_pri_key");
+						$this->Form->fieldText("recaptcha_pri_key", $this->Html->ifSet($vars['recaptcha_pri_key']), array('id' => "recaptcha_pri_key"));
+						?>
+					</li>
+					<li class="ayah">
+						<?php
+						$this->Form->label($this->_("AdminForms.settings.field_ayah_pub_key", true), "ayah_pub_key");
+						$this->Form->fieldText("ayah_pub_key", $this->Html->ifSet($vars['ayah_pub_key']), array('id' => "ayah_pub_key"));
+						?>
+					</li>
+					<li class="ayah">
+						<?php
+						$this->Form->label($this->_("AdminForms.settings.field_ayah_score_key", true), "ayah_score_key");
+						$this->Form->fieldText("ayah_score_key", $this->Html->ifSet($vars['ayah_score_key']), array('id' => "ayah_score_key"));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="title_row">
+				<h3><?php $this->_("AdminForms.settings.antifraud_heading");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminForms.settings.field_antifraud", true), "antifraud");
+						$this->Form->fieldSelect("antifraud", array('' => $this->_("AdminForms.settings.field_antifraud.none", true)) + (array)$this->Html->ifSet($antifraud), $this->Html->ifSet($vars['antifraud']), array('id' => "antifraud"));
+						?>
+					</li>
+				</ul>
+				<div id="antifraud_options"></div>
+			</div>
+			
+			<div class="button_row">
+				<a class="btn_right submit" href=""><?php $this->_("AdminForms.settings.field_save");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		setCaptcha();
+		$("#captcha").change(setCaptcha);
+		
+		function setCaptcha() {
+			$("li.recaptcha").hide();
+			$("li.ayah").hide();
+			
+			if ($("#captcha").val() == "recaptcha")
+				$("li.recaptcha").show();
+			else if ($("#captcha").val() == "ayah")
+				$("li.ayah").show();
+		}
+		
+		setAntifraud();
+		$("#antifraud").change(setAntifraud);
+		
+		function setAntifraud() {
+			$(this).blestaRequest("POST",
+				"<?php echo $this->Html->safe($this->base_uri . "plugin/order/admin_forms/antifraudsettings/");?>" + $("#antifraud").val(),
+				$("#antifraud").closest("form").serialize(),
+				function(data) {
+					$("#antifraud_options").html(data);
+				}
+			);
+		}
+	});
+</script>

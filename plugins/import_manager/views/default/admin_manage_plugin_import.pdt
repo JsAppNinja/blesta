@@ -1,0 +1,26 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->Widget->clear();
+		$this->Widget->create($this->_("ImportManagerManagePlugin.import.boxtitle_importmanager", true, $this->Html->ifSet($info->name), $this->Html->ifSet($version)));
+		
+		$this->Form->create();
+		$this->Form->fieldHidden("import", "true");
+		?>
+		<div class="inner">
+			<div class="pad">
+				<?php
+				echo $this->Html->ifSet($content);
+				?>
+			</div>
+			
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("ImportManagerManagePlugin.import." . ($this->Html->ifSet($continue) ? "continue" : "submit"));?></a>
+				<a class="btn_right" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($category->id));?>"><?php $this->_("ImportManagerManagePlugin.import.cancel");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>

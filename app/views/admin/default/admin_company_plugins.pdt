@@ -1,0 +1,22 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanySettings.plugins.boxtitle_plugins", true));
+				?>
+				<div class="inner pad">					
+					<?php $this->Form->create();?>
+					<ul>
+						<li>
+							
+						</li>
+					</ul>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanySettings.plugins.field_pluginssubmit");?></a></div>
+					<?php $this->Form->end();?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>

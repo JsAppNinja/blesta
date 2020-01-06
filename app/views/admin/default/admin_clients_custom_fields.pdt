@@ -1,0 +1,35 @@
+					<?php
+					// Display custom client fields
+					if (!empty($custom_fields)) {
+						foreach ($custom_fields as $field) {
+						?>
+					<li>
+						<?php
+							// Set a unique field ID
+							$field_id = $this->Html->ifSet($custom_field_prefix) . $this->Html->ifSet($field->id);
+							
+							// Show each custom field
+							switch($field->type) {
+								case "text":
+									$this->Form->label($this->Html->ifSet($field->real_name), $field_id);
+									$this->Form->fieldText($field_id, $this->Html->ifSet($vars->{$field_id}), array('id'=>$field_id));
+									break;
+								case "select":
+									$this->Form->label($this->Html->ifSet($field->real_name), $field_id);
+									$this->Form->fieldSelect($field_id, $this->Html->ifSet($field->values, array()), $this->Html->ifSet($vars->{$field_id}), array('id'=>$field_id));
+									break;
+								case "textarea":
+									$this->Form->label($this->Html->ifSet($field->real_name), $field_id);
+									$this->Form->fieldTextarea($field_id, $this->Html->ifSet($vars->{$field_id}), array('id'=>$field_id));
+									break;
+								case "checkbox":
+									$this->Form->fieldCheckbox($field_id, $this->Html->ifSet($field->values), $this->Html->ifSet($vars->{$field_id}), array('id'=>$field_id));
+									$this->Form->label($this->Html->ifSet($field->real_name), $field_id, array('class'=>"inline"));
+									break;
+							}
+						?>
+					</li>
+						<?php
+						}
+					}
+					?>

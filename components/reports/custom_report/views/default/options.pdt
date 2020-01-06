@@ -1,0 +1,44 @@
+
+			<div class="pad_side">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("CustomReports.options.field_report", true), "report");
+						$this->Form->fieldSelect("report", $this->Html->ifSet($reports), $this->Html->ifSet($vars->report), array('id' => "report"));
+						?>
+					</li>
+					<?php
+					if ($this->Html->ifSet($fields)) {
+						foreach ($fields as $field) {
+					?>
+						<li>
+							<?php
+							$this->Form->label($field->label, "field_" . $field->name);
+
+							switch ($field->type) {
+								case "text":
+									$this->Form->fieldText("field[" . $field->name . "]", $this->Html->ifSet($vars->field[$field->name]), array('id' => "field_" . $field->name));
+									break;
+								case "date":
+									$this->Form->fieldText("field[" . $field->name . "]", $this->Html->ifSet($vars->field[$field->name]), array('id' => "field_" . $field->name, 'class' => "date"));
+									break;
+								case "select":
+									$this->Form->fieldSelect("field[" . $field->name . "]", $field->values, $this->Html->ifSet($vars->field[$field->name]), array('id' => "field_" . $field->name));
+									break;
+							}
+							?>
+						</li>
+					<?php
+						}
+					}
+					?>
+				</ul>
+			</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#report').change(function() {
+			getReportFields();
+		});
+		$('input.date').datePicker({startDate:'1900-01-01'});
+	});
+</script>

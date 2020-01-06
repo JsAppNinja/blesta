@@ -1,0 +1,79 @@
+
+			<?php
+			// Don't show this container when only rendering the widget section
+			if (!$this->Html->ifSet($render_section)) {
+			?>
+		<div class="col-md-12">
+			<?php
+			}
+			echo $this->Html->ifSet($message);
+			
+			$this->WidgetClient->clear();
+			$this->WidgetClient->setStyleSheet($this->view_dir . "css/styles.css", array('id' => "support_manager_styles"));
+			$this->WidgetClient->create($this->_("ClientTickets.add.boxtitle_add", true));
+			$this->WidgetClient->startBody();
+			
+			$this->Form->create(null, array('id'=>"create_ticket", 'enctype' => "multipart/form-data"));
+			
+			// Require email address for those not logged in
+			if (!$this->Html->ifSet($logged_in, false)) {
+			?>
+			<div class="form-group">
+				<?php
+				$this->Form->label($this->_("ClientTickets.add.field_email", true), "email");
+				$this->Form->fieldText("email", $this->Html->ifSet($vars->email), array('id' => "email", 'class' => "form-control", 'placeholder' => $this->_("ClientTickets.add.field_email", true)));
+				?>
+			</div>
+			<?php
+			}
+			?>
+			<div class="form-group">
+				<?php
+				$this->Form->label($this->_("ClientTickets.add.field_summary", true), "summary");
+				$this->Form->fieldText("summary", $this->Html->ifSet($vars->summary), array('id' => "summary", 'class' => "form-control", 'placeholder' => $this->_("ClientTickets.add.placeholder_summary", true)));
+				?>
+			</div>
+			<div class="form-group">
+				<?php
+				$this->Form->label($this->_("ClientTickets.add.field_priority", true), "priority");
+				$this->Form->fieldSelect("priority", $this->Html->ifSet($priorities), $this->Html->ifSet($vars->priority), array('id' => "priority", 'class' => "form-control"));
+				?>
+			</div>
+			<div class="form-group">
+				<?php
+				$this->Form->label($this->_("ClientTickets.add.field_details", true), "details");
+				$this->Form->fieldTextarea("details", $this->Html->ifSet($vars->details), array('id' => "details", 'rows' => 5, 'class' => "form-control", 'placeholder' => $this->_("ClientTickets.add.placeholder_details", true)));
+				?>
+			</div>
+			<div id="file_attachment" class="form-group">
+				<?php
+				$this->Form->label($this->_("ClientTickets.add.field_attachments", true), "attachment[]");
+				$this->Form->fieldFile("attachment[]", array('class' => "martop5"));
+				?>
+			</div>
+			<a id="add_attachment_field" href="#"><i class="fa fa-plus-circle"></i> <?php $this->_("ClientTickets.add.text_add_attachment");?></a>
+			<button type="submit" class="btn btn-default pull-right">
+				<i class="fa fa-plus-circle"></i> <?php $this->_("ClientTickets.add.field_addsubmit");?>
+			</button>
+			<?php
+			$this->Form->end();
+			$this->WidgetClient->endBody();
+			$this->WidgetClient->end();
+			
+			// Don't show this container when only rendering the widget section
+			if (!$this->Html->ifSet($render_section)) {
+			?>
+		</div>
+			<?php
+			}
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		$('#add_attachment_field').click(function() {
+			var attachment = $('#file_attachment input:first').clone();
+			$(attachment).val('');
+			$(attachment).insertAfter($('#file_attachment input:last'));
+			return false;
+		});
+	});
+");
+?>

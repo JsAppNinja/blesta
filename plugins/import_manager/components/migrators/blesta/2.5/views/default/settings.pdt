@@ -1,0 +1,35 @@
+
+	<ul>
+		<li>
+			<?php
+			$this->Form->fieldHidden("step", "settings");
+			$this->Form->label($this->_("Blesta2_5.settings.host", true), "host");
+			$this->Form->fieldText("host", $this->Html->ifSet($vars->host), array('id' => "host"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Blesta2_5.settings.database", true), "database");
+			$this->Form->fieldText("database", $this->Html->ifSet($vars->database), array('id' => "database"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Blesta2_5.settings.user", true), "user");
+			$this->Form->fieldText("user", $this->Html->ifSet($vars->user), array('id' => "user"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Blesta2_5.settings.pass", true), "pass");
+			$this->Form->fieldPassword("pass", array('id' => "pass", 'value' => $this->Html->ifSet($vars->pass)));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Blesta2_5.settings.key", true), "key");
+			$this->Form->fieldPassword("key", array('id' => "key", 'value' => $this->Html->ifSet($vars->key)));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Blesta2_5.settings.key.info");?></div></span>
+		</li>
+	</ul>

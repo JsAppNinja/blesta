@@ -1,0 +1,11 @@
+{
+	"version": "2.1.2",
+	"name": "Feed Reader",
+	"description": "View any RSS/Atom feed right on your dashboard.",
+	"authors": [
+		{
+			"name": "Phillips Data, Inc.",
+			"url": "http://blesta.com"
+		}
+	]
+}

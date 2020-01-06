@@ -1,0 +1,188 @@
+/* SupportManager plugin */
+table td.icon div.visible { padding:0 2px 0 2px; height:16px; background:url(../../../../../vendors/fugue_icons/eye.png) no-repeat;}
+table td.icon div.hidden { padding:0 2px 0 2px; height:16px; background:url(../../../../../vendors/fugue_icons/eye-close.png) no-repeat;}
+
+a.add_icon span { display:block; padding: 0 2px 0 24px; height:16px; background:url(../../../../../vendors/fugue_icons/plus-circle.png) no-repeat;}
+
+.content_section .inner div.reply div.topbar p, .content_section .inner div.log div.topbar p,
+	.content_section .inner div.note div.topbar p, .content_section .inner div.left p { padding:0; margin:0;}
+	
+p.name { font-weight: bold;}
+p.title {}
+
+textarea { width:100%; height:80px;}
+
+div.reply { margin-top:10px; padding:10px 0; overflow:hidden;}
+	div.reply .left, div.reply .right { }
+	div.reply .left {
+		width:20%;
+		float:left;
+		text-align:center;
+		-webkit-box-shadow: inset -1px -1px 0 #f3f3f3;
+		-moz-box-shadow: inset -1px -1px 0 #f3f3f3;
+		box-shadow: inset -1px -1px 0 #f3f3f3;
+		padding-bottom: 15px;
+		-webkit-border-bottom-right-radius: 5px;
+		-moz-border-radius-bottomright: 5px;
+		border-bottom-right-radius: 5px;
+		}
+	div.reply .right { width:80%; float:left;}
+		div.reply .left div, div.reply .right div { /*display:inline-block;*/}
+		div.reply .left img { float: none;}
+		/*div.reply .right div { padding: 0 20px;}*/
+div.topbar { background-color: #f8f8f8; margin-bottom: 10px; padding: 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;}
+div.topbar.staff {background-color: #d3ebf7;}
+div.topbar p { font-style: italic;}
+	div.topbar .reply-by { float:left;}
+	div.topbar .options { float:right;}
+div.log { border: 1px #c4e6f7 solid; background: #d3ebf7; padding: 20px 10px; margin-top:20px;  -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;}
+div.log p { text-shadow: 1px 0px 2px #ffffff; color: #575757; font: 12px/14px Verdana;}
+
+div.note .topbar { background-color: #fffed9;}
+
+div.reply .right div.attachments { margin-left: 20px; margin-right: 20px; display: block; border-bottom: 1px solid #f3f3f3; padding-bottom: 5px;}
+div.reply .right div.attachments p {padding: 0px;}
+div.reply .right div.attachments span { padding:0 10px 2px 20px; height:16px; background:url(../../../../../vendors/fugue_icons/paper-clip.png) no-repeat;}
+div.reply .response h2 { background:none; float:none; height:auto; border:none;}
+div.reply .response h1 { font-size: 32px; line-height: 40px; margin: 10px 0;}
+div.reply .response h2 { font-size: 24px; line-height: 40px; margin: 10px 0;}
+div.reply .response h3 { font-size: 18px; line-height: 40px; margin: 10px 0;}
+div.reply .response h4 { font-size: 14px; line-height: 20px; color: inherit; padding: 0; margin: 10px 0;}
+div.reply .response h5 { font-size: 12px; line-height: 20px; margin: 10px 0;}
+div.reply .response h6 { font-size: 10px; line-height: 20px; margin: 10px 0;}
+div.reply .response blockquote {border-left: 5px solid #EEEEEE; margin: 0 0 20px; padding: 10px 20px;}
+
+#ticket_actions { line-height:26px; position:fixed; z-index:9999; right:10px; bottom:10px; padding:10px; border:5px solid #e1e1e1; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color:#fff;}
+	#ticket_actions span { font-size:12px;}
+	#ticket_actions a.btn_right { margin:0 6px; padding:0 27px;}
+
+.content_section .inner .pad .response ul, .common_box .content_section .inner .response ul  { list-style-type: disc; margin-left: 0; padding-left: 35px; padding-bottom: 10px; font-size: 12px;}
+.content_section .inner .pad .response ol, .common_box .content_section .inner .response ol { list-style-type: decimal; margin-left: 0; padding-left: 35px; padding-bottom: 10px; font-size: 12px;}
+.content_section .inner .pad .response li, .common_box .content_section .inner .response li { float: none; margin-bottom: 0;}
+div.reply div.response { margin-left: 20px; margin-right: 20px; padding-top: 10px; word-wrap: break-word;}
+.common_box .content_section .inner div.response p { padding: 0;}
+
+div.reply div.response hr { background-color: #cccccc; height: 1px; border: none;}
+
+.common_box .content_section .inner .pad.response_area { background-color: #f9f9f9; padding: 10px 10px 5px 10px; margin: 10px;  -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
+
+
+.content_section .inner div.summary { margin-top: 10px; background-color: #f8f8f8; margin-bottom: 10px; padding: 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
+	
+.content_section .inner div.summary p { padding-bottom: 0;}
+.content_section .inner div.add-reply h3 { font: bold 12px Verdana; color: #575757; padding: 12px 10px 0 8px;
+}
+
+.content_section .inner div.ticket-details .table_sec {float:none;}
+
+.content_section .inner div.log p {
+	background: url(../../../../../vendors/fugue_icons/32/information.png) no-repeat;
+	padding: 0 0 0 37px;
+	margin: 0;
+	line-height: 32px !important;
+	}
+
+dl#responses { width:100%; margin-bottom:4px;}
+dl#responses dd a.manage { color:#c62425;}
+dl#responses dd { float:left; width:24%; margin-left:0; font-size:10px; font-weight:bold; line-height:16px; padding:0 4px 5px 0;}
+dl#responses .up_level { background:url(../../../../../vendors/fugue_icons/arrow-curve-090.png) no-repeat;}
+dl#responses .up_level a.text_link,
+	dl#responses .category a.text_link, dl#responses .response_item a.text_link { padding-left:24px;}
+dl#responses .category { background:url(../../../../../vendors/fugue_icons/folder-horizontal-open.png) no-repeat;}
+dl#responses .response_item { background:url(../../../../../vendors/fugue_icons/document.png) no-repeat;}
+
+/* Autocomplete */
+ul.ui-autocomplete { font-size:12px;}
+
+
+#departments { margin-top:14px;}
+.half { width:50%; float:left;}
+.section { margin:5px 0 10px 0;}
+.section .department { padding: 0 12px;}
+.department h1 { font-size:15px;}
+.department h1 a { font-weight:bold;}
+.department p { font-size:12px; line-height:16px; padding-top:4px; margin-bottom:8px;}
+
+
+.info-box {
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.martop5 {
+	margin-top:5px !important;
+}
+
+.label-emergency { background-color:#db1c16;}
+.label-medium { background-color:#e6d40c;}
+.row .list-group { margin-bottom:0;}
+.row .info-box {
+	padding: 10px;
+	background-color: #f9f9f9;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+.row .ticket-reply {
+	padding: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.row .ticket-reply div.replier {
+	border-bottom: 1px solid #eee;
+	border-right: 1px solid #eee;
+	-webkit-border-bottom-right-radius: 6px;
+	-moz-border-radius-bottomright: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+.row .ticket-reply div.top-bar {
+	padding: 10px;
+	background-color: #f9f9f9;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.row .ticket-reply div.top-bar.staff-reply {
+	background-color: #ecf7ff;
+}
+
+.row .ticket-reply div.top-bar p {
+	font-style: italic;
+	margin: 0;
+}
+
+.row .ticket-reply div.replier img {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.row .ticket-reply div.response {
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-top: 10px;
+	word-wrap: break-word;
+}
+.ticket-reply div.response .attachments span {padding-right: 10px;}
+
+#no_tickets { font-size:12px;}
+.common_box .content_section .inner ul li.ui-menu-item { margin:0;}
+
+
+/* Knowledge base */
+#articles { margin-top:0px;}
+#articles dd { float:left; margin:0; width:33%; padding-top:4px;}
+#articles dd div { height:16px; font-size:10px; font-weight:bold; line-height:16px; padding-right:8px;}
+#articles dd div a.manage { color:#C62425}
+#articles dd div.category.public { background:url(../../../../../vendors/fugue_icons/folder-horizontal-open.png) no-repeat 0 center; padding-left:24px;}
+#articles dd div.category { background:url(../../../../../vendors/fugue_icons/folder--exclamation.png) no-repeat 0 center; padding-left:24px;}
+#articles dd div.article.public { background:url(../../../../../vendors/fugue_icons/document-list.png) no-repeat 0 center; padding-left:24px;}
+#articles dd div.article { background:url(../../../../../vendors/fugue_icons/document--exclamation.png) no-repeat 0 center; padding-left:24px;}
+
+#up_directory { background:url(../../../../../vendors/fugue_icons/arrow-curve-090.png) no-repeat 0 center; padding:0; line-height:16px;}
+#up_directory a { padding-left:24px; font-size:12px; }

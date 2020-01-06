@@ -1,0 +1,64 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemBackup.ftp.boxtitle_backup", true));
+				?>
+				<div class="inner">
+					<?php $this->Form->create(null, array('id'=>"sftp"));?>
+					<div class="pad">
+						<p><a class="test_sftp" href="#"><?php $this->_("AdminSystemBackup.ftp.text_test");?></a></p>
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.ftp.field_host", true), "ftp_host");?>
+								<?php $this->Form->fieldText("ftp_host", $this->Html->ifSet($vars['ftp_host']), array("id"=>"ftp_host"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.ftp.field_port", true), "ftp_port");?>
+								<?php $this->Form->fieldText("ftp_port", $this->Html->ifSet($vars['ftp_port']), array("id"=>"ftp_port"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.ftp.field_username", true), "ftp_username");?>
+								<?php $this->Form->fieldText("ftp_username", $this->Html->ifSet($vars['ftp_username']), array("id"=>"ftp_username"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.ftp.field_password", true), "ftp_password");?>
+								<?php $this->Form->fieldPassword("ftp_password", array("id"=>"ftp_password", 'value'=>$this->Html->ifSet($vars['ftp_password'])));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.ftp.field_path", true), "ftp_path");?>
+								<?php $this->Form->fieldText("ftp_path", $this->Html->ifSet($vars['ftp_path']), array("id"=>"ftp_path"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.ftp.field_rate", true), "ftp_rate");?>
+								<?php $this->Form->fieldSelect("ftp_rate",$frequency, $this->Html->ifSet($vars['ftp_rate']), array("id"=>"ftp_rate"));?>
+							</li>
+						</ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminSystemBackup.ftp.field_backupsubmit");?></a></div>
+					<?php $this->Form->end();?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+		
+<?php
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		// Request to validate the SFTP info entered in this form
+		$('.test_sftp').click(function() {
+			$(this).blestaRequest('POST', '" . $this->base_uri . "settings/system/backup/ftptest/" . "', $('#sftp').serialize(),
+				function(data) {
+					$('#right_container .error_section').hide();
+					// On success, draw the success or error message
+					$('#right_container').prepend(data).blestaBindCloseMessage();
+				}
+			);
+			return false;
+		});
+	});
+");
+?>

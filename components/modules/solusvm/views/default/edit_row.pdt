@@ -1,0 +1,54 @@
+		<?php
+		$this->Widget->clear();
+		$this->Widget->create($this->_("Solusvm.edit_row.box_title", true));
+		?>
+		<div class="inner">
+			<?php
+			$this->Form->create();
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("Solusvm.edit_row.basic_title");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("Solusvm.row_meta.server_name", true), "server_name");
+						$this->Form->fieldText("server_name", $this->Html->ifSet($vars->server_name), array('id' => "server_name"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Solusvm.row_meta.user_id", true), "user_id");
+						$this->Form->fieldText("user_id", $this->Html->ifSet($vars->user_id), array('id' => "user_id"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Solusvm.row_meta.key", true), "key");
+						$this->Form->fieldText("key", $this->Html->ifSet($vars->key), array('id' => "key"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Solusvm.row_meta.host", true), "host");
+						$this->Form->fieldText("host", $this->Html->ifSet($vars->host), array('id' => "host"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Solusvm.row_meta.port", true), "port");
+						$this->Form->fieldText("port", $this->Html->ifSet($vars->port, $this->_("Solusvm.row_meta.default_port", true)), array('id' => "port"));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("Solusvm.edit_row.add_btn");?></a></div>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

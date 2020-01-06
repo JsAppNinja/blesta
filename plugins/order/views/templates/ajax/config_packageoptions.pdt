@@ -1,0 +1,56 @@
+			<?php
+			if ($this->Html->ifSet($fields) && !empty($fields)) {
+				foreach ($fields as $field) {
+				?>
+					<div class="form-group">
+						<?php
+						// Draw the primary label/field
+						$field->params['attributes']['class'] = (array)$this->Html->ifSet($field->params['attributes']['class'], array());
+						$field->params['attributes']['class'][] = "control-label";
+						call_user_func_array(array($this->Form, $field->type), $field->params);
+
+						// Draw each tooltip
+						foreach ($field->fields as $input) {
+							
+							// Collect all tooltips to be displayed at the end
+							if ($input->type == "tooltip") {
+							?>
+								<a href="#" data-toggle="tooltip" title="<?php $this->Html->_($input->params['message']);?>"><i class="fa fa-question-circle text-primary"></i></a>
+							<?php
+							}
+						}
+						
+						foreach ($field->fields as $input) {
+							if (($input->type == "fieldCheckbox" || $input->type == "fieldRadio") && isset($input->label)) {
+							?>
+								<div class="<?php echo $this->Html->safe($input->type == "fieldCheckbox" ? "checkbox" : "radio");?>">
+									<label>
+										<?php
+										call_user_func_array(array($this->Form, $input->type), $input->params);
+										$this->Html->_($input->label->params['name']);
+										?>
+									</label>
+								</div>
+							<?php
+							}
+							else {
+								$input->params['attributes']['class'] = (array)$this->Html->ifSet($input->params['attributes']['class'], array());
+								$input->params['attributes']['class'][] = "form-control";
+								if ($input->type == "fieldTextarea")
+									$input->params['attributes']['rows'] = 5;
+									
+								if ($input->type != "tooltip")
+									call_user_func_array(array($this->Form, $input->type), $input->params);
+								
+								// Show form field's secondary label
+								if (isset($input->label))
+									call_user_func_array(array($this->Form, "label"), $input->label->params);
+							}
+						}
+						?>
+					</div>
+				<?php
+				}
+			}
+			?>
+<script type="text/javascript" src="<?php echo $this->Html->safe($this->view_dir . "javascript/config_packageoptions.js");?>"></script>

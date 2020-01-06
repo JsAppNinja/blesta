@@ -1,0 +1,26 @@
+/* RESET.CSS STARTS */
+html, body, div, span, h1, h2, h3, h4, h5, h6, img, p, a, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,header,footer,article,nav,section,aside{margin:0; padding:0; border:0; outline:0; font-size: 100%; vertical-align: baseline;}
+span.clear{clear:both;}
+div.clear{clear:both;}
+:focus{outline:0;}
+.left{ float:left!important;}
+.right{ float:right!important}
+body{margin:0; padding:0; background:#efefef; height:100%; font-family:Verdana, Arial, Helvetica, sans-serif; color:#656565; min-width:1000px;}
+html{ height:100%;}
+a{ text-decoration:none; color:#429fcb;}
+/* RESET.CSS ends */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

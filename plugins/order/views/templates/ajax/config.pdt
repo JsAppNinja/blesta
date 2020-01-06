@@ -1,0 +1,206 @@
+				<?php
+				if (!$this->Html->ifSet($is_ajax)) {
+				?>
+				<div class="col-md-12">
+				<?php
+				}
+				?>
+					
+					<div id="config_message"></div>
+					
+					<div class="section-title">
+						<h3>
+							<i class="fa fa-cog"></i>
+							<?php
+							if ($this->Html->ifSet($service_name)) 
+								$this->_("Config.index.header_configure_service", false, $this->Html->ifSet($service_name));
+							else
+								$this->_("Config.index.header_configuration");
+							?>
+						</h3>
+						<p><?php $this->_("Config.index.config_notes");?></p>
+					</div>
+
+					<?php
+					$this->Form->create(null, array('id' => "package_config"));
+					?>
+						<h4><?php $this->_("Config.index.header_term");?></h4>
+						<div class="form-group">
+							<?php
+							$selected_price = $this->Html->ifSet($vars->pricing_id, $item['pricing_id']);
+							$prices = array();
+							foreach ($package->pricing as $price) {
+								if ($this->Html->ifSet($price->period) == "onetime")
+									$period = $this->Html->ifSet($periods[$price->period]);
+								else {
+									$term = $this->Html->_($price->term, true);
+									$period = $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])));
+								}
+								$prices[$price->id] = $this->_("Config.index.package_price", true, $period, $this->CurrencyFormat->format($price->price, $price->currency));
+							}
+							$this->Form->fieldSelect("pricing_id", $prices, $selected_price, array('class' => "form-control"));
+							$this->Form->fieldHidden("group_id", $item['group_id']);
+							?>
+						</div>
+						<div class="clearfix"></div>
+						<?php
+						if (($this->Html->ifSet($fields) && !empty($fields)) || $this->Html->ifSet($html) != "") {
+                            // Set any hidden fields
+                            foreach ($fields as $index => $field) {
+                                foreach ($field->fields as $input) {
+                                    if ($input->type == "fieldHidden") {
+                                        call_user_func_array(array($this->Form, $input->type), $input->params);
+                                        unset($fields[$index]);
+                                        continue 2;
+                                    }
+                                }
+                            }
+						
+                            if (count($fields) > 0) {
+                            ?>
+                            <hr />
+							<h4><?php $this->_("Config.index.header_module");?></h4>
+							<?php
+                            }
+                            
+							foreach ($fields as $field) {
+							?>
+								<div class="form-group">
+									<?php
+									// Draw the primary label/field
+									$field->params['attributes']['class'] = (array)$this->Html->ifSet($field->params['attributes']['class'], array());
+									$field->params['attributes']['class'][] = "control-label";
+									call_user_func_array(array($this->Form, $field->type), $field->params);
+
+									// Draw each tooltip
+									foreach ($field->fields as $input) {
+										
+										// Collect all tooltips to be displayed at the end
+										if ($input->type == "tooltip") {
+										?>
+											<a href="#" data-toggle="tooltip" title="<?php $this->Html->_($input->params['message']);?>"><i class="fa fa-question-circle text-primary"></i></a>
+										<?php
+										}
+									}
+									
+									foreach ($field->fields as $input) {
+										if (($input->type == "fieldCheckbox" || $input->type == "fieldRadio") && isset($input->label)) {
+										?>
+											<div class="<?php echo $this->Html->safe($input->type == "fieldCheckbox" ? "checkbox" : "radio");?>">
+												<label>
+													<?php
+													call_user_func_array(array($this->Form, $input->type), $input->params);
+													//call_user_func_array(array($this->Form, "label"), $input->label->params);
+													$this->Html->_($input->label->params['name']);
+													?>
+												</label>
+											</div>
+										<?php
+										}
+										else {
+											$input->params['attributes']['class'] = (array)$this->Html->ifSet($input->params['attributes']['class'], array());
+											$input->params['attributes']['class'][] = "form-control";
+											$input->params['attributes']['placeholder'] = $this->Html->ifSet($field->params['name']);
+											if ($input->type == "fieldTextarea")
+												$input->params['attributes']['rows'] = 5;
+												
+											if ($input->type != "tooltip")
+												call_user_func_array(array($this->Form, $input->type), $input->params);
+										}
+									}
+									?>
+								</div>
+							<?php
+							}
+							?>
+							<?php echo $this->Html->ifSet($html);?>
+						<?php
+						}
+						?>
+						
+						<div class="package_options">
+							<?php
+							if (isset($vars->configoptions)) {
+								foreach ($vars->configoptions as $key => $value) {
+									$this->Form->fieldHidden("configoptions[" . $key . "]", $value);
+								}
+							}
+							?>
+						</div>
+						<div class="clearfix"></div>
+						
+						<?php
+						if ($this->Html->ifSet($addon_groups) && !empty($addon_groups)) {
+						?>
+							<hr>
+							<div class="section-title">
+								<h3><i class="fa fa-plus"></i> <?php $this->_("Config.index.header_addons");?></h3>
+								<p><?php $this->_("Config.index.addons_notes");?></p>
+							</div>
+							<?php
+							foreach ($addon_groups as $addon_group) {
+							?>
+								<h4><?php $this->Form->label($addon_group->name);?></h4>
+								<div class="radio">
+									<label>
+										<?php
+										$this->Form->fieldRadio("addon[" . $this->Html->_($addon_group->id, true) . "][pricing_id]", "", $this->Html->ifSet($vars->addon[$addon_group->id]['id']) == "");
+										$this->_("Config.index.field_default_addon");
+										?>
+									</label>
+								</div>
+								
+								<?php
+								foreach ($addon_group->packages as $addon_package) {
+									foreach ($addon_package->pricing as $price) {
+										if ($this->Html->ifSet($price->period) == "onetime")
+											$term = $this->Html->ifSet($periods[$price->period]);
+										else {
+											$term = $this->Html->_($price->term, true);
+											$term = $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])));
+										}
+										
+										$formatted_price = $this->CurrencyFormat->format($price->price, $price->currency);
+									?>
+									<div class="radio">
+										<label>
+											<?php
+											$this->Form->fieldRadio("addon[" . $this->Html->_($addon_group->id, true) . "][pricing_id]", $this->Html->_($price->id, true), $this->Html->ifSet($vars->addon[$addon_group->id]['pricing_id']) == $price->id);
+											$this->_("Config.index.field_addon_label", false, $addon_package->name, $term, $formatted_price);
+											?>
+										</label>
+									</div>
+									<?php
+									}
+								}
+							}
+						}
+						?>
+						
+						<?php
+						if (!$this->Html->ifSet($is_ajax)) {
+						?>
+						<button type="submit" class="btn btn-lg btn-success pull-right">
+							<?php $this->_("Config.index.continue_btn");?> <i class="fa fa-angle-double-right"></i>
+						</button>
+						<?php
+						}
+						?>
+					<?php
+					$this->Form->end();
+					?>
+
+				<?php
+				if (!$this->Html->ifSet($is_ajax)) {
+				?>
+					<script type="text/javascript">
+						var base_uri = '<?php $this->Html->_($this->base_uri);?>';
+						var order_label = '<?php $this->Html->_($order_form->label);?>';
+					</script>
+					<script type="text/javascript" src="<?php echo $this->Html->safe($this->view_dir . "javascript/order.js");?>"></script>
+				
+				</div>
+				<?php
+				}
+				?>
+				<script type="text/javascript" src="<?php echo $this->Html->safe($this->view_dir . "javascript/config.js");?>"></script>

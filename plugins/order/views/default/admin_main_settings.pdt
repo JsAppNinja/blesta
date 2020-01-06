@@ -1,0 +1,44 @@
+		<?php
+		$this->Form->create($this->Html->safe($this->base_uri) . "widget/order/admin_main/update/");
+		?>
+		<div class="inner">
+			<div class="title_row first"><h3><?php $this->_("AdminMain.settings.heading_notifications");?></h3></div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminMain.settings.field_email_notice", true));
+						$this->Form->fieldRadio("email_notice", "never", $this->Html->ifSet($vars['email_notice'], "never") == "never", array('id' => "email_notice_never"));
+						$this->Form->label($this->_("AdminMain.settings.field_email_notice_never", true), "email_notice_never", array('class' => "inline"));
+						
+						$this->Form->fieldRadio("email_notice", "manual", $this->Html->ifSet($vars['email_notice'], "dont_send") == "manual", array('id' => "email_notice_manual"));
+						$this->Form->label($this->_("AdminMain.settings.field_email_notice_manual", true), "email_notice_manual", array('class' => "inline"));
+						
+						$this->Form->fieldRadio("email_notice", "always", $this->Html->ifSet($vars['email_notice'], "dont_send") == "always", array('id' => "email_notice_always"));
+						$this->Form->label($this->_("AdminMain.settings.field_email_notice_always", true), "email_notice_always", array('class' => "inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label("Mobile");
+						$this->Form->fieldRadio("mobile_notice", "never", $this->Html->ifSet($vars['mobile_notice'], "never") == "never", array('id' => "mobile_notice_never"));
+						$this->Form->label($this->_("AdminMain.settings.field_mobile_notice_never", true), "mobile_notice_never", array('class' => "inline"));
+						
+						$this->Form->fieldRadio("mobile_notice", "manual", $this->Html->ifSet($vars['mobile_notice'], "dont_send") == "manual", array('id' => "mobile_notice_manual"));
+						$this->Form->label($this->_("AdminMain.settings.field_mobile_notice_manual", true), "mobile_notice_manual", array('class' => "inline"));
+						
+						$this->Form->fieldRadio("mobile_notice", "always", $this->Html->ifSet($vars['mobile_notice'], "dont_send") == "always", array('id' => "mobile_notice_always"));
+						$this->Form->label($this->_("AdminMain.settings.field_mobile_notice_always", true), "mobile_notice_always", array('class' => "inline"));
+						?>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="button_row">
+			<a class="btn_right submit" href="#"><?php $this->_("AdminMain.settings.submit_settings");?></a>
+			<a class="btn_right ajax" href="<?php echo $this->Html->safe($this->base_uri);?>widget/order/admin_main/index/pending"><?php $this->_("AdminMain.settings.submit_cancel");?></a>
+		</div>
+		<?php
+		$this->Form->end();
+		?>

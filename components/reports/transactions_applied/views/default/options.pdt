@@ -1,0 +1,42 @@
+
+			<div class="pad_side">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("TransactionsApplied.options.field_start_date", true), "start_date");
+						$this->Form->fieldText("start_date", $this->Html->ifSet($vars->start_date), array('id' => "start_date", 'class' => "date"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("TransactionsApplied.options.field_end_date", true), "end_date");
+						$this->Form->fieldText("end_date", $this->Html->ifSet($vars->end_date), array('id' => "end_date", 'class' => "date"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("TransactionsApplied.options.field_gateway", true), "gateway");
+						$this->Form->fieldSelect("gateway", $this->Html->ifSet($gateways), $this->Html->ifSet($vars->gateway), array('id' => "gateway"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("TransactionsApplied.options.field_status", true), "status");
+						$this->Form->fieldSelect("status", $this->Html->ifSet($statuses), $this->Html->ifSet($vars->status), array('id' => "status"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("TransactionsApplied.options.field_payment_type", true), "payment_type");
+						$this->Form->fieldSelect("payment_type", $this->Html->ifSet($payment_types), $this->Html->ifSet($vars->payment_type), array('id' => "payment_type"));
+						?>
+					</li>
+				</ul>
+			</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('input.date').datePicker({
+			startDate:'1996-01-01'
+		});
+	});
+</script>

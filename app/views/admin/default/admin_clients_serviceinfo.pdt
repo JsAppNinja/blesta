@@ -1,0 +1,100 @@
+		<?php
+		if ($this->Html->ifSet($content)) {
+			echo $content;
+		}
+		else {
+		?>
+		<div class="empty_section">
+			<div class="empty_box"><?php $this->_("AdminClients.serviceinfo.no_results");?></div>
+		</div>
+		<?php
+		}
+		
+		// List add-on services
+		if (($num_services = count($this->Html->ifSet($services, array()))) > 0) {
+		?>
+		<div class="group_title_row">
+			<div class="title_row">
+				<h3><?php $this->_("AdminClients.services.heading_addons");?></h3>
+			</div>
+			<table class="table">
+				<tr class="heading_row">
+					<td class="icon">&nbsp;</td>
+					<td><span><?php $this->_("AdminClients.services.heading_package");?></span></td>
+					<td><span><?php $this->_("AdminClients.services.heading_label");?></span></td>
+					<td><span><?php $this->_("AdminClients.services.heading_term");?></span></td>
+					<td class="last"><span><?php $this->_("AdminClients.services.heading_options");?></span></td>
+				</tr>
+				<?php
+				for ($i=0; $i<$num_services; $i++) {
+				?>
+				<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : "";?>>
+					<td>
+						<?php
+						$icon = "active";
+						switch ($this->Html->ifSet($services[$i]->status)) {
+							case "pending":
+								$icon = "pending";
+								break;
+							case "suspended":
+								$icon = "suspended";
+								break;
+							case "canceled":
+								$icon = "inactive";
+								break;
+							case "active":
+								if (!empty($services[$i]->date_canceled))
+									$icon = "canceled";
+								break;
+						}
+						?>
+						<div class="<?php $this->Html->_($icon);?>"> </div>
+					</td>
+					<td><?php $this->Html->_($services[$i]->package->name);?></td>
+					<td><?php $this->Html->_($services[$i]->name);?></td>
+					<td>
+						<?php
+						if ($this->Html->ifSet($services[$i]->package_pricing->period) == "onetime")
+							$this->Html->_($periods[$services[$i]->package_pricing->period]);
+						else {
+							$term = $this->Html->_($services[$i]->package_pricing->term, true);
+							echo $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$services[$i]->package_pricing->period]) : $this->Html->ifSet($periods[$services[$i]->package_pricing->period . "_plural"]))));
+						}
+						?>
+					</td>
+					<td>
+						<?php
+						if ($services[$i]->status != "canceled") {
+						?>
+						<a href="<?php echo $this->base_uri . "clients/editservice/" . $this->Html->_($client->id, true) . "/" . $this->Html->_($services[$i]->id, true) . "/";?>" class="manage"><?php $this->_("AdminClients.services.option_manage");?></a><?php
+                                if ($this->Html->ifSet($services[$i]->status) == "pending") {
+                            ?>,
+                                <?php
+                                $this->Form->create($this->base_uri . "clients/deleteservice/");
+                                $this->Form->fieldHidden("client_id", $this->Html->ifSet($client->id));
+                                $this->Form->fieldHidden("id", $this->Html->ifSet($services[$i]->id));
+                                ?>
+                                <a href="<?php echo $this->base_uri . "clients/deleteservice/" . $this->Html->_($client->id, true) . "/" . $this->Html->_($services[$i]->id, true) . "/";?>" class="manage" rel="<?php echo $this->Html->safe($this->_("AdminClients.services.confirm_delete", true));?>"><?php $this->_("AdminClients.services.option_delete");?></a>
+                                <?php
+                                $this->Form->end();
+                                ?>
+                            <?php
+                            }
+						}
+						?>
+					</td>
+				</tr>
+				<?php
+				}
+				?>
+			</table>
+		</div>
+		<?php
+		}
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Handle confirmation
+		$('#admin_clients_services a.manage[rel]').blestaModalConfirm({base_url: '<?php echo $this->base_uri;?>', close: '<?php $this->_("AppController.modal.text_close");?>', submit: true});
+	});
+</script>

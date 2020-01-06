@@ -1,0 +1,249 @@
+			<div id="summary-details">
+				<div class="section-title">
+					<h3><i class="fa fa-shopping-cart"></i> <?php $this->_("Summary.index.heading_summary");?></h3>
+					<p><?php $this->_("Summary.index.summary_note");?></p>
+				</div>
+				<div class="well well-sm well-order">
+					<table class="table table-curved">
+						<thead>
+							<tr>
+								<th><?php $this->_("Summary.index.table_description");?></th>
+								<th><?php $this->_("Summary.index.table_price");?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$indexes = array();
+							foreach ($this->Html->ifSet($summary['cart']['display_items'], array()) as $item) {
+								$price = $item['pricing'];
+								$term = null;
+								if (!isset($item['qty']))
+									$item['qty'] = 1;
+								$item['qty'] = $this->Html->safe($item['qty']);
+								
+                                if ($this->Html->ifSet($price->period) == "onetime")
+                                    $term = $this->Html->ifSet($periods[$price->period]);
+                                else {
+                                    $term = $this->Html->_($price->term, true);
+                                    $term = $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"]))));
+                                }
+							?>
+								<tr>
+									<td>
+										<strong><?php $this->Html->_($item['package']->name);?></strong>
+										<?php $this->Html->_($item['service_name']);?>
+									</td>
+									<td>
+										<span class="price-col pull-right">
+											<?php
+											if (!empty($item['prorated']) || array_key_exists($this->Html->ifSet($item['index']), $indexes)) {
+												$display_term = (!empty($item['prorated']) ? $this->_("Cart.index.pro_rata_month", true) : $term);
+												$this->_("Summary.index.item_price_pro_rata", false, $display_term, $this->CurrencyFormat->format($price->price, $price->currency), $item['qty'], $this->Html->ifSet($item['date_range']));
+											}
+											else
+												$this->_("Summary.index.item_price", false, $term, $this->CurrencyFormat->format($price->price, $price->currency), $item['qty']);
+											?>
+										</span>
+									</td>
+								</tr>
+								<?php
+								if ($this->Html->ifSet($item['config_options']) && $this->Html->ifSet($item['configoptions'])) {
+									foreach ($item['config_options'] as $option) {
+										if (array_key_exists($option->option->id, $item['configoptions'])) {
+											$qty = $this->Html->safe($option->option->type == "quantity" ? $item['configoptions'][$option->option->id] : 1);
+									?>
+									<tr>
+										<td>
+											<i class="fa fa-share fa-flip-vertical"></i> <?php $this->Html->_($option->option->label);?>
+										</td>
+										<td>
+											<span class="price-col pull-right"><?php $this->_("Summary.index.item_option_price", false, $this->Html->ifSet($option->value->name), $this->CurrencyFormat->format($option->pricing->price, $option->pricing->currency), $qty);?></span>
+										</td>
+									</tr>
+									<?php
+										}
+									}
+									unset($option);
+								}
+								?>
+								<?php
+								if (isset($item['addons'])) {
+									foreach ($item['addons'] as $addon) {
+										$price = $addon['pricing'];
+										$term = null;
+										if (!isset($addon['qty']))
+											$addon['qty'] = 1;
+										
+                                        if ($this->Html->ifSet($price->period) == "onetime")
+                                            $term = $this->Html->ifSet($periods[$price->period]);
+                                        else {
+                                            $term = $this->Html->_($price->term, true);
+                                            $term = $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"]))));
+                                        }
+								?>
+								<tr>
+									<td>
+										<i class="fa fa-plus"></i> <?php $this->Html->_($addon['package']->name);?>
+										<?php $this->Html->_($addon['service_name']);?>
+									</td>
+									<td>
+										<span class="price-col pull-right">
+										<?php
+											if (!empty($addon['prorated']) || array_key_exists($this->Html->ifSet($addon['index']), $indexes)) {
+												$display_term = (!empty($addon['prorated']) ? $this->_("Cart.index.pro_rata_month", true) : $term);
+												$this->_("Summary.index.item_price_pro_rata", false, $display_term, $this->CurrencyFormat->format($price->price, $price->currency), $addon['qty'], $this->Html->ifSet($addon['date_range']));
+											}
+											else
+												$this->_("Summary.index.item_price", false, $term, $this->CurrencyFormat->format($price->price, $price->currency), $addon['qty']);
+										?>
+										</span>
+									</td>
+								</tr>
+								<?php
+								if ($this->Html->ifSet($addon['config_options']) && $this->Html->ifSet($addon['configoptions'])) {
+									foreach ($addon['config_options'] as $option) {
+										if (array_key_exists($option->option->id, $addon['configoptions'])) {
+											$qty = $this->Html->safe($option->option->type == "quantity" ? $addon['configoptions'][$option->option->id] : 1);
+									?>
+									<tr>
+										<td>
+											<i class="fa fa-share fa-flip-vertical"></i> <?php $this->Html->_($option->option->label);?>
+										</td>
+										<td>
+											<span class="price-col pull-right"><?php $this->_("Summary.index.item_option_price", false, $this->Html->ifSet($option->value->name), $this->CurrencyFormat->format($option->pricing->price, $option->pricing->currency), $qty);?></span>
+										</td>
+									</tr>
+									<?php
+										}
+									}
+									unset($option);
+								}
+								?>
+								<?php
+										// Set the index so we can show the date range if we encounter the same index again (signifying pro rata)
+										if (isset($addon['index']))
+											$indexes[$addon['index']] = $addon['index'];
+									}
+								}
+								?>
+							<?php
+								// Set the index so we can show the date range if we encounter the same index again (signifying pro rata)
+								if (isset($item['index']))
+									$indexes[$item['index']] = $item['index'];
+							}
+							?>
+						</tbody>
+					</table>
+					<hr>
+						
+					<?php
+					if ($this->Html->ifSet($summary['totals'])) {
+					?>
+					<table class="table table-curved">
+						<tbody>
+							<tr>
+								<td><?php $this->_("Summary.index.totals.subtotal");?></td>
+								<td><span class="price-col pull-right"><strong><?php $this->Html->_($summary['totals']['subtotal']['amount_formatted']);?></strong></span></td>
+							</tr>
+							<?php
+							if ($this->Html->ifSet($summary['totals']['fees']['setup'])) {
+							?>
+							<tr>
+								<td><?php $this->_("Summary.index.totals.setup_fee");?></td>
+								<td><span class="price-col pull-right"><strong><?php $this->Html->_($summary['totals']['fees']['setup']['amount_formatted']);?></strong></span></td>
+							</tr>
+							<?php
+							}
+							if ($this->Html->ifSet($summary['totals']['discount']['amount'])) {
+							?>
+							<tr>
+								<td><?php $this->_("Summary.index.totals.discount");?></td>
+								<td><span class="price-col pull-right"><strong><?php $this->Html->_($summary['totals']['discount']['amount_formatted']);?></strong></span></td>
+							</tr>
+							<?php
+							}
+							if ($this->Html->ifSet($summary['totals']['tax'])) {
+								foreach ($summary['totals']['tax'] as $tax) {
+							?>
+								<tr>
+									<td><?php $this->_("Summary.index.totals.tax", false, $tax['name'], $tax['percentage']);?></td>
+									<td><span class="price-col pull-right"><strong><?php $this->Html->_($tax['amount_formatted']);?></strong></span></td>
+								</tr>
+							<?php
+								}
+							}
+							?>
+						</tbody>
+					</table>
+					<hr>
+					<?php
+					}
+					?>
+					
+					<div class="col-md-6">
+						<?php
+						if ($this->Html->ifSet($order_form->allow_coupons) == "1") {
+						?>
+							<h5><a href="#coupon_box" data-toggle="collapse"><i class="fa fa-tag"></i> <?php $this->_("Summary.index.have_coupon");?></a></h5>
+							<div id="coupon_box" class="collapse">
+								<?php
+								$this->Form->create($this->Html->ifSet($this->base_uri) . "order/cart/applycoupon/" . $this->Html->ifSet($order_form->label), array('id' => "applycoupon"));
+								?>
+								<div class="input-group <?php echo ($this->Html->ifSet($summary['cart']['coupon']) ? "has-success" : "");?>">
+									<?php
+									if ($this->Html->ifSet($summary['cart']['coupon'])) {
+									?>
+									<span class="input-group-addon"><i class="fa fa-check fa-fw"></i></span>
+									<?php
+									}
+									$this->Form->fieldText("coupon", $this->Html->ifSet($summary['cart']['coupon'], $this->Html->ifSet($temp_coupon)), array('class' => "form-control", 'id' => "coupon", 'placeholder' => $this->_("Summary.index.coupon", true)));
+									?>
+									<div class="input-group-btn">
+										<button class="btn btn-default" type="submit"><i class="fa fa-refresh"></i> <?php $this->_("Summary.index.coupon_btn");?></button>
+									</div>
+								</div>
+								<?php
+								$this->Form->end();
+								?>
+							</div>
+						<?php
+						}
+						?>
+					</div>
+					<div class="col-md-6 total-due">
+						<?php
+						if ($this->Html->ifSet($summary['totals'])) {
+						?>
+							<small><?php $this->_("Summary.index.totals.total");?></small>
+							<h4><strong><?php $this->Html->_($summary['totals']['total_w_tax']['amount_formatted']);?></strong></h4>
+						<?php
+						}
+						?>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<?php
+				$this->Form->create($this->base_uri . "order/cart/removeAll/" . $this->Html->ifSet($order_form->label));
+				$this->Form->fieldHidden("redirect_to", $this->base_uri . "order/main/index/" . $this->Html->ifSet($order_form->label));
+				?>
+					<button type="submit" class="btn btn-plain btn-sm pull-right" id="empty_cart">
+						<i class="fa fa-trash-o"></i> <?php $this->_("Summary.index.empty_cart");?>
+					</button>
+				<?php
+				$this->Form->end();
+				?>
+				<div class="clearfix"></div>
+			</div>
+<script type="text/javascript" src="<?php echo $this->Html->safe($this->view_dir . "javascript/summary.js");?>"></script>
+<?php
+// Attempt to auto-apply a temp coupon by submitting the coupon form
+if (!empty($temp_coupon) && empty($summary['cart']['coupon'])) {
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#applycoupon').trigger('submit');
+});
+</script>
+<?php
+}
+?>

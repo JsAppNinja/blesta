@@ -1,0 +1,81 @@
+
+		<?php
+		$tabs = array();
+		foreach ($this->Html->ifSet($link_tabs, array()) as $tab) {
+			$tabs[] = array(
+				'name'=>$tab['name'],
+				'current'=>($tab['uri'] == "transactions"),
+				'attributes'=>array(
+					'href'=>$this->base_uri . "tools/logs/" . $tab['uri'] . "/",
+					'class'=>"ajax"
+				)
+			);
+		}
+		
+		$this->Widget->clear();
+		$this->Widget->setTabs($tabs);
+		$this->Widget->create($this->_("AdminTools.logs.boxtitle_logs", true), array('id'=>"admin_tools_logemail"), $this->Html->ifSet($render_section, null));
+		?>
+		<div class="inner">
+			<?php
+			if ($this->Html->ifSet($transaction_logs, false) && ($num_logs = count($transaction_logs)) > 0) {
+			?>
+			<table class="table">
+				<tr class="heading_row">
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "tools/logs/transactions/?sort=client_first_name&order=" . ($sort == "client_first_name" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "client_first_name" ? " " . $order : "");?>"><?php $this->_("AdminTools.logtransactions.text_client_name");?></a></span></td>
+					<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "tools/logs/transactions/?sort=staff_first_name&order=" . ($sort == "staff_first_name" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "staff_first_name" ? " " . $order : "");?>"><?php $this->_("AdminTools.logtransactions.text_staff_name");?></a></span></td>
+					<td class="last"><span><a href="<?php echo $this->Html->safe($this->base_uri . "tools/logs/transactions/?sort=date_changed&order=" . ($sort == "date_changed" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_changed" ? " " . $order : "");?>"><?php $this->_("AdminTools.logtransactions.text_date");?></a></span></td>
+				</tr>
+				<?php
+				for ($i=0; $i<$num_logs; $i++) {
+				?>
+				<tr class="<?php echo $this->Html->concat(" ", ($i%2 == 1) ? "odd_row" : "", "expand");?>">
+					<td><a href="<?php echo $this->base_uri . "clients/edittransaction/" . $this->Html->_($transaction_logs[$i]->client_id, true) . "/" . $this->Html->_($transaction_logs[$i]->transaction_id, true) . "/";?>"><?php echo $this->Html->_($transaction_logs[$i]->client_first_name, true) . " " . $this->Html->_($transaction_logs[$i]->client_last_name, true);?></a></td>
+					<td><?php echo $this->Html->_($transaction_logs[$i]->staff_first_name, true) . " " . $this->Html->_($transaction_logs[$i]->staff_last_name, true);?></td>
+					<td><?php echo $this->Date->cast($this->Html->_($transaction_logs[$i]->date_changed, true), "date_time");?></td>
+				</tr>
+				<tr class="expand_details">
+					<td class="subtable" colspan="3">
+						<table class="table">
+							<tr class="heading_row">
+								<td class="border_left"><?php $this->_("AdminTools.logtransactions.text_field");?></td>
+								<td><?php $this->_("AdminTools.logtransactions.text_previous");?></td>
+								<td class="last"><?php $this->_("AdminTools.logtransactions.text_new");?></td>
+							</tr>
+							<?php
+							$j = 0;
+							foreach ($transaction_logs[$i]->change as $field => $values) {
+							?>
+							<tr<?php echo ($j++%2 == 1) ? " class=\"odd_row\"" : "";?>>
+								<td><?php $this->Html->_($field);?></td>
+								<td><?php $this->Html->_($values['prev']);?></td>
+								<td><?php $this->Html->_($values['cur']);?></td>
+							</tr>
+							<?php
+							}
+							unset($j);
+							?>
+						</table>
+					</td>
+				</tr>
+				<?php
+				}
+				?>
+			</table>
+			<?php
+				$this->Pagination->build();
+			}
+			else {
+			?>
+			<div class="empty_section">
+				<div class="empty_box">
+					<?php $this->_("AdminTools.logtransactions.no_results");?>
+				</div>
+			</div>
+			<?php
+			}
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

@@ -1,0 +1,102 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">				
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyGroups.add.boxtitle_addgroup", true));
+				?>
+				<div class="inner">
+					<?php $this->Form->create(); ?>
+					<div class="title_row first"><h3><?php $this->_("AdminCompanyGroups.add.heading_basic");?></h3></div>
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyGroups.add.field_name", true), "name");?>
+								<?php $this->Form->fieldText("name", $this->Html->ifSet($vars->name), array('id'=>"name"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyGroups.add.field_color", true), "color");?>
+								<?php $this->Form->fieldText("color", $this->Html->ifSet($vars->color), array('id'=>"color", 'class'=>"color_well"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyGroups.add.field_description", true), "description");?>
+								<?php $this->Form->fieldTextarea("description", $this->Html->ifSet($vars->description), array('id'=>"description"));?>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckBox("use_company_settings", "true", ($this->Html->ifSet($vars->use_company_settings) == "true"), array('id'=>"use_company_settings"));?>
+								<?php $this->Form->label($this->_("AdminCompanyGroups.add.field_company_settings", true), "use_company_settings", array('class'=>"inline"));?>
+							</li>
+						</ul>
+					</div>
+					
+					<div id="group_settings">
+						<div class="title_row"><h3><?php $this->_("AdminCompanyGroups.add.heading_invoice");?></h3></div>
+						<div class="pad">
+							<?php echo $this->Html->ifSet($invoice_form);?>
+						</div>
+						
+						<div class="title_row"><h3><?php $this->_("AdminCompanyGroups.add.heading_delivery");?></h3></div>
+						<div class="pad">
+							<ul>
+								<li>
+									<?php
+									$this->Form->label($this->_("AdminCompanyGroups.add.field_delivery_methods", true));
+									foreach ($this->Html->ifSet($delivery_methods, array()) as $method => $name) {
+										$disable = $method == "email";
+										$options = array('id'=>"delivery_method_" . $method);
+										if ($disable)
+											$options['disabled'] = "disabled";
+											
+										$this->Form->fieldCheckbox("delivery_methods[]", $method, (in_array($method, $this->Html->ifSet($vars->delivery_methods, array())) || $disable), $options);
+										$this->Form->label($name, "delivery_method_" . $method, array('class'=>"inline"));
+									}
+									?>
+								</li>
+							</ul>
+						</div>
+						
+						<div class="title_row"><h3><?php $this->_("AdminCompanyGroups.add.heading_payment");?></h3></div>
+						<div class="pad">
+							<?php echo $this->Html->ifSet($notice_form);?>
+						</div>
+					</div>
+						
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyGroups.add.text_addsubmit");?></a></div>
+					
+					<?php $this->Form->end(); ?>
+				</div>
+				<?php $this->Widget->end(); ?>
+			</section>
+		</div>
+<?php
+$this->Javascript->setInline("
+$(document).ready(function() {
+	$('.color_well').blestaColorPicker();
+	
+	// Enable/disable setting fields
+	updateSettingFields();
+	$('#use_company_settings').change(function() {
+		updateSettingFields();
+	});
+});
+
+function updateSettingFields() {
+	// Disable settings
+	if ($('#use_company_settings').attr('checked')) {
+		$('#group_settings input, #group_settings select').each(function() {
+			$(this).attr('disabled', 'disabled');
+		});
+	}
+	else {
+		// Enable settings
+		$('#group_settings input, #group_settings select').each(function() {
+			// Enable all excpet for email delivery method
+			if ($(this).attr('id') != 'delivery_method_email')
+				$(this).removeAttr('disabled');
+		});
+	}
+}
+");
+?>

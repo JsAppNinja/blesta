@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html dir="<?php echo (in_array($this->_("AppController.lang.dir", true), array("ltr", "rtl")) ? $this->_("AppController.lang.dir", true) : "ltr");?>">
+	<head>
+		<title><?php echo (($page_title = (isset($page_title) ? $page_title : $this->_($page_title_lang, true, $get_params))) ? $this->Html->_($page_title, true) . " | " : "") . $this->Html->_($system_company->name, true);?></title>
+		<link rel="shortcut icon" href="<?php echo $this->view_dir;?>images/favicon.ico" />
+		<link href="<?php echo $this->view_dir;?>css/admin_login/all.css" rel="stylesheet" type="text/css" media="all" />
+		<?php
+		if (isset($theme_css)) {
+		?>
+		<link href="<?php $this->Html->_($theme_css);?>" rel="stylesheet" type="text/css" media="screen" />
+		<?php
+		}
+        if ($this->_("AppController.lang.dir", true) == "rtl") {
+        ?>
+        <link href="<?php echo $this->view_dir;?>css/rtl.css" rel="stylesheet" type="text/css" media="screen" />
+        <?php
+        }
+		?>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		
+		<!--[if IE]>
+		<script>
+		document.createElement("header");
+		document.createElement("footer");
+		document.createElement("article");
+		document.createElement("nav");
+		document.createElement("section");
+		document.createElement("aside")
+		</script>
+		<![endif]-->
+	
+		<?php echo $this->Javascript->getFiles("head");?>
+		<?php echo $this->Html->ifSet($head);?>
+	</head>
+	<body>
+		<?php echo $this->Html->ifSet($body_start);?>
+		<?php echo $this->Html->ifSet($content);?>
+		
+		<?php echo $this->Javascript->getFiles("body");?>
+		<?php echo $this->Javascript->getInline();?>
+		<?php echo $this->Html->ifSet($body_end);?>
+	</body>
+</html>

@@ -1,0 +1,64 @@
+
+		<?php
+		echo $this->Html->ifSet($left_nav);
+		?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemBackup.amazon.boxtitle_backup", true));
+				?>
+				<div class="inner">
+					<?php $this->Form->create(null, array('id'=>"amazons3"));?>
+					<div class="pad">
+						<p><a class="test_amazons3" href="#"><?php $this->_("AdminSystemBackup.amazon.text_test");?></a></p>
+						<ul>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.amazon.field_region", true), "amazons3_region");?>
+								<?php $this->Form->fieldSelect("amazons3_region", $this->Html->ifSet($regions), $this->Html->ifSet($vars['amazons3_region'], "us-east-1"), array("id"=>"amazons3_region"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.amazon.field_accesskey", true), "amazons3_access_key");?>
+								<?php $this->Form->fieldText("amazons3_access_key", $this->Html->ifSet($vars['amazons3_access_key']), array("id"=>"amazons3_access_key"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.amazon.field_secretkey", true), "amazons3_secret_key");?>
+								<?php $this->Form->fieldText("amazons3_secret_key", $this->Html->ifSet($vars['amazons3_secret_key']), array("id"=>"amazons3_secret_key"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.amazon.field_bucket", true), "amazons3_bucket");?>
+								<?php $this->Form->fieldText("amazons3_bucket", $this->Html->ifSet($vars['amazons3_bucket']), array("id"=>"amazons3_bucket"));?>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminSystemBackup.amazon.field_rate", true), "amazons3_rate");?>
+								<?php $this->Form->fieldSelect("amazons3_rate",$frequency, $this->Html->ifSet($vars['amazons3_rate']), array("id"=>"amazons3_rate"));?>
+							</li>
+						</ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminSystemBackup.amazon.field_backupsubmit");?></a></div>
+					<?php $this->Form->end();?>
+				</div>
+				<?php
+				$this->Widget->end();
+				?>
+			</section>
+		</div>
+		
+<?php
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		// Request to validate the SFTP info entered in this form
+		$('.test_amazons3').click(function() {
+			$(this).blestaRequest('POST', '" . $this->base_uri . "settings/system/backup/amazontest/" . "', $('#amazons3').serialize(),
+				function(data) {
+					$('#right_container .error_section').hide();
+					// On success, draw the success or error message
+					$('#right_container').prepend(data).blestaBindCloseMessage();
+				}
+			);
+			return false;
+		});
+	});
+");
+?>

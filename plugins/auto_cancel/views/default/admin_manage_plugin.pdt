@@ -1,0 +1,48 @@
+    <?php
+    $this->Widget->clear();
+    $this->Widget->create($this->_('AdminManagePlugin.index.boxtitle_auto_cancel', true));
+    $this->Form->create();
+    ?>
+    <div class="inner">
+        <div class="title_row first">
+            <h3><?php $this->_('AdminManagePlugin.index.heading_settings');?></h3>
+        </div>
+
+        <div class="pad">
+            <ul>
+                <li>
+                    <?php
+                    $this->Form->label(
+                        $this->_('AdminManagePlugin.index.field.schedule_days', true),
+                        'schedule_days'
+                    );
+                    $this->Form->fieldSelect(
+                        'schedule_days',
+                        $this->Html->ifSet($days),
+                        $this->Html->ifSet($vars->schedule_days),
+                        array('id' => 'schedule_days')
+                    );
+                    ?>
+                </li>
+                <li>
+                    <?php
+                    $this->Form->label(
+                        $this->_('AdminManagePlugin.index.field.cancel_days', true),
+                        'cancel_days'
+                    );
+                    $this->Form->fieldSelect(
+                        'cancel_days',
+                        $this->Html->ifSet($days),
+                        $this->Html->ifSet($vars->cancel_days),
+                        array('id' => 'cancel_days')
+                    );
+                    ?>
+                </li>
+            </ul>
+        </div>
+        <div class="button_row"><a class="btn_right submit" href="#"><?php $this->_('AdminManagePlugin.index.field.submit');?></a></div>
+    </div>
+    <?php
+    $this->Form->end();
+    $this->Widget->end();
+    ?>

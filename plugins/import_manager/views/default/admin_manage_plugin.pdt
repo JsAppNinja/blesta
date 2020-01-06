@@ -1,0 +1,54 @@
+
+		<?php
+		$this->Widget->clear();
+		$this->Widget->create($this->_("ImportManagerManagePlugin.index.boxtitle_importmanager", true));
+		?>
+		<div class="inner">		
+			<?php
+			if ($this->Html->ifSet($migrators)) {
+			?>
+	
+			<table class="table">
+				<thead>
+					<tr class="heading_row">
+						<td><?php $this->_("ImportManagerManagePlugin.index.platform");?></td>
+						<td class="last"><?php $this->_("ImportManagerManagePlugin.index.versions");?></td>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+				$i=0;
+				foreach ($migrators as $type => $migrator) {
+				?>
+				<tr<?php echo ($i++%2 == 1 ? " class=\"odd_row\"" : "");?>>
+					<td><?php $this->Html->_($migrator->name);?></td>
+					<td>
+						<?php
+						foreach ($migrator->versions as $version) {
+						?>
+						<a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->_($plugin_id, true) . "/" . $type . "/" . $version . "/?action=import");?>"><?php $this->Html->_($version);?></a><br />
+						<?php
+						}
+						?>
+					</td>
+				</tr>
+				<?php
+				}
+				?>
+				</tbody>
+			</table>
+	
+			<?php
+			}
+			else {
+			?>
+				<div class="empty_section">
+					<div class="empty_box"><?php $this->_("ImportManagerManagePlugin.index.no_migrators");?></div>
+				</div>
+			<?php
+			}
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

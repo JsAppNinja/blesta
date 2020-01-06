@@ -1,0 +1,38 @@
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->Widget->clear();
+		$this->Widget->create($this->_("AdminMain.add.boxtitle_adddocument", true));
+		?>
+		<div class="inner">
+			<?php $this->Form->create(null, array('id'=>"add_document", 'enctype'=>"multipart/form-data"));?>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminMain.add.field_name", true), "name");
+						$this->Form->fieldText("name", $this->Html->ifSet($vars->name), array('id' => "name"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminMain.add.field_document", true), "file");
+						$this->Form->fieldFile("file", array('id' => "document"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("AdminMain.add.field_description", true), "description");
+						$this->Form->fieldTextarea("description", $this->Html->ifSet($vars->description), array('id' => "description"));
+						?>
+					</li>
+				</ul>
+			</div>
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("AdminMain.add.field_submit");?></a>
+			</div>
+			<?php $this->Form->end();?>	
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

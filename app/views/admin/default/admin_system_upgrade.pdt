@@ -1,0 +1,41 @@
+
+		<?php
+		echo $this->Html->ifSet($left_nav);		
+		?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				
+				$this->Widget->create($this->_("AdminSystemUpgrade.index.boxtitle_upgrade", true));
+				?>
+				<div class="inner pad">					
+					<?php $this->Form->create();?>
+					<?php
+					#
+					# TODO: Add upgrade options
+					#
+					if (false) {
+					?>
+					<div class="setting">
+						
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminSystemUpgrade.index.field_upgradesubmit");?></a></div>
+					<?php
+					}
+					else {
+					?>
+					<div class="empty_section">
+						<div class="empty_box">
+							<?php $this->_("AdminSystemUpgrade.index.no_results");?>
+						</div>
+					</div>
+					<?php
+					}
+					?>
+					<?php $this->Form->end();?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>

@@ -1,0 +1,23 @@
+		<?php
+		$this->Widget->clear();
+		$this->Widget->create($this->_("SharedLoginManagePlugin.index.boxtitle_manage", true));
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php $this->Form->label($this->_("SharedLoginManagePlugin.index.field_key", true));?>
+						<?php $this->Form->fieldText("key", $this->Html->ifSet($vars->key));?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("SharedLoginManagePlugin.index.submit");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>

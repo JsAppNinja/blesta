@@ -1,0 +1,47 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyTaxes.basic.boxtitle_basic", true));
+				$this->Form->create();
+				?>
+				<div class="inner">
+					<div class="pad">
+						<ul>
+							<li>
+								<?php $this->Form->fieldCheckbox("enable_tax", "true", (isset($vars['enable_tax']) && ($vars['enable_tax'] == "true") ? true : false), array("id"=>"enable_tax"));?>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.basic.field_enable_tax", true), "enable_tax", array('class'=>"inline"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyTaxes.basic.note_enable_tax");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("cascade_tax", "true", (isset($vars['cascade_tax']) && ($vars['cascade_tax'] == "true") ? true : false), array("id"=>"cascade_tax"));?>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.basic.field_cascade_tax", true), "cascade_tax", array('class'=>"inline"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyTaxes.basic.note_cascade_tax");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("setup_fee_tax", "true", (isset($vars['setup_fee_tax']) && ($vars['setup_fee_tax'] == "true") ? true : false), array("id"=>"setup_fee_tax"));?>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.basic.field_setup_fee_tax", true), "setup_fee_tax", array('class'=>"inline"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyTaxes.basic.note_setup_fee_tax");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->fieldCheckbox("cancelation_fee_tax", "true", (isset($vars['cancelation_fee_tax']) && ($vars['cancelation_fee_tax'] == "true") ? true : false), array("id"=>"cancelation_fee_tax"));?>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.basic.field_cancelation_fee_tax", true), "cancelation_fee_tax", array('class'=>"inline"));?>
+								<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("AdminCompanyTaxes.basic.note_cancelation_fee_tax");?></div></span>
+							</li>
+							<li>
+								<?php $this->Form->label($this->_("AdminCompanyTaxes.basic.field_taxid", true), "tax_id");?>
+								<?php $this->Form->fieldText("tax_id", $this->Html->ifSet($vars['tax_id']), array("id"=>"tax_id"));?>
+							</li>
+						</ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminCompanyTaxes.basic.field_addsubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

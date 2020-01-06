@@ -1,0 +1,300 @@
+		<?php
+		$this->Widget->clear();
+		$this->Widget->setLinkButtons(array());
+		$this->Widget->create($this->_("UniversalModule.edit_row.box_title", true));
+		?>
+		<div class="inner">
+			<?php
+			$this->Form->create();
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("UniversalModule.edit_row.module_title");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("UniversalModule.edit_row.name", true), "name");
+						$this->Form->fieldText("name", $this->Html->ifSet($vars->name));
+						?>
+					</li>
+				</ul>
+			</div>
+				
+			<div class="title_row">
+				<h3><?php $this->_("UniversalModule.edit_row.package_title");?></h3>
+			</div>
+			<div class="pad">
+				<div class="links_row">
+					<a class="btn_right package_row_add" href="#"><span><?php $this->_("UniversalModule.edit_row.package_field_btn");?></span></a>
+				</div>
+				<table class="table package_fields">
+					<thead>
+						<tr class="heading_row">
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.package_field_label", true), "package_fields[label]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_label");?></div></span></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.package_field_name", true), "package_fields[name]", array('class' => "inline"));?></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.package_field_type", true), "package_fields[type]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_type");?></div></span></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.package_field_required", true), "package_fields[required]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_required");?></div></span></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.package_field_encrypt", true), "package_fields[encrypt]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_encrypt");?></div></span></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.package_field_values", true), "package_fields[values]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_values");?></div></span></td>
+							<td class="last"></td>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$num_package_fields = count($this->Html->ifSet($vars->package_fields['label']));
+						for ($i=0; $i<$num_package_fields; $i++) {
+						?>
+						<tr class="field_row">
+							<td><?php $this->Form->fieldText("package_fields[label][]", $this->Html->ifSet($vars->package_fields['label'][$i]), array('class' => "stretch"));?></td>
+							<td><?php $this->Form->fieldText("package_fields[name][]", $this->Html->ifSet($vars->package_fields['name'][$i]), array('class' => "stretch"));?></td>
+							<td><?php $this->Form->fieldSelect("package_fields[type][]", $this->Html->ifSet($field_types, array()), $this->Html->ifSet($vars->package_fields['type'][$i]), array('class' => "stretch"));?></td>
+							<td><?php $this->Form->fieldSelect("package_fields[required][]", $this->Html->ifSet($required_options, array()), $this->Html->ifSet($vars->package_fields['required'][$i], "false"));?></td>
+							<td><?php $this->Form->fieldSelect("package_fields[encrypt][]", $this->Html->ifSet($encrypt_options, array()), $this->Html->ifSet($vars->package_fields['encrypt'][$i], "false"));?></td>
+							<td><?php $this->Form->fieldTextarea("package_fields[values][]", $this->Html->ifSet($vars->package_fields['values'][$i]), array('class' => "stretch", 'style' => "height: 50px;"));?></td>
+							<td><a href="#" class="manage row_remove"><?php $this->_("UniversalModule.edit_row.remove_package_field");?></a></td>
+						</tr>
+						<?php
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("UniversalModule.edit_row.package_rules", true));
+						$this->Form->fieldTextarea("package_rules", $this->Html->ifSet($vars->package_rules));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="pad">
+				<table class="table service_fields">
+					<thead>
+						<tr class="heading_row">
+							<td><?php $this->_("UniversalModule.edit_row.notice_name");?></td>
+							<td><?php $this->_("UniversalModule.edit_row.notice_notice");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_notice_notice");?></div></span></td>
+							<td><?php $this->_("UniversalModule.edit_row.notice_code");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_notice_code");?></div></span></td>
+							<td class="last"><?php $this->_("UniversalModule.edit_row.notice_response");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_notice_response");?></div></span></td>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$i=0;
+						foreach ($this->Html->ifSet($package_notices, array()) as $key => $value) {
+						?>
+						<tr<?php echo ($i%2 == 0 ? " class=\"odd_row\"" : "");?>>
+							<td><?php $this->Html->_($value);?></td>
+							<td><?php $this->Form->fieldText("package_notice_" . $key, $this->Html->ifSet($vars->{"package_notice_" . $key}), array('class' => "stretch"));?></td>
+							<td><?php $this->Form->fieldText("package_code_" . $key, $this->Html->ifSet($vars->{"package_code_" . $key}), array('class' => "small"));?></td>
+							<td><?php $this->Form->fieldText("package_response_" . $key, $this->Html->ifSet($vars->{"package_response_" . $key}), array('class' => "stretch"));?></td>
+						</tr>
+						<?php
+							$i++;
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="pad">
+				<h4><a id="package_email" href="#" class="show_content"><?php $this->_("UniversalModule.edit_row.email_notification");?></a></h4>
+				<ul id="package_email_content">
+					<li>
+						<?php
+						$this->Form->label($this->_("UniversalModule.edit_row.package_email_from", true), "package_email_from");
+						$this->Form->fieldText("package_email_from", $this->Html->ifSet($vars->package_email_from), array('id' => "package_email_from"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("UniversalModule.edit_row.package_email_subject", true), "package_email_subject");
+						$this->Form->fieldText("package_email_subject", $this->Html->ifSet($vars->package_email_subject), array('id' => "package_email_subject"));
+						?>
+					</li>
+					<li>
+						<div class="tab_content">
+							<ul class="tabs">
+								<li class="current">
+									<a href="#"><?php $this->Form->label($this->_("UniversalModule.edit_row.package_email_html", true), "package_email_html");?></a>
+								</li>
+								<li>
+									<a href="#"><?php $this->Form->label($this->_("UniversalModule.edit_row.package_email_text", true), "package_email_text");?></a>
+								</li>
+							</ul>
+							<div class="inner_content">
+								<div><?php $this->Form->fieldTextarea("package_email_html", $this->Html->ifSet($vars->package_email_html), array('id'=>"package_email_html"));?></div>
+								<div><?php $this->Form->fieldTextarea("package_email_text", $this->Html->ifSet($vars->package_email_text), array('id'=>"package_email_text"));?></div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+			
+			<div class="title_row">
+				<h3><?php $this->_("UniversalModule.edit_row.service_title");?></h3>
+			</div>
+			<div class="pad">
+				<div class="links_row">
+					<a class="btn_right service_row_add" href="#"><span><?php $this->_("UniversalModule.edit_row.service_field_btn");?></span></a>
+				</div>
+				<table class="table service_fields">
+					<thead>
+						<tr class="heading_row">
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.service_field_label", true), "package_fields[label]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_label");?></div></span></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.service_field_name", true), "package_fields[name]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_name");?></div></span></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.service_field_type", true), "package_fields[type]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_type");?></div></span></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.service_field_required", true), "package_fields[required]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_required");?></div></span></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.service_field_encrypt", true), "package_fields[encrypt]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_encrypt");?></div></span></td>
+							<td><?php $this->Form->label($this->_("UniversalModule.edit_row.service_field_values", true), "package_fields[values]", array('class' => "inline"));?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_field_values");?></div></span></td>
+							<td class="last"></td>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$num_service_fields = count($this->Html->ifSet($vars->service_fields['label']));
+						for ($i=0; $i<$num_service_fields; $i++) {
+						?>
+						<tr class="field_row">
+							<td><?php $this->Form->fieldText("service_fields[label][]", $this->Html->ifSet($vars->service_fields['label'][$i]), array('class' => "stretch"));?></td>
+							<td><?php $this->Form->fieldText("service_fields[name][]", $this->Html->ifSet($vars->service_fields['name'][$i]), array('class' => "stretch"));?></td>
+							<td><?php $this->Form->fieldSelect("service_fields[type][]", $this->Html->ifSet($field_types, array()), $this->Html->ifSet($vars->service_fields['type'][$i]), array('class' => "stretch"));?></td>
+							<td><?php $this->Form->fieldSelect("service_fields[required][]", $this->Html->ifSet($required_options, array()), $this->Html->ifSet($vars->service_fields['required'][$i], "false"));?></td>
+							<td><?php $this->Form->fieldSelect("service_fields[encrypt][]", $this->Html->ifSet($encrypt_options, array()), $this->Html->ifSet($vars->service_fields['encrypt'][$i], "false"));?></td>
+							<td><?php $this->Form->fieldTextarea("service_fields[values][]", $this->Html->ifSet($vars->service_fields['values'][$i]), array('class' => "stretch", 'style' => "height: 50px;"));?></td>
+							<td><a href="#" class="manage row_remove"><?php $this->_("UniversalModule.edit_row.remove_service_field");?></a></td>
+						</tr>
+						<?php
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("UniversalModule.edit_row.service_rules", true));
+						$this->Form->fieldTextarea("service_rules", $this->Html->ifSet($vars->service_rules));
+						?>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="pad">
+				<table class="table service_fields">
+					<thead>
+						<tr class="heading_row">
+							<td><?php $this->_("UniversalModule.edit_row.notice_name");?></td>
+							<td><?php $this->_("UniversalModule.edit_row.notice_notice");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_notice_notice");?></div></span></td>
+							<td><?php $this->_("UniversalModule.edit_row.notice_code");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_notice_code");?></div></span></td>
+							<td class="last"><?php $this->_("UniversalModule.edit_row.notice_response");?> <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("UniversalModule.!tooltip.option_heading_notice_response");?></div></span></td>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$i=0;
+						foreach ($this->Html->ifSet($service_notices, array()) as $key => $value) {
+						?>
+						<tr<?php echo ($i%2 == 0 ? " class=\"odd_row\"" : "");?>>
+							<td><?php $this->Html->_($value);?></td>
+							<td><?php $this->Form->fieldText("service_notice_" . $key, $this->Html->ifSet($vars->{"service_notice_" . $key}), array('class' => "stretch"));?></td>
+							<td><?php $this->Form->fieldText("service_code_" . $key, $this->Html->ifSet($vars->{"service_code_" . $key}), array('class' => "small"));?></td>
+							<td><?php $this->Form->fieldText("service_response_" . $key, $this->Html->ifSet($vars->{"service_response_" . $key}), array('class' => "stretch"));?></td>
+						</tr>
+						<?php
+							$i++;
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="pad">
+				<h4><a id="service_email" href="#" class="show_content"><?php $this->_("UniversalModule.edit_row.email_notification");?></a></h4>
+				<ul id="service_email_content">
+					<li>
+						<?php
+						$this->Form->label($this->_("UniversalModule.edit_row.service_email_from", true), "service_email_from");
+						$this->Form->fieldText("service_email_from", $this->Html->ifSet($vars->service_email_from), array('id' => "service_email_from"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("UniversalModule.edit_row.service_email_subject", true), "service_email_subject");
+						$this->Form->fieldText("service_email_subject", $this->Html->ifSet($vars->service_email_subject), array('id' => "service_email_subject"));
+						?>
+					</li>
+					<li>
+						<div class="tab_content">
+							<ul class="tabs">
+								<li class="current">
+									<a href="#"><?php $this->Form->label($this->_("UniversalModule.edit_row.service_email_html", true), "service_email_html");?></a>
+								</li>
+								<li>
+									<a href="#"><?php $this->Form->label($this->_("UniversalModule.edit_row.service_email_text", true), "service_email_text");?></a>
+								</li>
+							</ul>
+							<div class="inner_content">
+								<div><?php $this->Form->fieldTextarea("service_email_html", $this->Html->ifSet($vars->service_email_html), array('id'=>"service_email_html"));?></div>
+								<div><?php $this->Form->fieldTextarea("service_email_text", $this->Html->ifSet($vars->service_email_text), array('id'=>"service_email_text"));?></div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("UniversalModule.edit_row.add_btn");?></a></div>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>
+<script type="text/javascript" src="<?php echo VENDORWEBDIR . "ckeditor/ckeditor.js";?>"></script>
+<script type="text/javascript" src="<?php echo VENDORWEBDIR . "ckeditor/adapters/jquery.js";?>"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	// Add a package field row
+	$('.package_row_add').click(function() {
+		var fields = $('.package_fields tr.field_row:first').clone(true);
+		$(fields).find('input').val('');
+		$('td:first span', fields).text($('.package_fields tr.field_row').length+1);
+		$('.package_fields tr.field_row:last').after(fields);
+		
+		return false;
+	});
+	
+	// Add a service field row
+	$('.service_row_add').click(function() {
+		var fields = $('.service_fields tr.field_row:first').clone(true);
+		$(fields).find('input').val('');
+		$('td:first span', fields).text($('.service_fields tr.field_row').length+1);
+		$('.service_fields tr.field_row:last').after(fields);
+		
+		return false;
+	});
+	
+	// Remove a row
+	$('.row_remove').click(function() {
+		if ($(this).closest('table').find('tr.field_row').length > 1) {
+			$(this).closest('tr.field_row').remove();
+		}
+		return false;
+	});
+	
+	$('#service_email_html, #package_email_html').ckeditor(function() {}, {language: '<?php echo substr(Configure::get("Blesta.language"), 0, 2);?>'});
+	$('div.tab_content').blestaTabbedContent();
+	
+	$('#service_email_content, #package_email_content').hide();
+	$(this).blestaBindToggleEvent('#service_email', '#service_email_content');
+	$(this).blestaBindToggleEvent('#package_email', '#package_email_content');
+});
+</script>

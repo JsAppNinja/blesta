@@ -1,0 +1,85 @@
+
+		<?php
+		$this->Widget->clear();
+		$this->Widget->create($this->_("AdminClients.packages.boxtitle_packages", true));
+		
+		$this->Form->create(null, array('id'=>"packages"));
+		$this->Form->fieldHidden("post_data", "1");
+		?>
+		<div class="inner">
+			<?php
+			if ($this->Html->ifSet($packages, false) && ($num_packages = count($packages)) > 0) {
+			?>
+			<table class="table">
+				<tr class="heading_row">
+					<td class="fixed_small center"><?php $this->Form->fieldCheckbox("package_id[]", "all", ($this->Html->_($vars->package_id[0], true) == "all"));?></td>
+					<td><span><?php $this->_("AdminClients.packages.text_name");?></span></td>
+					<td><span><?php $this->_("AdminClients.packages.text_module");?></span></td>
+				</tr>
+				<?php
+				// Display all restricted packages
+				for ($i=0; $i<$num_packages; $i++) {
+				?>
+				<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : "";?>>
+					<td class="fixed_small center"><?php $this->Form->fieldCheckbox("package_ids[" . $this->Html->ifSet($packages[$i]->id) . "]", $this->Html->ifSet($packages[$i]->id), ($this->Html->ifSet($vars->package_ids[$packages[$i]->id], false) == $packages[$i]->id));?></td>
+					<td><a href="<?php echo $this->Html->safe($this->base_uri . "packages/edit/" . $this->Html->ifSet($packages[$i]->id));?>"><?php $this->Html->_($packages[$i]->name);?></a></td>
+					<td><?php $this->Html->_($packages[$i]->module_name);?></td>
+				</tr>
+				<?php
+				}
+				?>
+			</table>
+			<div id="set_packages" class="button_row pad_top">
+				<a href="#" class="btn_right submit"><?php $this->_("AdminClients.packages.field_packagesubmit");?></a>
+			</div>
+			<?php
+			}
+			else {
+			?>
+			<div class="inner">
+				<div class="empty_section">
+					<div class="empty_box">
+						<?php $this->_("AdminClients.packages.no_results");?>
+					</div>
+				</div>
+			</div>
+			<?php
+			}
+			?>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		// Check/uncheck packages
+		$('#packages input').click(function() {
+			if ($('#packages input:checked').size() > 0) {
+				// Check all checkboxes
+				if ($(this).val() == 'all') {
+					if ($(this).attr('checked')) {
+						// Check all checkboxes
+						$('#packages input').each(function() {
+							$(this).attr('checked', 'checked');
+						});
+					}
+					else {
+						// Uncheck all checkboxes
+						$('#packages input').each(function() {
+							$(this).removeAttr('checked');
+						});
+					}
+				}
+				else {
+					// Check individual checkboxes
+					if (!$(this).attr('checked')) {
+						// Uncheck 'all'
+						$('#packages input[value=all]').removeAttr('checked');
+					}
+				}
+			}
+		});
+	});
+");
+?>		

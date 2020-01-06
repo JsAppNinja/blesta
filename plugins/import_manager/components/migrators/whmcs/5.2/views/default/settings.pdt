@@ -1,0 +1,57 @@
+
+	<ul>
+		<?php
+		if (!extension_loaded("gmp")) {
+		?>
+		<li>
+			<h4><?php $this->_("Whmcs5_2.!notice.gmp");?></h4>
+		</li>
+		<?php
+		}
+		?>
+		<li>
+			<?php
+			$this->Form->fieldHidden("step", "settings");
+			$this->Form->label($this->_("Whmcs5_2.settings.host", true), "host");
+			$this->Form->fieldText("host", $this->Html->ifSet($vars->host), array('id' => "host"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Whmcs5_2.settings.database", true), "database");
+			$this->Form->fieldText("database", $this->Html->ifSet($vars->database), array('id' => "database"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Whmcs5_2.settings.user", true), "user");
+			$this->Form->fieldText("user", $this->Html->ifSet($vars->user), array('id' => "user"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Whmcs5_2.settings.pass", true), "pass");
+			$this->Form->fieldPassword("pass", array('id' => "pass", 'value' => $this->Html->ifSet($vars->pass)));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("Whmcs5_2.settings.key", true), "key");
+			$this->Form->fieldText("key", $this->Html->ifSet($vars->key), array('id' => "key"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Whmcs5_2.settings.key.info");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("balance_credit", "true", $this->Html->ifSet($vars->balance_credit, "true") == "true", array('id' => "balance_credit"));
+			$this->Form->label($this->_("Whmcs5_2.settings.balance_credit", true), "balance_credit", array('class' => "inline"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Whmcs5_2.settings.balance_credit.info");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("enable_debug", "true", $this->Html->ifSet($vars->enable_debug) == "true", array('id' => "enable_debug"));
+			$this->Form->label($this->_("Whmcs5_2.settings.enable_debug", true), "enable_debug", array('class' => "inline"));
+			?>
+		</li>
+	</ul>

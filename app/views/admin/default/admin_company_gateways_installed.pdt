@@ -1,0 +1,131 @@
+
+		<?php echo $this->Html->ifSet($left_nav);?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminCompanyGateways.installed.boxtitle_gateway", true));
+				?>
+				<div class="inner pad" id="gateways">
+					<?php
+					if ($this->Html->ifSet($gateway_types)) {
+						$k=0;
+						foreach ($gateway_types as $type) {
+							?>
+							<div class="title_row<?php echo ($k++ > 0 ? "" : " first");?>"><h3><?php $this->_("AdminCompanyGateways.installed.heading_" . $type);?></h3></div>
+							<?php
+							$gateway_list = array();
+							if (isset($gateways[$type]))
+								$gateway_list = $gateways[$type];
+							$num_gateways = count($gateway_list);							
+							if ($num_gateways > 0) {
+								// Clear heading
+								?>
+								<div class="clear"></div>
+								<?php
+								for ($i=0; $i<$num_gateways; $i++) {
+								?>
+								<div class="itemlist<?php echo ($i==$num_gateways-1) ? " last" : ""; ?>">
+									<div class="logo" style="background:url(<?php $this->Html->_($gateway_list[$i]->logo);?>) no-repeat 0 0; background-position: 0% 50%;">&nbsp;</div>
+									<ul>
+										<li>
+											<strong><?php $this->Html->_($gateway_list[$i]->name);?></strong>
+											<?php $this->_("AdminCompanyGateways.installed.text_version", false, $gateway_list[$i]->installed_version);?>
+											
+											<?php
+											if ($this->Html->ifSet($gateway_list[$i]->signup_url)) {
+											?>
+											<a href="<?php echo $this->Html->safe($gateway_list[$i]->signup_url);?>" target="_blank"><?php $this->_("AdminCompanyGateways.installed.signup_url");?></a>
+											<?php
+											}
+											?>
+										</li>
+										<li>
+											<?php $this->_("AdminCompanyGateways.installed.text_author");?>
+											<?php
+											foreach ((array)$this->Html->ifSet($gateway_list[$i]->authors) as $author) {
+											?>
+											<a href="<?php $this->Html->_($author['url']);?>" target="_blank"><?php $this->Html->_($author['name']);?></a>
+											<?php
+											}
+											?>
+										</li>
+										<?php
+										if ($type == "merchant") {
+										?>
+										<li>
+											<?php $this->_("AdminCompanyGateways.installed.text_supports");?>
+											<?php
+											if (isset($gateway_list[$i]->interfaces) && is_array($gateway_list[$i]->interfaces)) {
+												$num_interfaces = count($gateway_list[$i]->interfaces);
+												
+												for ($j=0; $j<$num_interfaces; $j++) {
+													echo ($j>0 ? ", " : "") . $this->_("AdminCompanyGateways.installed.text_" . strtolower($gateway_list[$i]->interfaces[$j]), true);
+												}
+											}
+											?>
+										</li>
+										<?php
+										}
+										?>
+										<li><?php echo nl2br($this->Html->_($gateway_list[$i]->description, true))?></li>
+									</ul>
+									<div class="button_row_inline">
+										<?php
+										$this->Form->create($this->base_uri . "settings/company/gateways/uninstall/");
+										$this->Form->fieldHidden("id", $this->Html->ifSet($gateway_list[$i]->id));
+										?>
+										<a class="btn_right manage" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/gateways/uninstall/" . $this->Html->ifSet($gateway_list[$i]->id) . "/");?>" rel="<?php echo $this->Html->safe($this->_("AdminCompanyGateways.installed.confirm_uninstall", true));?>"><?php $this->_("AdminCompanyGateways.installed.btn_uninstall");?></a>
+										<?php
+										$this->Form->end();
+										?>
+										<?php
+										if ($this->Html->ifSet($gateway_list[$i]->version) == $this->Html->ifSet($gateway_list[$i]->installed_version)) {
+										?>
+										<a class="btn_right" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/gateways/manage/" . $this->Html->ifSet($gateway_list[$i]->id) . "/");?>"><?php $this->_("AdminCompanyGateways.installed.btn_manage");?></a>
+										<?php
+										}
+										else {
+										?>
+											<?php
+											$this->Form->create($this->base_uri . "settings/company/gateways/upgrade/");
+											$this->Form->fieldHidden("id", $this->Html->ifSet($gateway_list[$i]->id));
+											?>
+											<a class="btn_right icon submit" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/gateways/upgrade/" . $this->Html->ifSet($gateway_list[$i]->id) . "/");?>"><span class="attention"><?php $this->_("AdminCompanyGateways.installed.btn_upgrade");?></span></a>
+											<?php
+											$this->Form->end();
+											?>
+										<?php
+										}
+										?>
+									</div>
+									<div class="clear"></div>
+								</div>
+							<?php
+								}
+							}
+							else {
+							?>
+								<div class="empty_section">
+									<div class="empty_box">
+										<?php $this->_("AdminCompanyGateways.installed.text_" . $type . "_none");?>
+									</div>
+								</div>
+							<?php
+							}
+						}
+					}
+					?>
+				</div>
+				<?php $this->Widget->end();?>
+			</section>
+		</div>
+<?php
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		// Handle confirmation on delete action
+		$('#gateways a.manage[rel]').blestaModalConfirm({base_url: '" . $this->base_uri . "', close: '" . $this->_("AppController.modal.text_close", true) . "', submit: true});
+	});
+");
+?>

@@ -1,0 +1,54 @@
+
+		<?php
+		echo $this->Html->ifSet($left_nav);
+		?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				
+				$this->Widget->create($this->_("AdminSystemGeneral.geoip.boxtitle_geoip", true));
+				$this->Form->create();
+				
+				// Set a placeholder value so submissions may be posted when no checkboxes are checked
+				$this->Form->fieldHidden("update", "true");
+				
+				$geoip_database_path = ($this->Html->ifSet($uploads_dir) . "system/" . $this->Html->ifSet($geoip_database_filename));
+				?>
+				<div class="inner">
+					<div class="pad">
+						<p><?php $this->_("AdminSystemGeneral.geoip.text_setup");?></p>
+						<p><?php $this->_("AdminSystemGeneral.geoip.text_geolite", false, "http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz", $geoip_database_path);?></p>
+						
+						<ul>
+							<li>
+								<?php
+								if ($this->Html->ifSet($geoip_database_exists, false)) {
+								?>
+								<span class="icon active"><?php echo $this->_("AdminSystemGeneral.geoip.text_database_exists", false, $geoip_database_path);?></span>
+								<?php
+								}
+								else {
+								?>
+								<span class="icon inactive"><?php echo $this->_("AdminSystemGeneral.geoip.text_database_not_exists", false, $geoip_database_path);?></span>
+								<?php
+								}
+								?>
+							</li>
+							<li>
+								<?php
+								$this->Form->fieldCheckbox("geoip_enabled", "true", ($this->Html->ifSet($vars['geoip_enabled']) == "true"), array("id"=>"geoip_enabled"));
+								$this->Form->label($this->_("AdminSystemGeneral.geoip.field_geoip_enabled", true), "geoip_enabled", array('class'=>"inline"));
+								?>
+							</li>
+						</ul>
+					</div>
+					<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminSystemGeneral.geoip.field_geoipsubmit");?></a></div>
+				</div>
+				<?php
+				$this->Form->end();
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

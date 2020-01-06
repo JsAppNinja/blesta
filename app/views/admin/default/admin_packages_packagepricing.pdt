@@ -1,0 +1,47 @@
+				<div class="group_title_row">
+					<div class="title_row first">
+						<h3><?php $this->_("AdminPackages.packagepricing.heading_pricing");?></h3>
+					</div>
+					<?php
+					if ($this->Html->ifSet($pricing, false) && ($num_pricing = count($pricing)) > 0) {
+					?>
+					<table class="table">
+						<tr class="heading_row">
+							<td><?php $this->_("AdminPackages.packagepricing.heading_term");?></td>
+							<td><?php $this->_("AdminPackages.packagepricing.heading_price");?></td>
+							<td><?php $this->_("AdminPackages.packagepricing.heading_setup_fee");?></td>
+							<td class="last"><?php $this->_("AdminPackages.packagepricing.heading_cancellation_fee");?></td>
+						</tr>
+						<?php
+						for ($i=0; $i<$num_pricing; $i++) {
+						?>
+						<tr<?php echo ($i%2 == 1) ? " class=\"odd_row\"" : ""?>>
+							<td>
+								<?php
+								if ($this->Html->ifSet($pricing[$i]->period) == "onetime")
+									$this->Html->_($periods[$pricing[$i]->period]);
+								else {
+									$term = $this->Html->_($pricing[$i]->term, true);
+									echo $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$pricing[$i]->period]) : $this->Html->ifSet($periods[$pricing[$i]->period . "_plural"]))));
+								}
+								?>
+							</td>
+							<td><?php echo $this->CurrencyFormat->format($this->Html->_($pricing[$i]->price, true), $this->Html->_($pricing[$i]->currency, true), array('html_code'=>true));?></td>
+							<td><?php echo $this->CurrencyFormat->format($this->Html->_($pricing[$i]->setup_fee, true), $this->Html->_($pricing[$i]->currency, true), array('html_code'=>true));?></td>
+							<td><?php echo $this->CurrencyFormat->format($this->Html->_($pricing[$i]->cancel_fee, true), $this->Html->_($pricing[$i]->currency, true), array('html_code'=>true));?></td>
+						</tr>
+						<?php
+						}
+						?>
+					</table>
+					<?php
+					}
+					else {
+					?>
+					<div class="empty_section">
+						<div class="empty_box"><?php $this->_("AdminPackages.packagepricing.pricing_no_results");?></div>
+					</div>
+					<?php
+					}
+					?>
+				</div>

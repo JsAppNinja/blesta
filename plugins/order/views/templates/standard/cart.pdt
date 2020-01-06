@@ -1,0 +1,283 @@
+			<!-- Steps -->
+			<div class="col-md-12 hidden-xs hidden-sm">
+				<div class="panel panel-blesta panel-steps">
+					<div class="panel-body">
+						<div class="col-md-3">
+							<i class="fa fa-chevron-right fa-lg pull-right"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/main/index/" . $this->Html->ifSet($order_form->label));?>"><strong><?php $this->_("Main.steps.step_1_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_1_description");?></em></p>
+						</div>
+						<div class="col-md-3">
+							<i class="fa fa-chevron-right fa-lg pull-right"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/config/index/" . $this->Html->ifSet($order_form->label));?>"><strong><?php $this->_("Main.steps.step_2_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_2_description");?></em></p>
+						</div>
+						<div class="col-md-3">
+							<i class="fa fa-chevron-right fa-lg pull-right"></i>
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/cart/index/" . $this->Html->ifSet($order_form->label));?>" class="active"><strong><?php $this->_("Main.steps.step_3_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_3_description");?></em></p>
+						</div>
+						<div class="col-md-3">
+							<a href="<?php echo $this->Html->safe($this->base_uri . "order/checkout/index/" . $this->Html->ifSet($order_form->label));?>"><strong><?php $this->_("Main.steps.step_4_name");?></strong></a>
+							<p><em><?php $this->_("Main.steps.step_4_description");?></em></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-12">
+				<?php
+				echo $this->Html->ifSet($message);
+				?>
+				<?php
+				$this->WidgetClient->create($this->_("Cart.index.header_cart", true));
+				?>
+				<div class="panel-body">
+					
+					
+					<div class="table-responsive">
+						<?php
+						if ($this->Html->ifSet($display_items) && !empty($display_items)) {
+						?>
+						<table class="table table-curved">
+							<thead>
+								<tr>
+									<th><?php $this->_("Cart.index.table_description");?></th>
+									<th><?php $this->_("Cart.index.table_term");?></th>
+									<th><?php $this->_("Cart.index.table_qty");?></th>
+									<th><?php $this->_("Cart.index.table_price");?></th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php
+							$num_items = count($display_items);
+							$indexes = array();
+							foreach ($display_items as $item) {
+								$price = $item['pricing'];
+								if (!array_key_exists('qty', $item))
+									$item['qty'] = 1;
+							?>
+								<tr>
+									<td>
+										<?php
+										$this->Form->create($this->base_uri . "order/cart/remove/" . $this->Html->ifSet($order_form->label));
+										$this->Form->fieldHidden("item", $this->Html->ifSet($item['index']));
+										?>
+										<strong><?php $this->Html->_($item['package']->name);?></strong>
+										<?php $this->Html->_($item['service_name']);?>
+										
+										<div class="btn-group">
+											<a href="<?php echo $this->Html->safe($this->base_uri . "order/config/index/" . $this->Html->ifSet($order_form->label) . "/?item=" . $this->Html->ifSet($item['index']));?>" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> <?php $this->_("Cart.index.edit_item");?></a>
+											<button type="submit" class="btn btn-danger btn-xs">
+												<i class="fa fa-ban"></i> <?php $this->_("Cart.index.remove_item");?>
+											</button>
+										</div>
+										<?php
+										$this->Form->end();
+										?>
+									</td>
+									<td>
+										<?php
+										if ($this->Html->ifSet($price->period) == "onetime")
+											echo $this->Html->safe($this->Html->ifSet($periods[$price->period]));
+										else {
+											$term = $this->Html->_($price->term, true);
+											
+											if (!empty($item['prorated']))
+												echo $this->Html->safe($this->Html->concat(" ", $this->_("Cart.index.pro_rata_month", true), $this->Html->ifSet($item['date_range'])));
+											else
+												echo $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])), (array_key_exists($this->Html->ifSet($item['index']), $indexes) ? $this->Html->ifSet($item['date_range']) : "")));
+										}
+										?>
+									</td>
+									<td>
+										<?php $this->_("Cart.index.quantity", false, $this->CurrencyFormat->truncateDecimal($item['qty'], 0));?>										
+									</td>
+									<td class="price-col">
+										<strong><?php echo $this->CurrencyFormat->format($price->price, $price->currency);?></strong>
+									</td>
+								</tr>
+								<?php
+								if ($this->Html->ifSet($item['config_options']) && $this->Html->ifSet($item['configoptions'])) {
+									foreach ($item['config_options'] as $option) {
+										if (array_key_exists($option->option->id, $item['configoptions'])) {
+											$qty = $option->option->type == "quantity" ? $item['configoptions'][$option->option->id] : 1;
+									?>
+									<tr class="sub-item">
+										<td>
+											<i class="fa fa-share fa-flip-vertical"></i> <?php $this->Html->_($option->option->label);?>
+											<?php $this->Html->_($option->value->name);?>
+										</td>
+										<td>
+											
+										</td>
+										<td>
+											<?php $this->_("Cart.index.quantity", false, $this->CurrencyFormat->truncateDecimal($qty, 0));?>
+										</td>
+										<td class="price-col">
+											<strong><?php echo $this->CurrencyFormat->format($option->pricing->price, $option->pricing->currency);?></strong>
+										</td>
+									</tr>
+									<?php
+										}
+									}
+									unset($option);
+								}
+							?>
+								<?php
+								if (isset($item['addons'])) {
+									foreach ($item['addons'] as $addon) {
+                                        $price = $addon['pricing'];
+										if (!array_key_exists('qty', $addon))
+											$addon['qty'] = 1;
+								?>
+									<tr class="sub-item">
+										<td>
+											<?php
+											$this->Form->create($this->base_uri . "order/cart/remove/" . $this->Html->ifSet($order_form->label));
+											$this->Form->fieldHidden("item", $this->Html->ifSet($addon['index']));
+											?>
+											<i class="fa fa-plus"></i> <?php $this->Html->_($addon['package']->name);?>
+											<?php $this->Html->_($addon['service_name']);?>
+											<div class="btn-group">
+												<a href="<?php echo $this->Html->safe($this->base_uri . "order/config/index/" . $this->Html->ifSet($order_form->label) . "/?item=" . $this->Html->ifSet($addon['index']));?>" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> <?php $this->_("Cart.index.edit_item");?></a>
+												
+												<button type="submit" class="btn btn-danger btn-xs">
+													<i class="fa fa-ban"></i> <?php $this->_("Cart.index.remove_item");?>
+												</button>
+											</div>
+											<?php
+											$this->Form->end();
+											?>
+										</td>
+										<td>
+											<?php
+											if ($this->Html->ifSet($price->period) == "onetime")
+												echo $this->Html->safe($this->Html->ifSet($periods[$price->period]));
+											else {
+												$term = $this->Html->_($price->term, true);
+												
+												if (!empty($addon['prorated']))
+													echo $this->Html->safe($this->Html->concat(" ", $this->_("Cart.index.pro_rata_month", true), $this->Html->ifSet($addon['date_range'])));
+												else
+													echo $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])), (array_key_exists($this->Html->ifSet($addon['index']), $indexes) ? $this->Html->ifSet($addon['date_range']) : "")));
+											}
+											?>										
+										</td>
+										<td>
+											<?php $this->_("Cart.index.quantity", false, $this->CurrencyFormat->truncateDecimal($addon['qty'], 0));?>
+										</td>
+										<td class="price-col">
+											<strong><?php echo $this->CurrencyFormat->format($price->price, $price->currency);?></strong>
+										</td>
+									</tr>
+									
+									<?php
+									if ($this->Html->ifSet($addon['config_options']) && $this->Html->ifSet($addon['configoptions'])) {
+										foreach ($addon['config_options'] as $option) {
+											if (array_key_exists($option->option->id, $addon['configoptions'])) {
+												$qty = $option->option->type == "quantity" ? $addon['configoptions'][$option->option->id] : 1;
+										?>
+										<tr class="sub-item">
+											<td>
+												<i class="fa fa-share fa-flip-vertical"></i> <?php $this->Html->_($option->option->label);?>
+												<?php $this->Html->_($option->value->name);?>
+											</td>
+											<td>
+												
+											</td>
+											<td>
+												<?php $this->_("Cart.index.quantity", false, $this->CurrencyFormat->truncateDecimal($qty, 0));?>
+											</td>
+											<td class="price-col">
+												<strong><?php echo $this->CurrencyFormat->format($option->pricing->price, $option->pricing->currency);?></strong>
+											</td>
+										</tr>
+										<?php
+											}
+										}
+										unset($option);
+									}
+									?>
+								<?php
+										// Set the index so we can show the date range if we encounter the same index again (signifying pro rata)
+										if (isset($addon['index']))
+											$indexes[$addon['index']] = $addon['index'];
+									}
+								}
+								?>
+							<?php
+								// Set the index so we can show the date range if we encounter the same index again (signifying pro rata)
+								if (isset($item['index']))
+									$indexes[$item['index']] = $item['index'];
+							}
+							?>
+							</tbody>
+						</table>
+						<?php
+						}
+						?>
+					</div>
+					<div class="row">
+						<div class="col-md-4 pull-right totals-box table-responsive">
+							<?php
+							if ($this->Html->ifSet($totals)) {
+							?>
+							<table class="table">
+								<tbody>
+									<tr>
+										<td><span class="pull-right"><?php $this->_("Cart.index.totals.subtotal");?></span></td>
+										<td><strong><?php $this->Html->_($totals['subtotal']['amount_formatted']);?></strong></td>
+									</tr>
+									<?php
+									if ($this->Html->ifSet($totals['fees']['setup'])) {
+									?>
+									<tr>
+										<td><span class="pull-right"><?php $this->_("Cart.index.totals.setup_fee");?></span></td>
+										<td><strong><?php $this->Html->_($totals['fees']['setup']['amount_formatted']);?></strong></td>
+									</tr>
+									<?php
+									}
+									if ($this->Html->ifSet($totals['discount']['amount'])) {
+									?>
+									<tr>
+										<td><span class="pull-right"><?php $this->_("Cart.index.totals.discount");?></span></td>
+										<td><strong><?php $this->Html->_($totals['discount']['amount_formatted']);?></strong></td>
+									</tr>
+									<?php
+									}
+									if ($this->Html->ifSet($totals['tax'])) {
+										foreach ($totals['tax'] as $tax) {
+									?>
+										<tr>
+											<td><span class="pull-right"><?php $this->_("Cart.index.totals.tax", false, $tax['name'], $tax['percentage']);?></span></td>
+											<td><strong><?php $this->Html->_($tax['amount_formatted']);?></strong></td>
+										</tr>
+									<?php
+										}
+									}
+									?>
+									<tr>
+										<td><span class="pull-right"><?php $this->_("Cart.index.totals.total");?></span></td>
+										<td><strong><?php $this->Html->_($totals['total_w_tax']['amount_formatted']);?></strong></td>
+									</tr>
+								</tbody>
+							</table>
+							<?php
+							}
+							?>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">							
+							<div class="btn-group pull-right">
+								<a href="<?php echo $this->Html->safe($this->base_uri . "order/main/index/" . $this->Html->ifSet($order_form->label));?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php $this->_("Cart.index.order_more_btn");?></a>
+								<a href="<?php echo $this->Html->safe($this->base_uri . "order/checkout/index/" . $this->Html->ifSet($order_form->label));?>" class="btn btn-success"><?php $this->_("Cart.index.checkout_btn");?> <i class="fa fa-angle-double-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<?php
+				$this->Widget->end();
+				?>
+			</div>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html dir="<?php echo (in_array($this->_("AppController.lang.dir", true), array("ltr", "rtl")) ? $this->_("AppController.lang.dir", true) : "ltr");?>">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->view_dir;?>css/styles.css" />
+		<title><?php $this->Html->_($title);?></title>
+	</head>
+	<body>
+		<?php echo $this->Html->ifSet($content);?>
+	</body>
+</html>
